@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ConfigurazioniSvc.Migrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241029120248_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241102124154_FixEntityProperty")]
+    partial class FixEntityProperty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,11 @@ namespace ConfigurazioniSvc.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Chiave")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("chiave");
 
                     b.Property<Guid>("CreatedByUserId")
                         .HasColumnType("uuid")
@@ -76,10 +81,12 @@ namespace ConfigurazioniSvc.Migrations.Migrations
                         .HasColumnName("Scope");
 
                     b.Property<string>("Tipo")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("tipo");
 
                     b.Property<string>("Valore")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("valore");
 

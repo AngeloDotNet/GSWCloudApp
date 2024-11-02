@@ -1,8 +1,9 @@
-﻿using ConfigurazioniSvc.Shared.Enums;
+﻿using ConfigurazioniSvc.DataAccessLayer.Entities.Common;
+using ConfigurazioniSvc.Shared.Enums;
 
-namespace ConfigurazioniSvc.Shared.DTO;
+namespace ConfigurazioniSvc.DataAccessLayer.Entities;
 
-public class CreateConfigurazioneDto
+public class Configurazione : SoftDeletableEntity<Guid>
 {
     public Guid FestaId { get; set; }
     public string Chiave { get; set; } = null!;
