@@ -3,6 +3,7 @@ using System;
 using ConfigurazioniSvc.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ConfigurazioniSvc.Migrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102121015_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,51 +29,40 @@ namespace ConfigurazioniSvc.Migrations.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Chiave")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("chiave");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by_user_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date_time");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("deleted_by_user_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_date_time");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("FestaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("festa_id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("ModifiedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("modified_by_user_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifiedDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_date_time");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Obbligatorio")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("obbligatorio");
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Posizione")
-                        .HasColumnType("integer")
-                        .HasColumnName("posizione");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Scope")
                         .IsRequired()
@@ -79,16 +71,13 @@ namespace ConfigurazioniSvc.Migrations.Migrations
 
                     b.Property<string>("Tipo")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("tipo");
+                        .HasColumnType("text");
 
                     b.Property<string>("Valore")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("valore");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_configurazione");
+                    b.HasKey("Id");
 
                     b.ToTable("Configurazione", (string)null);
                 });
