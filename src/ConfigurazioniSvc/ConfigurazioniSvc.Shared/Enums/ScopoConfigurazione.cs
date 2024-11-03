@@ -2,5 +2,6 @@
 
 public enum ScopoConfigurazione
 {
+    None,
     InvioEmail
 }
