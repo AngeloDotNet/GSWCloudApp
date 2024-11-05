@@ -8,7 +8,7 @@ on:
       
 env:
   NET_VERSION: '8.x'
-  PROJECT_NAME: GSWCloudApp.Common
+  PROJECT_NAME: src/GSWCloudApp.Common/
   PROJECT_FILE: GSWCloudApp.Common.csproj
   TAG_NAME: Common
   RELEASE_NAME: GSWCloudApp.Common
