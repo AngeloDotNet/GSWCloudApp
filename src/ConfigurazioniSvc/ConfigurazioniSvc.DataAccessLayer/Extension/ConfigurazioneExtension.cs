@@ -14,6 +14,9 @@ public class ConfigurazioneExtension : IEntityTypeConfiguration<Configurazione>
         builder.Property(builder => builder.Id)
             .ValueGeneratedOnAdd();
 
+        builder.HasIndex(builder => builder.Chiave)
+            .IsUnique();
+
         builder.Property(builder => builder.Obbligatorio)
             .HasDefaultValue(false);
 
