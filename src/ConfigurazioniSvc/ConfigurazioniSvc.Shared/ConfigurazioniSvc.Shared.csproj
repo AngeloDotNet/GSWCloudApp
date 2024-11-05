@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!--<ItemGroup>
+    <ProjectReference Include="..\ConfigurazioniSvc.Vault\ConfigurazioniSvc.Vault.csproj" />
+  </ItemGroup>-->
+
 </Project>
