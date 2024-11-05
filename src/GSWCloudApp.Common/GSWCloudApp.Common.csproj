@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Angelo Pirola</Authors>
+    <Product>Gestione sagre commonm library extension</Product>
+    <Description>Open source dotnet extension library for project gestione sagre web cloud app</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--<PackageProjectUrl>https://github.com/AngeloDotNet/GSWCloudApp/tree/main/GestioneSagre.EFCore</PackageProjectUrl>-->
+    <!--<PackageIcon>LibraryTools.png</PackageIcon>-->
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/AngeloDotNet/GSWCloudApp.git</RepositoryUrl>
+    <RepositoryBranch>main</RepositoryBranch>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.146">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageReference Include="VaultSharp" Version="1.17.5.1" />
+  </ItemGroup>
+
+</Project>
