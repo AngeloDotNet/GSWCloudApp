@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <ProjectReference Include="..\ConfigurazioniSvc.Vault\ConfigurazioniSvc.Vault.csproj" />
-  </ItemGroup>-->
+  <ItemGroup>
+    <PackageReference Include="GSWCloudApp.Common" Version="1.0.8" />
+  </ItemGroup>
 
 </Project>
