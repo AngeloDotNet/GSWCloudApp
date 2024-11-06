@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/AngeloDotNet/GSWCloudApp.git</RepositoryUrl>
     <RepositoryBranch>main</RepositoryBranch>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
   </PropertyGroup>
 
   <ItemGroup>
