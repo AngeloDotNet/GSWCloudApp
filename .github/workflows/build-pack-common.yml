@@ -44,8 +44,8 @@ jobs:
 
     - name: Publish on GitHub
       run: |
-          dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-          dotnet nuget push **\*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+          dotnet nuget add source --username USERNAME --password ${{ secrets.RELEASE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          dotnet nuget push **\*.nupkg --source github --api-key ${{ secrets.RELEASE_TOKEN }} --skip-duplicate
 
     - name: Create release
       uses: actions/create-release@v1.1.4
