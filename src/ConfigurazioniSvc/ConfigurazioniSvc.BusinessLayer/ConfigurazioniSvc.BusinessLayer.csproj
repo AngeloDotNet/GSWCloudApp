@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.10.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ConfigurazioniSvc.DataAccessLayer\ConfigurazioniSvc.DataAccessLayer.csproj" />
+    </ItemGroup>
+
+</Project>
