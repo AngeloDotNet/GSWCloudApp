@@ -52,27 +52,6 @@ public class AppDbContext : DbContext
 
     public DbSet<Configurazione> Configurazioni { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        var migrationsAssembly = GetType().Assembly
-            .GetName().Name!
-            .Replace(".DataAccessLayer", ".Migrations");
-
-        var connectionString = configuration.GetConnectionString("SQLConnection");
-
-        optionsBuilder.UseNpgsql(connectionString, options =>
-        {
-            options.MigrationsAssembly(migrationsAssembly);
-            options.MigrationsHistoryTable("StoricoMigrazioni");
-            options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-            options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(5), null);
-        });
-
-        optionsBuilder.UseSnakeCaseNamingConvention();
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
