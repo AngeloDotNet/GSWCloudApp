@@ -12,7 +12,7 @@ COPY ["src/GatewaySvc/GatewaySvc/GatewaySvc.csproj", "src/GatewaySvc/GatewaySvc/
 RUN dotnet restore "src/GatewaySvc/GatewaySvc/GatewaySvc.csproj"
 COPY . .
 
-WORKDIR "/src/src/GatewaySvc/GatewaySvc/GatewaySvc.csproj"
+WORKDIR "/src/src/GatewaySvc/GatewaySvc"
 RUN dotnet build "GatewaySvc.csproj" -c Release -o /app/build
 
 FROM build AS publish
