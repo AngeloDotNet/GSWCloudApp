@@ -9,11 +9,9 @@
     <Description>Open source dotnet extension library for project gestione sagre web cloud app</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/AngeloDotNet/GSWCloudApp/tree/main/GSWCloudApp.Common</PackageProjectUrl>
-    <!--<PackageIcon>LibraryTools.png</PackageIcon>-->
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/AngeloDotNet/GSWCloudApp.git</RepositoryUrl>
     <RepositoryBranch>main</RepositoryBranch>
-    <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
   </PropertyGroup>
 
   <ItemGroup>
