@@ -2,6 +2,7 @@
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Vault.Options;
 using GSWCloudApp.Common.Vault.Service;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ConfigurazioniSvc.DependencyInjection;
 
@@ -41,7 +42,7 @@ public static class ApplicationExtensions
         return versionedApi;
     }
 
-    public static void UseDevSwagger(WebApplication app)
+    public static void UseDevSwagger(this WebApplication app)
     {
         app.UseSwagger()
             .UseSwaggerUI(options =>
@@ -54,5 +55,17 @@ public static class ApplicationExtensions
                     options.SwaggerEndpoint(url, description.GroupName);
                 }
             });
+    }
+
+    public static void UseForwardNetworking(this WebApplication app)
+    {
+        app.UseForwardedHeaders(
+            new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+        // Non necessario se viene usato NGINX come proxy
+        // app.UseHttpsRedirection();
     }
 }
