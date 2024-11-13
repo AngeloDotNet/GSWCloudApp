@@ -2,6 +2,42 @@
 
 Gestione Sagre Web Cloud App - Progetto che nasce con l'idea di voler realizzare un software libero che permetta la gestione di sagre, eventi o manifestazioni in cui sia necessario controllare le comande per la cucina e/o il bar.
 
-### Licenza
+### Tech Stack
 
-Il progetto è rilasciato sotto licenza MIT.
+**Client:** <img src="https://img.shields.io/badge/Blazor-512BD4?style=for-the-badge&logo=blazor&logoColor=white">
+<img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white">
+
+**Server:** <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white">
+<img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white">
+<img src="https://img.shields.io/badge/Editor%20Config-E0EFEF?style=for-the-badge&logo=editorconfig&logoColor=000">
+
+**Database:** <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
+
+**Infrastructure:** <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black">
+<img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
+<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
+
+<!--
+**Architettura:** Ocelot (API Gateway), YARP (LoadBalancing),
+Vault (HashiCorp), <img src="https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white">, <img src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white">,
+Serilog (Logging), <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white">
+-->
+
+**Security:** <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white">
+
+**CI/CD:** <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white">
+
+**Repository:** <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white">
+
+### License
+
+<img src="https://img.shields.io/github/license/angelodotnet/gswcloudapp?style=for-the-badge">
+
+### Contributors
+
+<a href="https://github.com/AngeloDotNet/GSWCloudApp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AngeloDotNet/GSWCloudApp" />
+</a>
+
+<!-- Made with [contrib.rocks](https://contrib.rocks) -->
