@@ -54,9 +54,10 @@ public class Program
             ApplicationExtensions.UseDevSwagger(app);
         }
 
+        app.UseForwardNetworking();
         app.UseRouting();
-        app.UseCors("AllowAll");
 
+        app.UseCors("AllowAll");
         app.UseAntiforgery();
 
         //app.UseAuthentication();

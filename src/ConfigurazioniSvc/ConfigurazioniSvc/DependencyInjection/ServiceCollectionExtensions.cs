@@ -12,6 +12,7 @@ using GSWCloudApp.Common.RedisCache.Options;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace ConfigurazioniSvc.DependencyInjection;
 
@@ -77,6 +78,14 @@ public static class ServiceCollectionExtensions
             .ConfigureOptions<ConfigureSwaggerGenOptions>()
             .AddSwaggerGen(options =>
             {
+                options.EnableAnnotations();
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Configurazioni API",
+                    Version = "v1",
+                    Contact = new OpenApiContact { Name = "Angelo Pirola", Url = new Uri("https://github.com/AngeloDotNet/GSWCloudApp") },
+                    License = new OpenApiLicense { Name = "License MIT", Url = new Uri("https://github.com/AngeloDotNet/GSWCloudApp/blob/main/LICENSE") }
+                });
                 options.OperationFilter<SwaggerDefaultValues>();
             });
     }
