@@ -32,7 +32,9 @@ internal class ValidatorFilter<T>(IValidator<T> validator, IOptions<ValidationOp
             extensions: new Dictionary<string, object?>(StringComparer.Ordinal)
             {
                 ["traceId"] = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier,
-                ["errors"] = validationOptions.ErrorResponseFormat == ErrorResponseFormat.Default ? errors : errors.SelectMany(e => e.Value.Select(m => new { Name = e.Key, Message = m })).ToArray()
+                ["errors"] = validationOptions.ErrorResponseFormat == ErrorResponseFormat.Default
+                    ? errors : errors.SelectMany(e
+                        => e.Value.Select(m => new { Name = e.Key, Message = m })).ToArray()
             }
         );
 
