@@ -7,9 +7,6 @@ namespace GSWCloudApp.Common.RedisCache;
 
 public class CacheService(IDistributedCache cache, IOptionsMonitor<RedisOptions> redisOptionsMonitor) : ICacheService
 {
-    //private readonly IDistributedCache cache = cache;
-    //private readonly IOptionsMonitor<RedisOptions> redisOptionsMonitor = redisOptionsMonitor;
-
     public async Task<T> GetCacheAsync<T>(string key)
     {
         var jsonData = await cache.GetStringAsync(key);
