@@ -8,37 +8,30 @@ namespace ConfigurazioniSvc.DependencyInjection;
 
 public static class ApplicationExtensions
 {
-    public static void GenerateServiceScope(out ServiceProvider serviceMemoryScopeFactory, out ServiceProvider servicePostgresScopeFactory)
-    {
-        serviceMemoryScopeFactory = new ServiceCollection().AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
-        servicePostgresScopeFactory = new ServiceCollection().AddEntityFrameworkNpgsql().BuildServiceProvider();
-    }
+    //public static void GenerateServiceScope(out ServiceProvider serviceMemoryScopeFactory, out ServiceProvider servicePostgresScopeFactory)
+    //{
+    //    serviceMemoryScopeFactory = new ServiceCollection().AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
+    //    servicePostgresScopeFactory = new ServiceCollection().AddEntityFrameworkNpgsql().BuildServiceProvider();
+    //}
 
-    public static async Task<string> GetSqlDatabaseConnectionAsync(WebApplicationBuilder builder)
-    {
-        var vaultOptions = builder.Services.ConfigureAndGet<VaultOptions>(builder.Configuration, nameof(VaultOptions))
-            ?? throw new InvalidOperationException("Vault options not found in configuration.");
-
-        return await VaultService.ReadVaultSecretAsync(vaultOptions, "postgresql", "connection");
-    }
-
-    public static async Task<string> GetRedisConnectionAsync(WebApplicationBuilder builder)
+    public static async Task<string> GetVaultStringConnectionAsync(WebApplicationBuilder builder, string vaultPath, string vaultKey)
     {
         var vaultOptions = builder.Services.ConfigureAndGet<VaultOptions>(builder.Configuration, nameof(VaultOptions))
-            ?? throw new InvalidOperationException("Vault options not found in configuration.");
+            ?? throw new InvalidOperationException("Vault options not found.");
 
-        return await VaultService.ReadVaultSecretAsync(vaultOptions, "redis", "connection");
+        return await VaultService.ReadVaultSecretAsync(vaultOptions, vaultPath, vaultKey);
     }
 
     public static RouteGroupBuilder UseVersioningApi(WebApplication app)
     {
         var apiVersionSet = app.NewApiVersionSet()
-                    .HasApiVersion(new ApiVersion(1))
-                    .Build();
+            .HasApiVersion(new ApiVersion(1))
+            .Build();
 
         var versionedApi = app
             .MapGroup("/api/v{version:apiVersion}")
             .WithApiVersionSet(apiVersionSet);
+
         return versionedApi;
     }
 
@@ -59,13 +52,18 @@ public static class ApplicationExtensions
 
     public static void UseForwardNetworking(this WebApplication app)
     {
-        app.UseForwardedHeaders(
-            new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
 
         // Non necessario se viene usato NGINX come proxy
         // app.UseHttpsRedirection();
+    }
+
+    public static void UseAuthentication(this WebApplication app)
+    {
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 }
