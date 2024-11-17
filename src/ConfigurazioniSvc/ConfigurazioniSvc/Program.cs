@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
-using ConfigurazioniSvc.BusinessLayer.Options;
 using ConfigurazioniSvc.DependencyInjection;
 using ConfigurazioniSvc.Helpers;
 using GSWCloudApp.Common.Extensions;
+using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
 
 namespace ConfigurazioniSvc;
@@ -21,15 +21,16 @@ public class Program
                 options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
-        ApplicationExtensions.GenerateServiceScope(out var serviceMemoryScopeFactory, out var servicePostgresScopeFactory);
+        //ApplicationExtensions.GenerateServiceScope(out var serviceMemoryScopeFactory, out var servicePostgresScopeFactory);
 
-        var postgresConnection = await ApplicationExtensions.GetSqlDatabaseConnectionAsync(builder);
-        var redisConnection = await ApplicationExtensions.GetRedisConnectionAsync(builder);
+        var postgresConnection = await ApplicationExtensions.GetVaultStringConnectionAsync(builder, "pgsql_configurazioni", "connection");
+        var redisConnection = await ApplicationExtensions.GetVaultStringConnectionAsync(builder, "redis", "connection");
 
         var applicationOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new InvalidOperationException("Application options not found in configuration.");
+            ?? throw new InvalidOperationException("Application options not found.");
 
-        builder.Services.ConfigureDbContextAsync(serviceMemoryScopeFactory, servicePostgresScopeFactory, postgresConnection, applicationOptions);
+        //builder.Services.ConfigureDbContextAsync(serviceMemoryScopeFactory, servicePostgresScopeFactory, postgresConnection, applicationOptions);
+        builder.Services.ConfigureDbContextAsync(postgresConnection, applicationOptions);
         builder.Services.ConfigureCors();
 
         builder.Services.ConfigureApiVersioning();
@@ -60,10 +61,13 @@ public class Program
         app.UseCors("AllowAll");
         app.UseAntiforgery();
 
-        //app.UseAuthentication();
-        //app.UseAuthorization();
+        //app.UseAuthentication(); //Sostituito da: //app.UseAuthentication();
+        //app.UseAuthorization(); //Sostituito da: //app.UseAuthentication();
 
-        versionedApi.MapEndpointsFromAssemblyContaining<Program>();
+        //versionedApi.MapEndpointsFromAssemblyContaining<Program>();
+        versionedApi.MapEndpoints();
+
+        //app.UseAuthentication();
         app.Run();
     }
 }

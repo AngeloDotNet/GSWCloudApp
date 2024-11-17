@@ -1,34 +1,34 @@
 ﻿using Asp.Versioning;
 using ConfigurazioniSvc.BusinessLayer.Mapper;
-using ConfigurazioniSvc.BusinessLayer.Options;
 using ConfigurazioniSvc.BusinessLayer.Service;
 using ConfigurazioniSvc.BusinessLayer.Validation;
 using ConfigurazioniSvc.DataAccessLayer;
-using ConfigurazioniSvc.Swagger;
 using FluentValidation;
 using GSWCloudApp.Common.Extensions;
+using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache;
 using GSWCloudApp.Common.RedisCache.Options;
+using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 namespace ConfigurazioniSvc.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigureDbContextAsync(this IServiceCollection services, IServiceProvider memoryProvider,
-        IServiceProvider postgresProvider, string databaseConnection, ApplicationOptions applicationOptions)
+    public static IServiceCollection ConfigureDbContextAsync(this IServiceCollection services,
+        //IServiceProvider memoryProvider, IServiceProvider postgresProvider,
+        string databaseConnection, ApplicationOptions applicationOptions)
     {
         var assembly = typeof(Program).Assembly.GetName().Name!.ToString();
-        var databaseInMemory = string.Concat(assembly, "-InMemory-Test");
+        //var databaseInMemory = string.Concat(assembly, "-InMemory-Test");
         var AssemblyMigrazioni = string.Concat(assembly, ".Migrations");
 
-        services.AddDbContext<AppDbContext>(optionsBuilder =>
-        {
-            optionsBuilder.UseInMemoryDatabase(databaseInMemory).UseInternalServiceProvider(memoryProvider);
-        });
+        //services.AddDbContext<AppDbContext>(optionsBuilder =>
+        //{
+        //    optionsBuilder.UseInMemoryDatabase(databaseInMemory).UseInternalServiceProvider(memoryProvider);
+        //});
 
         services.AddDbContext<AppDbContext>(optionsBuilder =>
         {
@@ -38,7 +38,9 @@ public static class ServiceCollectionExtensions
                     .MigrationsHistoryTable(applicationOptions.TabellaMigrazioni)
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
                     .EnableRetryOnFailure(3, TimeSpan.FromSeconds(5), null);
-            }).UseInternalServiceProvider(postgresProvider);
+            })
+            //.UseInternalServiceProvider(postgresProvider)
+            ;
         });
 
         return services;
@@ -79,13 +81,6 @@ public static class ServiceCollectionExtensions
             .AddSwaggerGen(options =>
             {
                 options.EnableAnnotations();
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Configurazioni API",
-                    Version = "v1",
-                    Contact = new OpenApiContact { Name = "Angelo Pirola", Url = new Uri("https://github.com/AngeloDotNet/GSWCloudApp") },
-                    License = new OpenApiLicense { Name = "License MIT", Url = new Uri("https://github.com/AngeloDotNet/GSWCloudApp/blob/main/LICENSE") }
-                });
                 options.OperationFilter<SwaggerDefaultValues>();
             });
     }
@@ -127,7 +122,9 @@ public static class ServiceCollectionExtensions
             .AddValidatorsFromAssemblyContaining<CreateConfigurazioneValidator>()
 
             .AddSingleton<ICacheService, CacheService>()
-            .AddTransient<IConfigurazioneService, ConfigurazioneService>();
+            .AddTransient<IGenericService, GenericService>()
+            //.AddTransient<IConfigurazioneService, ConfigurazioneService>()
+            ;
     }
 
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
