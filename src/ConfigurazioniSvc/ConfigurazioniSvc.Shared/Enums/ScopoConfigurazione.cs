@@ -3,5 +3,5 @@
 public enum ScopoConfigurazione
 {
     None,
-    InvioEmail
+    SmtpServer
 }
