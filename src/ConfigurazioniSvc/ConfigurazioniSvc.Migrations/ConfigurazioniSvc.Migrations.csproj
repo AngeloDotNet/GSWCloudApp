@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!--<PackageReference Include="GSWCloudApp.Common" Version="1.0.29" />-->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+  </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\ConfigurazioniSvc.DataAccessLayer\ConfigurazioniSvc.DataAccessLayer.csproj" />
     </ItemGroup>

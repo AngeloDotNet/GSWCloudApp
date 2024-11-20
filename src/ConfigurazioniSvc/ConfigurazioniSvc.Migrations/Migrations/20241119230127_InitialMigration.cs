@@ -34,6 +34,12 @@ namespace ConfigurazioniSvc.Migrations.Migrations
                 {
                     table.PrimaryKey("PK_Configurazione", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Configurazione_Chiave",
+                table: "Configurazione",
+                column: "Chiave",
+                unique: true);
         }
 
         /// <inheritdoc />
