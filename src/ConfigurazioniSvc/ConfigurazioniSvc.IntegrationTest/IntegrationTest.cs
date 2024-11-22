@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using ConfigurazioniSvc.DataAccessLayer;
 using ConfigurazioniSvc.DataAccessLayer.Entities;
 using ConfigurazioniSvc.Shared.DTO;
+using ConfigurazioniSvc.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -117,7 +118,7 @@ public class IntegrationTest
                 Tipo = $"Tipo {i}",
                 Posizione = i,
                 Obbligatorio = true,
-                Scope = Shared.Enums.ScopoConfigurazione.None
+                Scope = ScopoConfigurazione.None
             };
 
             listConfigurazione.Add(itemConfigurazione);
@@ -139,7 +140,7 @@ public class IntegrationTest
             Tipo = $"Tipo {value}",
             Posizione = value,
             Obbligatorio = true,
-            Scope = Shared.Enums.ScopoConfigurazione.None
+            Scope = ScopoConfigurazione.None
         };
     }
 
@@ -153,7 +154,7 @@ public class IntegrationTest
             Tipo = "",
             Posizione = 0,
             Obbligatorio = true,
-            Scope = Shared.Enums.ScopoConfigurazione.None
+            Scope = ScopoConfigurazione.None
         };
     }
 
