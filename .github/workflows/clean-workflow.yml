@@ -1,8 +1,6 @@
 name: Clean workflow repository
 
 on:
-  push:
-    branches-ignore: [main]
   workflow_dispatch:
 
 jobs:
