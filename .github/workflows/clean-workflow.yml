@@ -1,4 +1,4 @@
-name: Push ConfigurazioniSvc to DockerHub
+name: Clean workflow repository
 
 on:
   push:
