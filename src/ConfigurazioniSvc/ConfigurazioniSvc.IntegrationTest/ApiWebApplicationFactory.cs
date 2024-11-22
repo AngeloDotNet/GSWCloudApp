@@ -21,9 +21,12 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
                 services.Remove(descriptor);
             }
 
+            var assembly = typeof(Program).Assembly.GetName().Name!.ToString();
+            var databaseInMemory = string.Concat(assembly, "-InMemory-Test");
+
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseInMemoryDatabase("Database-InMemory-Test");
+                options.UseInMemoryDatabase(databaseInMemory);
             });
         });
     }
