@@ -1,20 +1,18 @@
-﻿using System.Security.Claims;
+﻿using System.Reflection;
+using System.Security.Claims;
 using ConfigurazioniSvc.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ConfigurazioniSvc.DataAccessLayer;
 
 public class AppDbContext : DbContext
 {
-    private readonly IConfiguration configuration;
     private readonly HttpContext? httpContext;
 
-    public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
-        this.configuration = configuration;
-
+        this.httpContext = httpContextAccessor.HttpContext;
         var guid = httpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         Guid? userId = guid != null ? Guid.Parse(guid) : null;
 
@@ -50,12 +48,12 @@ public class AppDbContext : DbContext
         };
     }
 
-    public DbSet<Configurazione> Configurazioni { get; set; }
+    public DbSet<Configurazione> Configurazioni { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

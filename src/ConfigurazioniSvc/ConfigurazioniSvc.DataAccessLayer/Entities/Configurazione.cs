@@ -1,5 +1,5 @@
-﻿using ConfigurazioniSvc.DataAccessLayer.Entities.Common;
-using ConfigurazioniSvc.Shared.Enums;
+﻿using ConfigurazioniSvc.Shared.Enums;
+using GSWCloudApp.Common.Entities;
 
 namespace ConfigurazioniSvc.DataAccessLayer.Entities;
 
