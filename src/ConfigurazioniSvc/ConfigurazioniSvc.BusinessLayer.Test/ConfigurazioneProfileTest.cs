@@ -8,7 +8,7 @@ namespace ConfigurazioniSvc.BusinessLayer.Test;
 public class ConfigurazioneProfileTest
 {
     public MapperConfiguration MapperConfiguration = new(cfg
-        => cfg.AddProfile<ConfigurazioneMappingProfile>());
+        => cfg.AddProfile<MappingProfile>());
 
     [Fact]
     public void ConfigurazioneToConfigurazioneDto()
