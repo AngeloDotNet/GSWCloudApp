@@ -4,9 +4,9 @@ using ConfigurazioniSvc.Shared.DTO;
 
 namespace ConfigurazioniSvc.BusinessLayer.Mapper;
 
-public class ConfigurazioneMappingProfile : Profile
+public class MappingProfile : Profile
 {
-    public ConfigurazioneMappingProfile()
+    public MappingProfile()
     {
         CreateMap<Configurazione, ConfigurazioneDto>().ReverseMap();
         CreateMap<CreateConfigurazioneDto, Configurazione>().ReverseMap();
