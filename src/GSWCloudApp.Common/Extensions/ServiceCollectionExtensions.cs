@@ -4,14 +4,17 @@ using FluentValidation;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache;
 using GSWCloudApp.Common.RedisCache.Options;
-using GSWCloudApp.Common.Service;
+using GSWCloudApp.Common.Services;
 using GSWCloudApp.Common.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 
 namespace GSWCloudApp.Common.Extensions;
 
@@ -24,6 +27,7 @@ public static class ServiceExtensions
         var assembly = typeof(T).Assembly.GetName().Name!.ToString();
         var AssemblyMigrazioni = string.Concat(assembly, ".Migrations");
 
+        services.AddScoped<DbContext, TDbContext>();
         services.AddDbContext<TDbContext>(optionsBuilder =>
         {
             optionsBuilder.UseNpgsql(databaseConnection, options =>
@@ -77,6 +81,42 @@ public static class ServiceExtensions
             .ConfigureOptions<ConfigureSwaggerGenOptions>();
     }
 
+    public static IServiceCollection ConfigureAuthSwagger(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Insert the Bearer Token",
+                Name = HeaderNames.Authorization,
+                Type = SecuritySchemeType.ApiKey
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference= new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+            });
+
+            options.EnableAnnotations();
+            options.OperationFilter<SwaggerDefaultValues>();
+        })
+        .ConfigureOptions<ConfigureSwaggerGenOptions>();
+
+        return services;
+    }
+
     public static IServiceCollection ConfigureProblemDetails(this IServiceCollection services)
     {
         return services.AddProblemDetails(options =>
@@ -106,12 +146,35 @@ public static class ServiceExtensions
         });
     }
 
-    public static IServiceCollection ConfigureServices<TDbContext, TMappingProfile, TValidator>(this IServiceCollection services)
-        where TDbContext : DbContext
+    //TODO: da eliminare al prossimo refactoring
+    //public static IServiceCollection ConfigureServices<TDbContext, TMappingProfile, TValidator>(this IServiceCollection services)
+    //    where TDbContext : DbContext
+    //    where TMappingProfile : Profile
+    //    where TValidator : IValidator
+    //{
+    //    //services.AddAntiforgery(); //Non necessario in quanto dichiarato nella Program.cs dopo il routing
+    //    services.AddAutoMapper(typeof(TMappingProfile).Assembly);
+    //    services.AddValidatorsFromAssemblyContaining<TValidator>();
+
+    //    // Service Registrations with Singleton Lifecycle
+    //    services.AddSingleton<ICacheService, CacheService>();
+
+    //    // Service Registrations with Transient Lifecycle
+    //    services.AddTransient<IGenericService, GenericService>();
+
+    //    // Service Registrations with Scoped Lifecycle
+    //    services.AddScoped<DbContext, TDbContext>();
+
+    //    return services;
+    //}
+
+    public static IServiceCollection ConfigureServices<TMappingProfile, TValidator>(this IServiceCollection services)
         where TMappingProfile : Profile
         where TValidator : IValidator
     {
-        services.AddAntiforgery();
+        //TODO: da eliminare al prossimo refactoring
+        //services.AddAntiforgery(); //Non necessario in quanto dichiarato nella Program.cs dopo il routing
+
         services.AddAutoMapper(typeof(TMappingProfile).Assembly);
         services.AddValidatorsFromAssemblyContaining<TValidator>();
 
@@ -120,9 +183,6 @@ public static class ServiceExtensions
 
         // Service Registrations with Transient Lifecycle
         services.AddTransient<IGenericService, GenericService>();
-
-        // Service Registrations with Singleton Lifecycle
-        services.AddScoped<DbContext, TDbContext>();
 
         return services;
     }
