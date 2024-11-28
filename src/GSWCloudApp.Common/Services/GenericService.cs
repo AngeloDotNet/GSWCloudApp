@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GSWCloudApp.Common.Service;
+namespace GSWCloudApp.Common.Services;
 
 public class GenericService : IGenericService
 {
@@ -144,7 +144,7 @@ public class GenericService : IGenericService
         return TypedResults.NoContent();
     }
 
-    public async Task<Results<Ok<List<TDto>>, NotFound>> FilterAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
+    public async Task<Results<Ok<List<TDto>>, NotFound>> FilterByIdFestaAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
         where TEntity : class
         where TDto : class
     {

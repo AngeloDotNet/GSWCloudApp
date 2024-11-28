@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GSWCloudApp.Common.Service;
+namespace GSWCloudApp.Common.Services;
 
 public interface IGenericService
 {
@@ -27,7 +27,7 @@ public interface IGenericService
     Task<Results<NoContent, NotFound>> DeleteAsync<TEntity>(Guid id, DbContext dbContext)
         where TEntity : class;
 
-    Task<Results<Ok<List<TDto>>, NotFound>> FilterAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
+    Task<Results<Ok<List<TDto>>, NotFound>> FilterByIdFestaAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
         where TEntity : class
         where TDto : class;
 }

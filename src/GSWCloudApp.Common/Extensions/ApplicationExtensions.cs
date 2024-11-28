@@ -61,9 +61,10 @@ public static class ApplicationExtensions
         // app.UseHttpsRedirection();
     }
 
-    public static void UseAuthentication(this WebApplication app)
-    {
-        app.UseAuthentication();
-        app.UseAuthorization();
-    }
+    //TODO: da eliminare al prossimo refactoring
+    //public static void UseAuthentication(this WebApplication app)
+    //{
+    //    app.UseAuthentication();
+    //    app.UseAuthorization();
+    //}
 }
