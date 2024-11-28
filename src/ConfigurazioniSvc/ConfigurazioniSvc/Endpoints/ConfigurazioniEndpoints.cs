@@ -2,7 +2,7 @@
 using ConfigurazioniSvc.Shared.DTO;
 using GSWCloudApp.Common.Constants;
 using GSWCloudApp.Common.Routing;
-using GSWCloudApp.Common.Service;
+using GSWCloudApp.Common.Services;
 using GSWCloudApp.Common.Validation;
 using Microsoft.OpenApi.Models;
 
@@ -91,7 +91,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalAPI.PatternFilterById, apiService.FilterAsync<Configurazione, ConfigurazioneDto>)
+        apiGroup.MapGet(MinimalAPI.PatternFilterById, apiService.FilterByIdFestaAsync<Configurazione, ConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)

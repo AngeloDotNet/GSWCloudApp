@@ -39,7 +39,7 @@ public class Program
         builder.Services.ConfigureProblemDetails();
         builder.Services.ConfigureRedisCache(builder.Configuration, redisConnection);
 
-        builder.Services.ConfigureServices<AppDbContext, MappingProfile, CreateConfigurazioneValidator>();
+        builder.Services.ConfigureServices<MappingProfile, CreateConfigurazioneValidator>();
         builder.Services.ConfigureOptions(builder.Configuration);
 
         var app = builder.Build();
