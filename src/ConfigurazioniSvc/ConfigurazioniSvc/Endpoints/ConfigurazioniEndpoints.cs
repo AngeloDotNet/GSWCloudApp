@@ -1,8 +1,10 @@
-﻿using ConfigurazioniSvc.BusinessLayer.Service;
+﻿using ConfigurazioniSvc.DataAccessLayer.Entities;
 using ConfigurazioniSvc.Shared.DTO;
 using GSWCloudApp.Common.Constants;
 using GSWCloudApp.Common.Routing;
+using GSWCloudApp.Common.Service;
 using GSWCloudApp.Common.Validation;
+using Microsoft.OpenApi.Models;
 
 namespace ConfigurazioniSvc.Endpoints;
 
@@ -10,16 +12,21 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 {
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var apiService = endpoints.ServiceProvider.GetRequiredService<IConfigurazioneService>();
+        var apiService = endpoints.ServiceProvider.GetRequiredService<IGenericService>();
 
         var apiGroup = endpoints
             .MapGroup("/configurazioni")
             .MapToApiVersion(1)
-            .WithTags("Configurazioni")
-            //.RequireAuthorization()
-            ;
+            .WithOpenApi(opt =>
+            {
+                opt.Tags = [new OpenApiTag { Name = "Configurazioni" }];
 
-        apiGroup.MapGet(string.Empty, apiService.GetAllAsync)
+                return opt;
+            })
+        //.RequireAuthorization()
+        ;
+
+        apiGroup.MapGet(string.Empty, apiService.GetAllAsync<Configurazione, ConfigurazioneDto>)
             .Produces<List<ConfigurazioneDto>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -31,7 +38,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalAPI.PatternById, apiService.GetByIdAsync)
+        apiGroup.MapGet(MinimalAPI.PatternById, apiService.GetByIdAsync<Configurazione, ConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -43,7 +50,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapPost(string.Empty, apiService.PostAsync)
+        apiGroup.MapPost(string.Empty, apiService.PostAsync<Configurazione, ConfigurazioneDto, CreateConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
@@ -57,7 +64,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapPatch(MinimalAPI.PatternById, apiService.UpdateAsync)
+        apiGroup.MapPatch(MinimalAPI.PatternById, apiService.UpdateAsync<Configurazione, ConfigurazioneDto, EditConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
@@ -72,7 +79,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapDelete(MinimalAPI.PatternById, apiService.DeleteAsync)
+        apiGroup.MapDelete(MinimalAPI.PatternById, apiService.DeleteAsync<Configurazione>)
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -84,7 +91,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalAPI.PatternFilterById, apiService.FilterAsync)
+        apiGroup.MapGet(MinimalAPI.PatternFilterById, apiService.FilterAsync<Configurazione, ConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -92,8 +99,9 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
             {
                 opt.Summary = "Filter configuration by festaId";
                 opt.Description = "Filter the configuration from the database with the given festaId";
-
                 return opt;
             });
+
+        //TODO: Manca una GET che genera i dati iniziali di configurazione, con un parametro in ingresso riferito all'Id festa
     }
 }
