@@ -36,6 +36,8 @@ public class Program
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureSwagger();
 
+        builder.Services.AddAntiforgery();
+
         builder.Services.ConfigureProblemDetails();
         builder.Services.ConfigureRedisCache(builder.Configuration, redisConnection);
 
