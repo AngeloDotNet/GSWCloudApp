@@ -3,13 +3,13 @@ name: Push ConfigurazioniSvc to DockerHub
 on:
   push:
     branches: [ main ]
-    # paths: [ 'src/ConfigurazioniSvc/ConfigurazioniSvc/**']
     paths: 
        - 'src/ConfigurazioniSvc/ConfigurazioniSvc/**'
        - 'src/ConfigurazioniSvc/ConfigurazioniSvc.BusinessLayer/**'
        - 'src/ConfigurazioniSvc/ConfigurazioniSvc.DataAccessLayer/**'
        - 'src/ConfigurazioniSvc/ConfigurazioniSvc.Migrations/**'
        - 'src/ConfigurazioniSvc/ConfigurazioniSvc.Shared/**'
+       - 'src/ConfigurazioniSvc/ConfigurazioniSvc.LoadBalancer/**'
   workflow_dispatch:
 
 jobs:
