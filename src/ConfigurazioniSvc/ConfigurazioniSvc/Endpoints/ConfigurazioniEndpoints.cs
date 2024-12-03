@@ -8,8 +8,15 @@ using Microsoft.OpenApi.Models;
 
 namespace ConfigurazioniSvc.Endpoints;
 
+/// <summary>  
+/// Defines the endpoints for the Configurazioni API.  
+/// </summary>  
 public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 {
+    /// <summary>  
+    /// Maps the endpoints for the Configurazioni API.  
+    /// </summary>  
+    /// <param name="endpoints">The endpoint route builder.</param>  
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var apiService = endpoints.ServiceProvider.GetRequiredService<IGenericService>();
@@ -23,7 +30,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 
                 return opt;
             })
-        //.RequireAuthorization()
+        //.RequireAuthorization()  
         ;
 
         apiGroup.MapGet(string.Empty, apiService.GetAllAsync<Configurazione, ConfigurazioneDto>)
@@ -102,6 +109,6 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        //TODO: Manca una GET che genera i dati iniziali di configurazione, con un parametro in ingresso riferito all'Id festa
+        //TODO: Manca una GET che genera i dati iniziali di configurazione, con un parametro in ingresso riferito all'Id festa  
     }
 }
