@@ -9,7 +9,6 @@ on:
        - 'src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/**'
        - 'src/AutenticazioneSvc/AutenticazioneSvc.Migrations/**'
        - 'src/AutenticazioneSvc/AutenticazioneSvc.Shared/**'
-       - 'src/AutenticazioneSvc/AutenticazioneSvc.LoadBalancer/**'
   workflow_dispatch:
 
 jobs:
@@ -37,11 +36,3 @@ jobs:
          file: ./src/AutenticazioneSvc/AutenticazioneSvc/Dockerfile
          push: true
          tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-autenticazione:latest
-
-      - name: Build and push Autenticazione Load Balancer
-        uses: docker/build-push-action@v6.9.0
-        with:
-         context: .
-         file: ./src/AutenticazioneSvc/AutenticazioneSvc.LoadBalancer/Dockerfile
-         push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-configurazioni-lb:latest
