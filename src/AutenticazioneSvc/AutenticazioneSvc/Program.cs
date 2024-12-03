@@ -46,38 +46,6 @@ public class Program
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
 
-        //TODO: da eliminare al prossimo refactoring
-        //builder.Services.AddEndpointsApiExplorer();
-        //builder.Services.AddSwaggerGen(options =>
-        //{
-        //    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-        //    {
-        //        In = ParameterLocation.Header,
-        //        Description = "Insert the Bearer Token",
-        //        Name = HeaderNames.Authorization,
-        //        Type = SecuritySchemeType.ApiKey
-        //    });
-
-        //    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        //    {
-        //            {
-        //                new OpenApiSecurityScheme
-        //                {
-        //                    Reference= new OpenApiReference
-        //                    {
-        //                        Type = ReferenceType.SecurityScheme,
-        //                        Id = JwtBearerDefaults.AuthenticationScheme
-        //                    }
-        //                },
-        //                Array.Empty<string>()
-        //            }
-        //    });
-
-        //    options.EnableAnnotations();
-        //    options.OperationFilter<SwaggerDefaultValues>();
-        //})
-        //.ConfigureOptions<ConfigureSwaggerGenOptions>();
-
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
             options.User.RequireUniqueEmail = true;
@@ -134,9 +102,6 @@ public class Program
         });
 
         builder.Services.AddScoped<IIdentityService, IdentityService>();
-        //TODO: da eliminare al prossimo refactoring
-        //Non serve in quanto integrato nell'extension method ConfigureDbContextAsync
-        //builder.Services.AddScoped<DbContext, AppDbContext>(); 
         builder.Services.AddAntiforgery();
 
         builder.Services.AddHostedService<AuthStartupTask>();

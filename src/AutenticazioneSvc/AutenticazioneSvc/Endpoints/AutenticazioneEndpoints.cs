@@ -26,14 +26,6 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
         {
             var response = await identityService.LoginAsync(request);
 
-            //TODO: da eliminare al prossimo refactoring
-            //if (response != null)
-            //{
-            //    return TypedResults.Ok(response);
-            //}
-
-            //return TypedResults.BadRequest();
-
             return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
@@ -51,14 +43,6 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
         {
             var response = await identityService.RefreshTokenAsync(request);
 
-            //TODO: da eliminare al prossimo refactoring
-            //if (response != null)
-            //{
-            //    return TypedResults.Ok(response);
-            //}
-
-            //return TypedResults.BadRequest();
-
             return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
@@ -75,14 +59,6 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
             IIdentityService identityService) =>
         {
             var response = await identityService.RegisterAsync(request);
-
-            //TODO: da eliminare al prossimo refactoring
-            //if (response != null)
-            //{
-            //    return TypedResults.Ok(response);
-            //}
-
-            //return TypedResults.BadRequest();
 
             return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
         })
