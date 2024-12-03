@@ -9,8 +9,15 @@ using GSWCloudApp.Common.Routing;
 
 namespace ConfigurazioniSvc;
 
+/// <summary>
+/// The main entry point for the application.
+/// </summary>
 public class Program
 {
+    /// <summary>
+    /// The main method for the application.
+    /// </summary>
+    /// <param name="args">The command-line arguments.</param>
     public static async Task Main(string[] args)
     {
         var policyCorsName = "AllowAll";
@@ -45,23 +52,23 @@ public class Program
         builder.Services.ConfigureOptions(builder.Configuration);
 
         var app = builder.Build();
-
-        await ApplicationHelpers.ConfigureDatabaseAsync<AppDbContext>(app.Services);
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
+        app.ApplyMigrations<AppDbContext>();
         app.UseExceptionHandler();
+
         app.UseStatusCodePages();
-
         app.UseDevSwagger(applicationOptions);
+
         app.UseForwardNetworking();
-
         app.UseRouting();
+
         app.UseCors(policyCorsName);
-
         app.UseAntiforgery();
-        //app.UseAuthorization();
 
+        //app.UseAuthorization();
         versionedApi.MapEndpoints();
+
         app.Run();
     }
 }
