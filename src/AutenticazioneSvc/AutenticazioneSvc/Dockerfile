@@ -6,9 +6,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc/AutenticazioneSvc.csproj", "src/AutenticazioneSvc/AutenticazioneSvc/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer/AutenticazioneSvc.BusinessLayer.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer/"]
-COPY ["src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer.Test/AutenticazioneSvc.BusinessLayer.Test.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer.Test/"]
+#COPY ["src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer.Test/AutenticazioneSvc.BusinessLayer.Test.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer.Test/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/AutenticazioneSvc.DataAccessLayer.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/"]
-COPY ["src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/AutenticazioneSvc.IntegrationTest.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/"]
+#COPY ["src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/AutenticazioneSvc.IntegrationTest.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.Migrations/AutenticazioneSvc.Migrations.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.Migrations/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.Shared/AutenticazioneSvc.Shared.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.Shared/"]
 
