@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ConfigurazioniSvc.DataAccessLayer.Extension;
 
+/// <summary>  
+/// Configuration class for the Configurazione entity.  
+/// </summary>  
 public class ConfigurazioneExtension : BaseEntityConfiguration<Configurazione>
 {
+    /// <summary>  
+    /// Configures the Configurazione entity.  
+    /// </summary>  
+    /// <param name="builder">The builder to be used to configure the entity.</param>  
     public override void Configure(EntityTypeBuilder<Configurazione> builder)
     {
         builder.ToTable("Configurazione");
