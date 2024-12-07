@@ -6,9 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GSWCloudApp.Common.Helpers;
 
+/// <summary>
+/// Provides helper methods for application configuration.
+/// </summary>
 public static class ApplicationHelpers
 {
-    public static async void ApplyMigrations<TDbContext>(this WebApplication app) where TDbContext : DbContext
+    /// <summary>
+    /// Applies pending migrations for the specified DbContext.
+    /// </summary>
+    /// <typeparam name="TDbContext">The type of the DbContext.</typeparam>
+    /// <param name="app">The web application.</param>
+    public static async Task ApplyMigrationsAsync<TDbContext>(this WebApplication app) where TDbContext : DbContext
     {
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
@@ -20,46 +28,6 @@ public static class ApplicationHelpers
             await dbCreator.CreateAsync();
         }
 
-        dbContext.Database.Migrate();
+        await dbContext.Database.MigrateAsync();
     }
-
-    //TODO: da eliminare al prossimo refactoring
-    //public static async Task ConfigureDatabaseAsync<TDbContext>(IServiceProvider serviceProvider) where TDbContext : DbContext
-    //{
-    //    using var scope = serviceProvider.CreateScope();
-    //    var dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
-
-    //    if (!dbContext.Database.IsInMemory())
-    //    {
-    //        await EnsureDatabaseAsync();
-    //        await RunMigrationsAsync();
-    //    }
-    //    else
-    //    {
-    //        dbContext.Database.EnsureCreated();
-    //    }
-
-    //    async Task EnsureDatabaseAsync()
-    //    {
-    //        var dbCreator = dbContext.GetService<IRelationalDatabaseCreator>();
-
-    //        if (!await dbCreator.ExistsAsync())
-    //        {
-    //            await dbCreator.CreateAsync();
-    //        }
-    //    }
-
-    //    async Task RunMigrationsAsync(this WebApplication app)
-    //    {
-    //        //await using var transaction = await dbContext.Database.BeginTransactionAsync();
-
-    //        //await dbContext.Database.MigrateAsync();
-    //        //await transaction.CommitAsync();
-    //        using IServiceScope scope = app.Services.CreateScope();
-
-    //        var dbContext = scope.ServiceProvider.GetRequiredService<Appdb>();
-    //        dbContext.Database.Migrate();
-
-    //    }
-    //}
 }

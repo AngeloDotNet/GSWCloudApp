@@ -1,25 +1,43 @@
-﻿using Asp.Versioning;
+﻿using System.Text;
+using System.Text.Json.Serialization;
+using Asp.Versioning;
 using AutoMapper;
 using FluentValidation;
+using GSWCloudApp.Common.Identity;
+using GSWCloudApp.Common.Identity.Requirements;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache;
 using GSWCloudApp.Common.RedisCache.Options;
 using GSWCloudApp.Common.Services;
 using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace GSWCloudApp.Common.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring services.
+/// </summary>
 public static class ServiceExtensions
 {
+    /// <summary>
+    /// Configures the database context with the specified options.
+    /// </summary>
+    /// <typeparam name="T">The type of the entity.</typeparam>
+    /// <typeparam name="TDbContext">The type of the database context.</typeparam>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="databaseConnection">The database connection string.</param>
+    /// <param name="applicationOptions">The application options.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureDbContextAsync<T, TDbContext>(this IServiceCollection services, string databaseConnection,
         ApplicationOptions applicationOptions) where T : class
         where TDbContext : DbContext
@@ -42,6 +60,12 @@ public static class ServiceExtensions
         return services;
     }
 
+    /// <summary>
+    /// Configures CORS with the specified policy name.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="policyName">The name of the CORS policy.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureCors(this IServiceCollection services, string policyName)
     {
         return services.AddCors(options =>
@@ -51,6 +75,11 @@ public static class ServiceExtensions
         });
     }
 
+    /// <summary>
+    /// Configures API versioning for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
@@ -69,6 +98,11 @@ public static class ServiceExtensions
         return services;
     }
 
+    /// <summary>
+    /// Configures Swagger for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
     {
         return services
@@ -81,6 +115,11 @@ public static class ServiceExtensions
             .ConfigureOptions<ConfigureSwaggerGenOptions>();
     }
 
+    /// <summary>
+    /// Configures Swagger with authentication for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureAuthSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -117,6 +156,11 @@ public static class ServiceExtensions
         return services;
     }
 
+    /// <summary>
+    /// Configures problem details for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureProblemDetails(this IServiceCollection services)
     {
         return services.AddProblemDetails(options =>
@@ -127,11 +171,18 @@ public static class ServiceExtensions
 
                 var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
                 context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
-                //context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+                context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
             };
         });
     }
 
+    /// <summary>
+    /// Configures Redis cache for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="configuration">The configuration to get the settings from.</param>
+    /// <param name="redisConnection">The Redis connection string.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, IConfiguration configuration, string redisConnection)
     {
         var options = services.ConfigureAndGet<RedisOptions>(configuration, nameof(RedisOptions))
@@ -146,35 +197,17 @@ public static class ServiceExtensions
         });
     }
 
-    //TODO: da eliminare al prossimo refactoring
-    //public static IServiceCollection ConfigureServices<TDbContext, TMappingProfile, TValidator>(this IServiceCollection services)
-    //    where TDbContext : DbContext
-    //    where TMappingProfile : Profile
-    //    where TValidator : IValidator
-    //{
-    //    //services.AddAntiforgery(); //Non necessario in quanto dichiarato nella Program.cs dopo il routing
-    //    services.AddAutoMapper(typeof(TMappingProfile).Assembly);
-    //    services.AddValidatorsFromAssemblyContaining<TValidator>();
-
-    //    // Service Registrations with Singleton Lifecycle
-    //    services.AddSingleton<ICacheService, CacheService>();
-
-    //    // Service Registrations with Transient Lifecycle
-    //    services.AddTransient<IGenericService, GenericService>();
-
-    //    // Service Registrations with Scoped Lifecycle
-    //    services.AddScoped<DbContext, TDbContext>();
-
-    //    return services;
-    //}
-
+    /// <summary>
+    /// Configures services with AutoMapper and FluentValidation.
+    /// </summary>
+    /// <typeparam name="TMappingProfile">The type of the AutoMapper profile.</typeparam>
+    /// <typeparam name="TValidator">The type of the FluentValidation validator.</typeparam>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureServices<TMappingProfile, TValidator>(this IServiceCollection services)
-        where TMappingProfile : Profile
-        where TValidator : IValidator
+    where TMappingProfile : Profile
+    where TValidator : IValidator
     {
-        //TODO: da eliminare al prossimo refactoring
-        //services.AddAntiforgery(); //Non necessario in quanto dichiarato nella Program.cs dopo il routing
-
         services.AddAutoMapper(typeof(TMappingProfile).Assembly);
         services.AddValidatorsFromAssemblyContaining<TValidator>();
 
@@ -187,10 +220,73 @@ public static class ServiceExtensions
         return services;
     }
 
+    /// <summary>
+    /// Configures JSON options for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection ConfigureJsonOptions(this IServiceCollection services)
+    {
+        return services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+    }
+
+    /// <summary>
+    /// Configures options for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="configuration">The configuration to get the settings from.</param>
+    /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Configures JWT authentication for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="jwtSettings">The JWT settings to use for configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection ConfigureAuthTokenJWTShared(this IServiceCollection services, JwtOptions jwtSettings)
+    {
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.SaveToken = false;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings.Issuer,
+                ValidateAudience = true,
+                ValidAudience = jwtSettings.Audience,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey)),
+                RequireExpirationTime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+        });
+
+        services.AddScoped<IAuthorizationHandler, UserActiveHandler>();
+        services.AddAuthorization(options =>
+        {
+            var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+            policyBuilder.Requirements.Add(new UserActiveRequirement());
+            options.FallbackPolicy = options.DefaultPolicy = policyBuilder.Build();
+        });
 
         return services;
     }
