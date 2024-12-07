@@ -9,8 +9,18 @@ using Microsoft.Extensions.Hosting;
 
 namespace GSWCloudApp.Common.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring the application.
+/// </summary>
 public static class ApplicationExtensions
 {
+    /// <summary>
+    /// Retrieves a connection string from the vault asynchronously.
+    /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="vaultPath">The path to the vault secret.</param>
+    /// <param name="vaultKey">The key of the vault secret.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the connection string.</returns>
     public static async Task<string> GetVaultStringConnectionAsync(WebApplicationBuilder builder, string vaultPath, string vaultKey)
     {
         var vaultOptions = builder.Services.ConfigureAndGet<VaultOptions>(builder.Configuration, nameof(VaultOptions))
@@ -19,6 +29,11 @@ public static class ApplicationExtensions
         return await VaultService.ReadVaultSecretAsync(vaultOptions, vaultPath, vaultKey);
     }
 
+    /// <summary>
+    /// Configures API versioning for the application.
+    /// </summary>
+    /// <param name="app">The web application.</param>
+    /// <returns>A <see cref="RouteGroupBuilder"/> for further configuration.</returns>
     public static RouteGroupBuilder UseVersioningApi(WebApplication app)
     {
         var apiVersionSet = app.NewApiVersionSet()
@@ -32,6 +47,11 @@ public static class ApplicationExtensions
         return versionedApi;
     }
 
+    /// <summary>
+    /// Configures Swagger for the application in development environment or if enabled in options.
+    /// </summary>
+    /// <param name="app">The web application.</param>
+    /// <param name="options">The application options.</param>
     public static void UseDevSwagger(this WebApplication app, ApplicationOptions options)
     {
         if (app.Environment.IsDevelopment() || options.SwaggerEnable)
@@ -50,6 +70,10 @@ public static class ApplicationExtensions
         }
     }
 
+    /// <summary>
+    /// Configures the application to use forwarded headers.
+    /// </summary>
+    /// <param name="app">The web application.</param>
     public static void UseForwardNetworking(this WebApplication app)
     {
         app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -60,11 +84,4 @@ public static class ApplicationExtensions
         // Non necessario se viene usato NGINX come proxy
         // app.UseHttpsRedirection();
     }
-
-    //TODO: da eliminare al prossimo refactoring
-    //public static void UseAuthentication(this WebApplication app)
-    //{
-    //    app.UseAuthentication();
-    //    app.UseAuthorization();
-    //}
 }
