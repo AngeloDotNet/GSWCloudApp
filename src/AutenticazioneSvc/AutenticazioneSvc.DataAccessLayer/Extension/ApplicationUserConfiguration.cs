@@ -1,4 +1,4 @@
-﻿using AutenticazioneSvc.DataAccessLayer.Entities;
+﻿using GSWCloudApp.Common.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
