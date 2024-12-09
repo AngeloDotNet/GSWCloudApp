@@ -1,17 +1,14 @@
 using System.Text;
-using System.Text.Json.Serialization;
 using AutenticazioneSvc.BusinessLayer.HostedService;
-using AutenticazioneSvc.BusinessLayer.Requirements;
 using AutenticazioneSvc.BusinessLayer.Services;
-using AutenticazioneSvc.BusinessLayer.Settings;
 using AutenticazioneSvc.DataAccessLayer;
-using AutenticazioneSvc.DataAccessLayer.Entities;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
+using GSWCloudApp.Common.Identity;
+using GSWCloudApp.Common.Identity.Entities;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,11 +22,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddHttpContextAccessor();
-        builder.Services.ConfigureHttpJsonOptions(options =>
-        {
-            options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        });
+        builder.Services.ConfigureJsonOptions();
 
         var assemblyProject = typeof(Program).Assembly.GetName().Name!.ToString().ToLower();
         var postgresConnection = await ApplicationExtensions.GetVaultStringConnectionAsync(builder, assemblyProject, "connection");
@@ -69,6 +62,7 @@ public class Program
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
+        //builder.Services.ConfigureAuthTokenJWTShared(jwtSettings);
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -93,17 +87,10 @@ public class Program
             };
         });
 
-        builder.Services.AddScoped<IAuthorizationHandler, UserActiveHandler>();
-        builder.Services.AddAuthorization(options =>
-        {
-            var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
-            policyBuilder.Requirements.Add(new UserActiveRequirement());
-            options.FallbackPolicy = options.DefaultPolicy = policyBuilder.Build();
-        });
-
+        builder.Services.AddAuthorization();
         builder.Services.AddScoped<IIdentityService, IdentityService>();
-        builder.Services.AddAntiforgery();
 
+        builder.Services.AddAntiforgery();
         builder.Services.AddHostedService<AuthStartupTask>();
 
         builder.Services.ConfigureProblemDetails();
@@ -112,7 +99,7 @@ public class Program
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
-        app.ApplyMigrations<AppDbContext>();
+        await app.ApplyMigrationsAsync<AppDbContext>();
         app.UseExceptionHandler();
 
         app.UseStatusCodePages();
@@ -127,6 +114,6 @@ public class Program
         app.UseAuthorization();
         versionedApi.MapEndpoints();
 
-        app.Run();
+        await app.RunAsync();
     }
 }
