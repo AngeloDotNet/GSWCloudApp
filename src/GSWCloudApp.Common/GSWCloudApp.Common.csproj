@@ -31,7 +31,6 @@
     <PackageReference Include="StackExchange.Redis" Version="2.8.22" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.1.0" />
-    <PackageReference Include="VaultSharp" Version="1.17.5.1" />
   </ItemGroup>
 
 </Project>

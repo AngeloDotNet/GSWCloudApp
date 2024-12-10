@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 using GSWCloudApp.Common.Options;
-using GSWCloudApp.Common.Vault.Options;
-using GSWCloudApp.Common.Vault.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Routing;
@@ -14,21 +12,6 @@ namespace GSWCloudApp.Common.Extensions;
 /// </summary>
 public static class ApplicationExtensions
 {
-    /// <summary>
-    /// Retrieves a connection string from the vault asynchronously.
-    /// </summary>
-    /// <param name="builder">The web application builder.</param>
-    /// <param name="vaultPath">The path to the vault secret.</param>
-    /// <param name="vaultKey">The key of the vault secret.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the connection string.</returns>
-    public static async Task<string> GetVaultStringConnectionAsync(WebApplicationBuilder builder, string vaultPath, string vaultKey)
-    {
-        var vaultOptions = builder.Services.ConfigureAndGet<VaultOptions>(builder.Configuration, nameof(VaultOptions))
-            ?? throw new InvalidOperationException("Vault options not found.");
-
-        return await VaultService.ReadVaultSecretAsync(vaultOptions, vaultPath, vaultKey);
-    }
-
     /// <summary>
     /// Configures API versioning for the application.
     /// </summary>
