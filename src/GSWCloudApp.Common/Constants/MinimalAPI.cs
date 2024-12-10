@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains route patterns for the Minimal API.
 /// </summary>
-public class MinimalAPI
+public static class MinimalApi
 {
     /// <summary>
     /// The route pattern for identifying an entity by its GUID.
@@ -14,4 +14,14 @@ public class MinimalAPI
     /// The route pattern for filtering entities by a specific GUID.
     /// </summary>
     public const string PatternFilterById = "/filter/{festaid:guid}";
+
+    /// <summary>
+    /// The route pattern for uploading files.
+    /// </summary>
+    public const string PatternUpload = "/upload";
+
+    /// <summary>
+    /// The route pattern for downloading files.
+    /// </summary>
+    public const string PatternDownload = "/download";
 }
