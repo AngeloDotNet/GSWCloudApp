@@ -24,9 +24,11 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
         apiGroup.MapPost("/login", async Task<Results<Ok<AuthResponse>, BadRequest>> (LoginRequest request,
             IIdentityService identityService) =>
         {
-            var response = await identityService.LoginAsync(request);
-
-            return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
+            return await identityService.LoginAsync(request) switch
+            {
+                { } response => TypedResults.Ok(response),
+                _ => TypedResults.BadRequest()
+            };
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -41,9 +43,11 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
         apiGroup.MapPost("/refresh-token", async Task<Results<Ok<AuthResponse>, BadRequest>> (RefreshTokenRequest request,
             IIdentityService identityService) =>
         {
-            var response = await identityService.RefreshTokenAsync(request);
-
-            return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
+            return await identityService.RefreshTokenAsync(request) switch
+            {
+                { } response => TypedResults.Ok(response),
+                _ => TypedResults.BadRequest()
+            };
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -55,21 +59,23 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
             return opt;
         });
 
-        apiGroup.MapPost("/register", async Task<Results<Ok<RegisterResponse>, BadRequest>> (RegisterRequest request,
-            IIdentityService identityService) =>
-        {
-            var response = await identityService.RegisterAsync(request);
+        //apiGroup.MapPost("/register", async Task<Results<Ok<RegisterResponse>, BadRequest>> (RegisterRequest request,
+        //    IIdentityService identityService) =>
+        //{
+        //    return await identityService.RegisterAsync(request) switch
+        //    {
+        //        { } response => TypedResults.Ok(response),
+        //        _ => TypedResults.BadRequest()
+        //    };
+        //})
+        //.Produces<AuthResponse>(StatusCodes.Status200OK)
+        //.ProducesProblem(StatusCodes.Status400BadRequest)
+        //.WithOpenApi(opt =>
+        //{
+        //    opt.Summary = "User registration process";
+        //    opt.Description = "User registration process";
 
-            return response != null ? TypedResults.Ok(response) : TypedResults.BadRequest();
-        })
-        .Produces<AuthResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithOpenApi(opt =>
-        {
-            opt.Summary = "User registration process";
-            opt.Description = "User registration process";
-
-            return opt;
-        });
+        //    return opt;
+        //});
     }
 }
