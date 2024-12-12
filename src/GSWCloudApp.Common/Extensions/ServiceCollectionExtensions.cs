@@ -183,19 +183,27 @@ public static class ServiceExtensions
     /// <param name="configuration">The configuration to get the settings from.</param>
     /// <param name="redisConnection">The Redis connection string.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, IConfiguration configuration, string redisConnection)
+    public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, RedisOptions redisOptions)
     {
-        var options = services.ConfigureAndGet<RedisOptions>(configuration, nameof(RedisOptions))
-            ?? throw new InvalidOperationException("Redis options not found in configuration.");
-
-        options.Hostname = redisConnection;
-
         return services.AddStackExchangeRedisCache(action =>
         {
-            action.Configuration = options.Hostname;
-            action.InstanceName = options.InstanceName;
+            action.Configuration = redisOptions.Hostname;
+            action.InstanceName = redisOptions.InstanceName;
         });
     }
+    //public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, IConfiguration configuration, string redisConnection)
+    //{
+    //    var options = services.ConfigureAndGet<RedisOptions>(configuration, nameof(RedisOptions))
+    //        ?? throw new InvalidOperationException("Redis options not found in configuration.");
+
+    //    options.Hostname = redisConnection;
+
+    //    return services.AddStackExchangeRedisCache(action =>
+    //    {
+    //        action.Configuration = options.Hostname;
+    //        action.InstanceName = options.InstanceName;
+    //    });
+    //}
 
     /// <summary>
     /// Configures services with AutoMapper and FluentValidation.

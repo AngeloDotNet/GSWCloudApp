@@ -23,5 +23,5 @@ public static class MinimalApi
     /// <summary>
     /// The route pattern for downloading files.
     /// </summary>
-    public const string PatternDownload = "/download";
+    public const string PatternDownload = "/download/{fileName}";
 }
