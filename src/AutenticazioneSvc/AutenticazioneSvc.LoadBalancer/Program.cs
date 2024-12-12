@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace AutenticazioneSvc.LoadBalancer;
 
-public class Program
+public static class Program
 {
     /// <summary>
     /// The main entry point for the application.
