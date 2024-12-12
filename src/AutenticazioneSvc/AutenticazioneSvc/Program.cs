@@ -24,16 +24,16 @@ public class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.ConfigureJsonOptions();
 
-        var assemblyProject = typeof(Program).Assembly.GetName().Name!.ToString().ToLower();
-        var postgresConnection = await ApplicationExtensions.GetVaultStringConnectionAsync(builder, assemblyProject, "connection");
+        var postgresConnection = builder.Configuration.GetConnectionString("SqlAutentica")
+            ?? throw new Exception("Connection database string not valid.");
 
-        var applicationOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration,
-            nameof(ApplicationOptions)) ?? throw new InvalidOperationException("Application options not found.");
+        var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
+            ?? throw new InvalidOperationException("Application options not found.");
 
         var jwtSettings = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
             ?? throw new InvalidOperationException("JWT options not found.");
 
-        builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, applicationOptions);
+        builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
         builder.Services.ConfigureCors(policyCorsName);
 
         builder.Services.ConfigureApiVersioning();
@@ -103,7 +103,7 @@ public class Program
         app.UseExceptionHandler();
 
         app.UseStatusCodePages();
-        app.UseDevSwagger(applicationOptions);
+        app.UseDevSwagger(appOptions);
 
         app.UseForwardNetworking();
         app.UseRouting();
