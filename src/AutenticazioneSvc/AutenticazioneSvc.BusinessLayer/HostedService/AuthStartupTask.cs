@@ -16,10 +16,10 @@ public class AuthStartupTask(IServiceProvider serviceProvider) : IHostedService
         await GenerateRolesAsync(roleManager);
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        await GenerateAdminUserProfileAsync(scope, userManager);
+        await GenerateAdminUserProfileAsync(userManager);
     }
 
-    private static async Task GenerateAdminUserProfileAsync(IServiceScope scope, UserManager<ApplicationUser> userManager)
+    private static async Task GenerateAdminUserProfileAsync(UserManager<ApplicationUser> userManager)
     {
         var administratorUser = new ApplicationUser
         {

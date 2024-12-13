@@ -191,19 +191,6 @@ public static class ServiceExtensions
             action.InstanceName = redisOptions.InstanceName;
         });
     }
-    //public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, IConfiguration configuration, string redisConnection)
-    //{
-    //    var options = services.ConfigureAndGet<RedisOptions>(configuration, nameof(RedisOptions))
-    //        ?? throw new InvalidOperationException("Redis options not found in configuration.");
-
-    //    options.Hostname = redisConnection;
-
-    //    return services.AddStackExchangeRedisCache(action =>
-    //    {
-    //        action.Configuration = options.Hostname;
-    //        action.InstanceName = options.InstanceName;
-    //    });
-    //}
 
     /// <summary>
     /// Configures services with AutoMapper and FluentValidation.
