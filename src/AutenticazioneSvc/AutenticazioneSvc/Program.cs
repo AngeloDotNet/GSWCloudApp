@@ -1,4 +1,3 @@
-using System.Text;
 using AutenticazioneSvc.BusinessLayer.HostedService;
 using AutenticazioneSvc.BusinessLayer.Services;
 using AutenticazioneSvc.DataAccessLayer;
@@ -8,9 +7,7 @@ using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Entities;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AutenticazioneSvc;
 
@@ -25,13 +22,13 @@ public class Program
         builder.Services.ConfigureJsonOptions();
 
         var postgresConnection = builder.Configuration.GetConnectionString("SqlAutentica")
-            ?? throw new Exception("Connection database string not valid.");
+            ?? throw new ArgumentNullException("Connection database string not valid.");
 
         var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new InvalidOperationException("Application options not found.");
+            ?? throw new ArgumentNullException("Application options not found.");
 
         var jwtSettings = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
-            ?? throw new InvalidOperationException("JWT options not found.");
+            ?? throw new ArgumentNullException("JWT options not found.");
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
         builder.Services.ConfigureCors(policyCorsName);
@@ -62,32 +59,7 @@ public class Program
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
-        //builder.Services.ConfigureAuthTokenJWTShared(jwtSettings);
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.SaveToken = false;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtSettings.Issuer,
-                ValidateAudience = true,
-                ValidAudience = jwtSettings.Audience,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey)),
-                RequireExpirationTime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
-
-        builder.Services.AddAuthorization();
+        builder.Services.ConfigureAuthTokenJWTShared(jwtSettings);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
