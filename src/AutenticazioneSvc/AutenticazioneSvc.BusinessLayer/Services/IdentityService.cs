@@ -47,11 +47,9 @@ public class IdentityService(IOptions<JwtOptions> jwtOptions, UserManager<Applic
             new("FullName", string.Join(" ", user.LastName, user.FirstName))
 
             //TODO: Manca il claim per la licenza
-
-            //TODO: Manca la union della lista dei permessi
-
-            //TODO: Manca la union della lista dei moduli a cui l'utente può accedere
         }
+        //TODO: Manca la union della lista dei permessi
+        //TODO: Manca la union della lista dei moduli a cui l'utente può accedere
         .Union(userRoles.Select(role => new Claim(ClaimTypes.Role, role))).ToList();
 
         var loginResponse = CreateToken(claims);
