@@ -18,6 +18,11 @@ Gestione Sagre Web Cloud App - Progetto che nasce con l'idea di voler realizzare
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AngeloDotNet_GSWCloudApp&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=AngeloDotNet_GSWCloudApp)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=AngeloDotNet_GSWCloudApp&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=AngeloDotNet_GSWCloudApp)
 <!--[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AngeloDotNet_GSWCloudApp&metric=coverage)](https://sonarcloud.io/summary/new_code?id=AngeloDotNet_GSWCloudApp)-->
+
+### Code scanning
+
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-highlight.svg)](https://sonarcloud.io/summary/new_code?id=AngeloDotNet_GSWCloudApp)
+
 ### License
 
 <img src="https://img.shields.io/github/license/angelodotnet/gswcloudapp?style=for-the-badge">
