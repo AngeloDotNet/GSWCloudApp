@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
