@@ -27,8 +27,10 @@ public class Program
         var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
             ?? throw new ArgumentNullException("Application options not found.");
 
-        var jwtSettings = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
+        var jwtOptions = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
             ?? throw new ArgumentNullException("JWT options not found.");
+
+        //var securityOptions = new SecurityOptions();
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
         builder.Services.ConfigureCors(policyCorsName);
@@ -36,6 +38,7 @@ public class Program
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
 
+        //builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtSettings);
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
             options.User.RequireUniqueEmail = true;
@@ -59,7 +62,7 @@ public class Program
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
-        builder.Services.ConfigureAuthTokenJWTShared(jwtSettings);
+        builder.Services.ConfigureAuthTokenJWTShared(jwtOptions);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
