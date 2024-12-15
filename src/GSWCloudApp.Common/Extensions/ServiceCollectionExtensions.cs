@@ -3,7 +3,8 @@ using System.Text.Json.Serialization;
 using Asp.Versioning;
 using AutoMapper;
 using FluentValidation;
-using GSWCloudApp.Common.Identity;
+using GSWCloudApp.Common.Identity.Entities;
+using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Identity.Requirements;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache;
@@ -13,6 +14,7 @@ using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
@@ -257,7 +259,7 @@ public static class ServiceExtensions
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-        .AddJwtBearer(options =>
+        .AddJwtBearer("Bearer", options =>
         {
             options.SaveToken = false;
             options.RequireHttpsMetadata = false;
@@ -275,6 +277,76 @@ public static class ServiceExtensions
             };
         });
 
+        services.AddScoped<IAuthorizationHandler, UserActiveHandler>();
+        services.AddAuthorization(options =>
+        {
+            var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+            policyBuilder.Requirements.Add(new UserActiveRequirement());
+            options.FallbackPolicy = options.DefaultPolicy = policyBuilder.Build();
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Configures full JWT authentication for the application, including Identity and authorization policies.
+    /// </summary>
+    /// <typeparam name="TDbContext">The type of the database context.</typeparam>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="identityOptions">The identity options to use for configuration.</param>
+    /// <param name="jwtOptions">The JWT options to use for configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection ConfigureAuthFullTokenJWT<TDbContext>(this IServiceCollection services,
+        SecurityOptions identityOptions, JwtOptions jwtOptions)
+        where TDbContext : DbContext
+    {
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        {
+            // Criteri di validazione dell'utente
+            options.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
+
+            // Criteri di validazione della password
+            options.Password.RequireDigit = identityOptions.RequireDigit;
+            options.Password.RequiredLength = identityOptions.RequireLenght;
+            options.Password.RequireUppercase = identityOptions.RequireUppercase;
+            options.Password.RequireLowercase = identityOptions.RequireLowercase;
+            options.Password.RequireNonAlphanumeric = identityOptions.RequireNonAlphanumeric;
+            options.Password.RequiredUniqueChars = identityOptions.RequireUniqueChars;
+
+            // Conferma dell'account
+            options.SignIn.RequireConfirmedEmail = identityOptions.RequireConfirmedEmail;
+
+            // Blocco dell'account
+            options.Lockout.AllowedForNewUsers = identityOptions.AllowedForNewUsers;
+            options.Lockout.MaxFailedAccessAttempts = identityOptions.MaxFailedAccessAttempts;
+            options.Lockout.DefaultLockoutTimeSpan = identityOptions.DefaultLockoutTimeSpan;
+        })
+        .AddEntityFrameworkStores<TDbContext>()
+        .AddDefaultTokenProviders();
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer("Bearer", options =>
+        {
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtOptions.Issuer,
+                ValidateAudience = true,
+                ValidAudience = jwtOptions.Audience,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
+                RequireExpirationTime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+        });
         services.AddScoped<IAuthorizationHandler, UserActiveHandler>();
         services.AddAuthorization(options =>
         {

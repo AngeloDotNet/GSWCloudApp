@@ -1,4 +1,4 @@
-﻿namespace GSWCloudApp.Common.Identity;
+﻿namespace GSWCloudApp.Common.Identity.Options;
 
 public class JwtOptions
 {
