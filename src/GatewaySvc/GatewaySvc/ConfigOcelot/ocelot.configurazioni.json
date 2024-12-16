@@ -9,12 +9,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazioni",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamHttpMethod": [ "Get" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -25,12 +25,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazione/{id}",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamHttpMethod": [ "Get" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni",
@@ -41,12 +41,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazione",
-            "UpstreamHttpMethod": [ "Post" ]
+            "UpstreamHttpMethod": [ "Post" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -57,12 +57,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazione/{id}",
-            "UpstreamHttpMethod": [ "Patch" ]
+            "UpstreamHttpMethod": [ "Patch" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -73,12 +73,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazione/{id}",
-            "UpstreamHttpMethod": [ "Delete" ]
+            "UpstreamHttpMethod": [ "Delete" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/filter/{festaid}",
@@ -89,12 +89,12 @@
                     "Port": 5001
                 }
             ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "Bearer",
-                "AllowedScopes": []
-            },
             "UpstreamPathTemplate": "/configurazione/filter/{festaid}",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamHttpMethod": [ "Get" ],
+            //"AuthenticationOptions": {
+            //    "AuthenticationProviderKey": "Bearer",
+            //    "AllowedScopes": []
+            //}
         }
     ],
     "GlobalConfiguration": {}
