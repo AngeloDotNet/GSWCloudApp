@@ -6,6 +6,7 @@ using AutenticazioneSvc.Shared.DTO;
 using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Entities;
 using GSWCloudApp.Common.Identity.Extensions;
+using GSWCloudApp.Common.Identity.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
