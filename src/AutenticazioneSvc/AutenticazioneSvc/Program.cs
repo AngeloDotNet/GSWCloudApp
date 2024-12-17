@@ -3,11 +3,9 @@ using AutenticazioneSvc.BusinessLayer.Services;
 using AutenticazioneSvc.DataAccessLayer;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
-using GSWCloudApp.Common.Identity.Entities;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
-using Microsoft.AspNetCore.Identity;
 
 namespace AutenticazioneSvc;
 
@@ -25,12 +23,12 @@ public class Program
             ?? throw new ArgumentNullException("Connection database string not valid.");
 
         var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new ArgumentNullException("Application options not found.");
+            ?? throw new ArgumentNullException(nameof(ApplicationOptions));
 
         var jwtOptions = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
-            ?? throw new ArgumentNullException("JWT options not found.");
+            ?? throw new ArgumentNullException(nameof(JwtOptions));
 
-        //var securityOptions = new SecurityOptions();
+        var securityOptions = new SecurityOptions();
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
         builder.Services.ConfigureCors(policyCorsName);
@@ -38,31 +36,31 @@ public class Program
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
 
-        //builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtSettings);
-        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-        {
-            options.User.RequireUniqueEmail = true;
+        builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtOptions);
+        //builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        //{
+        //    options.User.RequireUniqueEmail = true;
 
-            // Criteri di validazione della password
-            options.Password.RequireDigit = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequiredUniqueChars = 4;
+        //    // Criteri di validazione della password
+        //    options.Password.RequireDigit = true;
+        //    options.Password.RequiredLength = 8;
+        //    options.Password.RequireUppercase = true;
+        //    options.Password.RequireLowercase = true;
+        //    options.Password.RequireNonAlphanumeric = true;
+        //    options.Password.RequiredUniqueChars = 4;
 
-            // Conferma dell'account
-            options.SignIn.RequireConfirmedEmail = true;
+        //    // Conferma dell'account
+        //    options.SignIn.RequireConfirmedEmail = true;
 
-            // Blocco dell'account
-            options.Lockout.AllowedForNewUsers = true;
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        })
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+        //    // Blocco dell'account
+        //    options.Lockout.AllowedForNewUsers = true;
+        //    options.Lockout.MaxFailedAccessAttempts = 5;
+        //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        //})
+        //.AddEntityFrameworkStores<AppDbContext>()
+        //.AddDefaultTokenProviders();
 
-        builder.Services.ConfigureAuthTokenJWTShared(jwtOptions);
+        //builder.Services.ConfigureAuthTokenJWTShared(jwtOptions);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
