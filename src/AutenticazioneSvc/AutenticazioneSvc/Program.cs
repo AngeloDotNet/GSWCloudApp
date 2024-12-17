@@ -37,30 +37,6 @@ public class Program
         builder.Services.ConfigureAuthSwagger();
 
         builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtOptions);
-        //builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-        //{
-        //    options.User.RequireUniqueEmail = true;
-
-        //    // Criteri di validazione della password
-        //    options.Password.RequireDigit = true;
-        //    options.Password.RequiredLength = 8;
-        //    options.Password.RequireUppercase = true;
-        //    options.Password.RequireLowercase = true;
-        //    options.Password.RequireNonAlphanumeric = true;
-        //    options.Password.RequiredUniqueChars = 4;
-
-        //    // Conferma dell'account
-        //    options.SignIn.RequireConfirmedEmail = true;
-
-        //    // Blocco dell'account
-        //    options.Lockout.AllowedForNewUsers = true;
-        //    options.Lockout.MaxFailedAccessAttempts = 5;
-        //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        //})
-        //.AddEntityFrameworkStores<AppDbContext>()
-        //.AddDefaultTokenProviders();
-
-        //builder.Services.ConfigureAuthTokenJWTShared(jwtOptions);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
