@@ -251,7 +251,8 @@ public static class ServiceExtensions
     /// <param name="services">The service collection to configure.</param>
     /// <param name="jwtSettings">The JWT settings to use for configuration.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection ConfigureAuthTokenJWTShared(this IServiceCollection services, JwtOptions jwtSettings)
+    [Obsolete("This method is obsolete. Use ConfigureAuthFullTokenJWT instead.", true)]
+    public static IServiceCollection ConfigureAuthTokenJWTShared(this IServiceCollection services, JwtOptions jwtOptions)
     {
         services.AddAuthentication(options =>
         {
@@ -261,17 +262,17 @@ public static class ServiceExtensions
         })
         .AddJwtBearer("Bearer", options =>
         {
-            options.SaveToken = false;
+            options.SaveToken = true;
             options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = jwtSettings.Issuer,
+                ValidIssuer = jwtOptions.Issuer,
                 ValidateAudience = true,
-                ValidAudience = jwtSettings.Audience,
+                ValidAudience = jwtOptions.Audience,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
                 RequireExpirationTime = true,
                 ClockSkew = TimeSpan.Zero
             };
