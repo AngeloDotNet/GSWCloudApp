@@ -4,9 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>gswcloud</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GSWCloudApp.Common" Version="1.0.56" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
     <PackageReference Include="Ocelot" Version="23.4.2" />
   </ItemGroup>
