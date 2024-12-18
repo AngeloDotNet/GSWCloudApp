@@ -11,10 +11,10 @@
             ],
             "UpstreamPathTemplate": "/configurazioni",
             "UpstreamHttpMethod": [ "Get" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -27,10 +27,10 @@
             ],
             "UpstreamPathTemplate": "/configurazione/{id}",
             "UpstreamHttpMethod": [ "Get" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni",
@@ -43,10 +43,10 @@
             ],
             "UpstreamPathTemplate": "/configurazione",
             "UpstreamHttpMethod": [ "Post" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -59,10 +59,10 @@
             ],
             "UpstreamPathTemplate": "/configurazione/{id}",
             "UpstreamHttpMethod": [ "Patch" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/{id}",
@@ -75,10 +75,10 @@
             ],
             "UpstreamPathTemplate": "/configurazione/{id}",
             "UpstreamHttpMethod": [ "Delete" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/configurazioni/filter/{festaid}",
@@ -91,10 +91,10 @@
             ],
             "UpstreamPathTemplate": "/configurazione/filter/{festaid}",
             "UpstreamHttpMethod": [ "Get" ],
-            //"AuthenticationOptions": {
-            //    "AuthenticationProviderKey": "Bearer",
-            //    "AllowedScopes": []
-            //}
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         }
     ],
     "GlobalConfiguration": {}
