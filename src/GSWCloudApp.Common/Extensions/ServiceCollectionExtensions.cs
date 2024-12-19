@@ -218,6 +218,26 @@ public static class ServiceExtensions
     }
 
     /// <summary>
+    /// Configures services with AutoMapper and FluentValidation without caching.
+    /// </summary>
+    /// <typeparam name="TMappingProfile">The type of the AutoMapper profile.</typeparam>
+    /// <typeparam name="TValidator">The type of the FluentValidation validator.</typeparam>
+    /// <param name="services">The service collection to configure.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection ConfigureServicesNoCaching<TMappingProfile, TValidator>(this IServiceCollection services)
+    where TMappingProfile : Profile
+    where TValidator : IValidator
+    {
+        services.AddAutoMapper(typeof(TMappingProfile).Assembly);
+        services.AddValidatorsFromAssemblyContaining<TValidator>();
+
+        // Service Registrations with Transient Lifecycle
+        services.AddTransient<IGenericService, GenericService>();
+
+        return services;
+    }
+
+    /// <summary>
     /// Configures JSON options for the application.
     /// </summary>
     /// <param name="services">The service collection to configure.</param>
