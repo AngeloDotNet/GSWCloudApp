@@ -7,8 +7,16 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace GSWCloudApp.Common.Swagger;
 
+/// <summary>
+/// Configures the Swagger generation options.
+/// </summary>
+/// <param name="provider">The API version description provider.</param>
 public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider) : IConfigureOptions<SwaggerGenOptions>
 {
+    /// <summary>
+    /// Configures the Swagger generation options.
+    /// </summary>
+    /// <param name="options">The Swagger generation options to configure.</param>
     public void Configure(SwaggerGenOptions options)
     {
         foreach (var description in provider.ApiVersionDescriptions)
@@ -18,6 +26,11 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
         }
     }
 
+    /// <summary>
+    /// Creates the OpenAPI information for the specified API version.
+    /// </summary>
+    /// <param name="description">The API version description.</param>
+    /// <returns>The OpenAPI information for the specified API version.</returns>
     private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
         var text = new StringBuilder("API endpoints that enable the use of this microservice.");
