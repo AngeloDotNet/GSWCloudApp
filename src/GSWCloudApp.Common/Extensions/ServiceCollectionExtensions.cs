@@ -246,50 +246,6 @@ public static class ServiceExtensions
     }
 
     /// <summary>
-    /// Configures JWT authentication for the application.
-    /// </summary>
-    /// <param name="services">The service collection to configure.</param>
-    /// <param name="jwtSettings">The JWT settings to use for configuration.</param>
-    /// <returns>The configured service collection.</returns>
-    [Obsolete("This method is obsolete. Use ConfigureAuthFullTokenJWT instead.", true)]
-    public static IServiceCollection ConfigureAuthTokenJWTShared(this IServiceCollection services, JwtOptions jwtOptions)
-    {
-        services.AddAuthentication(options =>
-        {
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer("Bearer", options =>
-        {
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtOptions.Issuer,
-                ValidateAudience = true,
-                ValidAudience = jwtOptions.Audience,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
-                RequireExpirationTime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
-
-        services.AddScoped<IAuthorizationHandler, UserActiveHandler>();
-        services.AddAuthorization(options =>
-        {
-            var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
-            policyBuilder.Requirements.Add(new UserActiveRequirement());
-            options.FallbackPolicy = options.DefaultPolicy = policyBuilder.Build();
-        });
-
-        return services;
-    }
-
-    /// <summary>
     /// Configures full JWT authentication for the application, including Identity and authorization policies.
     /// </summary>
     /// <typeparam name="TDbContext">The type of the database context.</typeparam>
