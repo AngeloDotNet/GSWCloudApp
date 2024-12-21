@@ -1,0 +1,37 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/documenti/download/{fileName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestionedocumenti",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/documento/{fileName}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/documenti/upload",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestionedocumenti",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/documento",
+            "UpstreamHttpMethod": [ "Post" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {}
+}

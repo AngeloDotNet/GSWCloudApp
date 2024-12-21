@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains constants used in the business layer of the application.
 /// </summary>
-public class BusinessLayer
+public static class BusinessLayer
 {
     /// <summary>
     /// The folder where uploads are stored.
@@ -24,6 +24,11 @@ public class BusinessLayer
     /// The allowed extensions for document uploads.
     /// </summary>
     public static readonly string[] AllowedDocumentExtensions = [".pdf", ".txt"];
+
+    /// <summary>
+    /// The allowed extensions for image uploads.
+    /// </summary>
+    public static readonly string[] AllowedImageExtensions = [".jpg", ".jpeg", ".png", ".gif"];
 
     /// <summary>
     /// The current year in UTC.
