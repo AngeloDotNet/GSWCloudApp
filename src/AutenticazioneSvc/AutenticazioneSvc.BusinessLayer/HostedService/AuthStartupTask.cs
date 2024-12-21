@@ -4,11 +4,14 @@ using GSWCloudApp.Common.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace AutenticazioneSvc.BusinessLayer.HostedService;
 
-public class AuthStartupTask(IServiceProvider serviceProvider) : IHostedService
+public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStartupTask> logger) : IHostedService
 {
+    private readonly ILogger<AuthStartupTask> _logger = logger;
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
@@ -20,7 +23,7 @@ public class AuthStartupTask(IServiceProvider serviceProvider) : IHostedService
         await GenerateAdminUserProfileAsync(userManager);
     }
 
-    private static async Task GenerateAdminUserProfileAsync(UserManager<ApplicationUser> userManager)
+    private async Task GenerateAdminUserProfileAsync(UserManager<ApplicationUser> userManager)
     {
         var administratorUser = new ApplicationUser
         {
@@ -33,8 +36,10 @@ public class AuthStartupTask(IServiceProvider serviceProvider) : IHostedService
             LockoutEnabled = false
         };
 
-        //TODO: Aggiungere un log per loggare la password generata
-        await CheckCreateUserAsync(administratorUser, GeneratePassword(15), RoleNames.Administrator);
+        var userPassword = GeneratePassword(15);
+        _logger.LogDebug($"Generated password for user {administratorUser.Email}: {userPassword}");
+
+        await CheckCreateUserAsync(administratorUser, userPassword, RoleNames.Administrator);
 
         async Task CheckCreateUserAsync(ApplicationUser user, string password, params string[] roles)
         {
