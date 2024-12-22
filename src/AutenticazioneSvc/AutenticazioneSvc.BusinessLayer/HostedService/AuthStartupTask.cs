@@ -1,31 +1,32 @@
-﻿using System.Security.Cryptography;
-using GSWCloudApp.Common.Identity;
+﻿using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace AutenticazioneSvc.BusinessLayer.HostedService;
 
-public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStartupTask> logger) : IHostedService
+public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStartupTask> logger, IConfiguration configuration) : IHostedService
 {
     private readonly ILogger<AuthStartupTask> _logger = logger;
+    private readonly IConfiguration _configuration = configuration;
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-        await GenerateRolesAsync(roleManager);
+        await GenerateRolesAsync(roleManager, _logger);
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        await GenerateAdminUserProfileAsync(userManager);
+        await GenerateAdminUserProfileAsync(userManager, _logger);
     }
 
-    private async Task GenerateAdminUserProfileAsync(UserManager<ApplicationUser> userManager)
+    private async Task GenerateAdminUserProfileAsync(UserManager<ApplicationUser> userManager, ILogger<AuthStartupTask> logger)
     {
-        var administratorUser = new ApplicationUser
+        var adminUser = new ApplicationUser
         {
             UserName = "admin",
             Email = "admin@example.com",
@@ -36,18 +37,18 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
             LockoutEnabled = false
         };
 
-        var userPassword = GeneratePassword(15);
-        _logger.LogDebug($"Generated password for user {administratorUser.Email}: {userPassword}");
+        await CheckCreateUserAsync(adminUser, RoleNames.Administrator);
 
-        await CheckCreateUserAsync(administratorUser, userPassword, RoleNames.Administrator);
-
-        async Task CheckCreateUserAsync(ApplicationUser user, string password, params string[] roles)
+        async Task CheckCreateUserAsync(ApplicationUser user, params string[] roles)
         {
+            var userPassword = _configuration.GetSection("DefaultAdminPassword").Value
+                ?? throw new ArgumentNullException("DefaultAdminPassword not found in appsettings.json");
+
             var dbUser = await userManager.FindByEmailAsync(user.Email!);
 
             if (dbUser == null)
             {
-                var result = await userManager.CreateAsync(user, password);
+                var result = await userManager.CreateAsync(user, userPassword);
 
                 if (result.Succeeded)
                 {
@@ -57,25 +58,7 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
         }
     }
 
-    private static string GeneratePassword(int length)
-    {
-        var validCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$&".ToCharArray();
-
-        if (length <= 0)
-        {
-            throw new ArgumentException("Password length must be greater than zero.", nameof(length));
-        }
-
-        var byteBuffer = new byte[length];
-
-        RandomNumberGenerator.Fill(byteBuffer);
-
-        var passwordChars = byteBuffer.Select(b => validCharacters[b % validCharacters.Length]).ToArray();
-
-        return new string(passwordChars);
-    }
-
-    private static async Task GenerateRolesAsync(RoleManager<ApplicationRole> roleManager)
+    private static async Task GenerateRolesAsync(RoleManager<ApplicationRole> roleManager, ILogger<AuthStartupTask> logger)
     {
         var roleNames = new string[] { RoleNames.Administrator, RoleNames.PowerUser, RoleNames.User };
 
@@ -86,6 +69,7 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
             if (!roleExists)
             {
                 await roleManager.CreateAsync(new ApplicationRole(roleName));
+                logger.LogInformation($"Role {roleName} created.");
             }
         }
     }
