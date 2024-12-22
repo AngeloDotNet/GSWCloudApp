@@ -6,6 +6,7 @@ using GSWCloudApp.Common.Helpers;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
+using Serilog;
 
 namespace AutenticazioneSvc;
 
@@ -15,6 +16,18 @@ public class Program
     {
         var policyCorsName = "AllowAll";
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Host.UseSerilog((context, config) =>
+        {
+            var romeTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Rome");
+            var utcNow = DateTimeOffset.UtcNow;
+            var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
+
+            config.ReadFrom.Configuration(context.Configuration);
+            config.Enrich.WithProperty("Hostname", Environment.MachineName);
+            config.Enrich.WithProperty("Application", "AutenticazioneSvc");
+            config.Enrich.WithProperty("Timestamp", romeTime);
+        });
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.ConfigureJsonOptions();
