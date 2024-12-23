@@ -24,4 +24,14 @@ public static class MinimalApi
     /// The route pattern for downloading files.
     /// </summary>
     public const string PatternDownload = "/download/{fileName}";
+
+    /// <summary>
+    /// The route pattern for deleting a document by its file name.
+    /// </summary>
+    public const string PatternDeleteDocument = "/{fileName}";
+
+    /// <summary>
+    /// The route pattern for deleting an image by its file name.
+    /// </summary>
+    public const string PatternDeleteImage = "/{fileName}";
 }
