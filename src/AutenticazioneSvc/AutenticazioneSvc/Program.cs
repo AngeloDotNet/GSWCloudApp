@@ -24,7 +24,6 @@ public class Program
             var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
 
             config.ReadFrom.Configuration(context.Configuration);
-            config.Enrich.WithProperty("Hostname", Environment.MachineName);
             config.Enrich.WithProperty("Application", "AutenticazioneSvc");
             config.Enrich.WithProperty("Timestamp", romeTime);
         });
