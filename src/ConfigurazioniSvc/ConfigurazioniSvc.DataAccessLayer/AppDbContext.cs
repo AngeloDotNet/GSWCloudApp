@@ -6,21 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConfigurazioniSvc.DataAccessLayer;
 
-/// <summary>
-/// Represents the application's database context.
-/// </summary>
 public class AppDbContext : DbContext
 {
-    private readonly HttpContext? httpContext;
+    //private readonly HttpContext? httpContext;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AppDbContext"/> class.
-    /// </summary>
-    /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>
-    /// <param name="httpContextAccessor">The accessor to get the current HTTP context.</param>
     public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
-        this.httpContext = httpContextAccessor.HttpContext;
+        //this.httpContext = httpContextAccessor.HttpContext;
+        var httpContext = httpContextAccessor.HttpContext;
         var guid = httpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         Guid? userId = guid != null ? Guid.Parse(guid) : null;
 
@@ -56,16 +49,8 @@ public class AppDbContext : DbContext
         };
     }
 
-    /// <summary>
-    /// Gets or sets the Configurazioni DbSet.
-    /// </summary>
     public DbSet<Configurazione> Configurazioni { get; set; } = null!;
 
-    /// <summary>
-    /// Configures the model that was discovered by convention from the entity types
-    /// exposed in <see cref="DbSet{TEntity}"/> properties on your derived context.
-    /// </summary>
-    /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
