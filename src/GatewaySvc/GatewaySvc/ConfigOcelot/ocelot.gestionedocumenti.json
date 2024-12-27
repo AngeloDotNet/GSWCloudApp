@@ -31,6 +31,22 @@
                 "AuthenticationProviderKey": "Bearer",
                 "AllowedScopes": []
             }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/documenti/{fileName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestionedocumenti",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/documento/{fileName}",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
         }
     ],
     "GlobalConfiguration": {}
