@@ -19,12 +19,13 @@ public class Program
 
         builder.Host.UseSerilog((context, config) =>
         {
+            var assemblyProject = typeof(Program).Assembly.GetName().Name!.ToString();
             var romeTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Rome");
             var utcNow = DateTimeOffset.UtcNow;
             var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
 
             config.ReadFrom.Configuration(context.Configuration);
-            config.Enrich.WithProperty("Application", "AutenticazioneSvc");
+            config.Enrich.WithProperty("Application", assemblyProject);
             config.Enrich.WithProperty("Timestamp", romeTime);
         });
 
