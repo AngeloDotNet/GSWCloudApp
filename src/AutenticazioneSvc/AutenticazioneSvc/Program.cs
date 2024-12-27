@@ -19,7 +19,7 @@ public class Program
 
         builder.Host.UseSerilog((context, config) =>
         {
-            var assemblyProject = typeof(Program).Assembly.GetName().Name!.ToString();
+            var assemblyProject = typeof(Program).Assembly.GetName().Name!;
             var romeTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Rome");
             var utcNow = DateTimeOffset.UtcNow;
             var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
