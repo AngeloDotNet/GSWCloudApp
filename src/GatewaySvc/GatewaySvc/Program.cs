@@ -15,13 +15,13 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         var postgresConnection = builder.Configuration.GetConnectionString("SqlAutentica")
-            ?? throw new ArgumentNullException("Connection database string not valid.");
+            ?? throw new InvalidOperationException("Connection database string not valid.");
 
         var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new ArgumentNullException(nameof(ApplicationOptions));
+            ?? throw new InvalidOperationException(nameof(ApplicationOptions));
 
         var jwtOptions = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
-            ?? throw new ArgumentNullException(nameof(JwtOptions));
+            ?? throw new InvalidOperationException(nameof(JwtOptions));
 
         var securityOptions = new SecurityOptions();
         builder.Services.ConfigureDbContextAsync<Program, SecurityDbContext>(postgresConnection, appOptions);

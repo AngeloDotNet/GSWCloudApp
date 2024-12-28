@@ -42,7 +42,7 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
         async Task CheckCreateUserAsync(ApplicationUser user, params string[] roles)
         {
             var userPassword = _configuration.GetSection("DefaultAdminPassword").Value
-                ?? throw new ArgumentNullException("DefaultAdminPassword not found in appsettings.json");
+                ?? throw new InvalidOperationException("DefaultAdminPassword not found in appsettings.json");
 
             var dbUser = await userManager.FindByEmailAsync(user.Email!);
 

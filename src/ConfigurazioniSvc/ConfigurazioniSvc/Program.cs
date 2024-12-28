@@ -33,13 +33,13 @@ public class Program
         builder.Services.ConfigureJsonOptions();
 
         var postgresConnection = builder.Configuration.GetConnectionString("SqlConfigurazioni")
-            ?? throw new Exception("Connection database string not valid.");
+            ?? throw new InvalidOperationException("Connection database string not valid.");
 
         var redisOptions = builder.Services.ConfigureAndGet<RedisOptions>(builder.Configuration, nameof(RedisOptions))
             ?? throw new InvalidOperationException("Redis options not found.");
 
         var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new ArgumentNullException("Application options not found.");
+            ?? throw new InvalidOperationException("Application options not found.");
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
         builder.Services.ConfigureCors(policyCorsName);
