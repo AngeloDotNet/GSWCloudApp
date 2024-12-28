@@ -8,15 +8,8 @@ using Microsoft.OpenApi.Models;
 
 namespace ConfigurazioniSvc.Endpoints;
 
-/// <summary>  
-/// Defines the endpoints for the Configurazioni API.  
-/// </summary>  
 public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 {
-    /// <summary>  
-    /// Maps the endpoints for the Configurazioni API.  
-    /// </summary>  
-    /// <param name="endpoints">The endpoint route builder.</param>  
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var apiService = endpoints.ServiceProvider.GetRequiredService<IGenericService>();
@@ -29,9 +22,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 opt.Tags = [new OpenApiTag { Name = "Configurazioni" }];
 
                 return opt;
-            })
-        //.RequireAuthorization()  
-        ;
+            });
 
         apiGroup.MapGet(string.Empty, apiService.GetAllAsync<Configurazione, ConfigurazioneDto>)
             .Produces<List<ConfigurazioneDto>>(StatusCodes.Status200OK)
@@ -45,7 +36,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalAPI.PatternById, apiService.GetByIdAsync<Configurazione, ConfigurazioneDto>)
+        apiGroup.MapGet(MinimalApi.PatternById, apiService.GetByIdAsync<Configurazione, ConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -71,7 +62,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapPatch(MinimalAPI.PatternById, apiService.UpdateAsync<Configurazione, ConfigurazioneDto, EditConfigurazioneDto>)
+        apiGroup.MapPatch(MinimalApi.PatternById, apiService.UpdateAsync<Configurazione, ConfigurazioneDto, EditConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
@@ -86,7 +77,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapDelete(MinimalAPI.PatternById, apiService.DeleteAsync<Configurazione>)
+        apiGroup.MapDelete(MinimalApi.PatternById, apiService.DeleteAsync<Configurazione>)
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -98,7 +89,7 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalAPI.PatternFilterById, apiService.FilterByIdFestaAsync<Configurazione, ConfigurazioneDto>)
+        apiGroup.MapGet(MinimalApi.PatternFilterById, apiService.FilterByIdFestaAsync<Configurazione, ConfigurazioneDto>)
             .Produces<ConfigurazioneDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -108,7 +99,5 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 opt.Description = "Filter the configuration from the database with the given festaId";
                 return opt;
             });
-
-        //TODO: Manca una GET che genera i dati iniziali di configurazione, con un parametro in ingresso riferito all'Id festa  
     }
 }
