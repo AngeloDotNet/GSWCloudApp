@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  redis:
+    image: ${IMAGE_REDIS}
+    container_name: infra-redis
+    restart: "always"
+    volumes:
+      - /docker/storage/storage-infra-redis/data:/data
+    ports:
+      - 6379:6379
+    networks:
+      - lan-network
+
+  rabbitmq:
+    image: ${IMAGE_RABBITMQ}
+    container_name: infra-rabbitmq
+    restart: "always"
+    volumes:
+      - /docker/storage/storage-infra-rabbitmq/files:/var/lib/rabbitmq
+      - /docker/storage/storage-infra-rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_NODENAME=${RABBITMQ_NODENAME}
+    networks:
+      - lan-network
+
+  postgres:
+    image: ${IMAGE_POSTGRES}
+    container_name: infra-postgres
+    restart: "always"
+    volumes:
+      - /docker/storage/storage-infra-postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - lan-network
+
+networks:
+  lan-network:
+    external:
+      name: docker-net
