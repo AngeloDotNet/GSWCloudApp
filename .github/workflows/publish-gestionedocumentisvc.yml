@@ -35,4 +35,4 @@ jobs:
          context: .
          file: ./src/GestioneDocumentiSvc/GestioneDocumentiSvc/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-gestionedocumenti:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-gestionedocumenti:latest
