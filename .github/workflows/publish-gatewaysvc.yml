@@ -30,4 +30,4 @@ jobs:
          context: .
          file: ./src/GatewaySvc/GatewaySvc/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-gateway:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-gateway:latest
