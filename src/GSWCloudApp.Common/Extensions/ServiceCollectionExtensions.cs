@@ -13,6 +13,7 @@ using GSWCloudApp.Common.Services;
 using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
@@ -23,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace GSWCloudApp.Common.Extensions;
 
@@ -31,6 +33,26 @@ namespace GSWCloudApp.Common.Extensions;
 /// </summary>
 public static class ServiceExtensions
 {
+    /// <summary>
+    /// Configures Serilog for the application with the specified program type.
+    /// </summary>
+    /// <typeparam name="TProgram">The type of the program class.</typeparam>
+    /// <param name="builder">The web application builder to configure.</param>
+    public static void AddConfigurationSerilog<TProgram>(WebApplicationBuilder builder) where TProgram : class
+    {
+        builder.Host.UseSerilog((context, config) =>
+        {
+            var assemblyProject = typeof(TProgram).Assembly.GetName().Name!;
+            var romeTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Rome");
+            var utcNow = DateTimeOffset.UtcNow;
+            var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
+
+            config.ReadFrom.Configuration(context.Configuration);
+            config.Enrich.WithProperty("Application", assemblyProject);
+            config.Enrich.WithProperty("Timestamp", romeTime);
+        });
+    }
+
     /// <summary>
     /// Configures the database context with the specified options.
     /// </summary>
@@ -137,17 +159,17 @@ public static class ServiceExtensions
 
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
+                {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
+                        Reference= new OpenApiReference
                         {
-                            Reference= new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = JwtBearerDefaults.AuthenticationScheme
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
+                            Type = ReferenceType.SecurityScheme,
+                            Id = JwtBearerDefaults.AuthenticationScheme
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
 
             options.EnableAnnotations();
@@ -274,8 +296,7 @@ public static class ServiceExtensions
     /// <param name="jwtOptions">The JWT options to use for configuration.</param>
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureAuthFullTokenJWT<TDbContext>(this IServiceCollection services,
-        SecurityOptions identityOptions, JwtOptions jwtOptions)
-        where TDbContext : DbContext
+        SecurityOptions identityOptions, JwtOptions jwtOptions) where TDbContext : DbContext
     {
         services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {

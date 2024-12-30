@@ -6,6 +6,11 @@
 public static class BusinessLayer
 {
     /// <summary>
+    /// The default CORS policy name.
+    /// </summary>
+    public const string DefaultCorsPolicyName = "AllowAll";
+
+    /// <summary>
     /// The folder where uploads are stored.
     /// </summary>
     public const string UploadsFolder = "Uploads";
