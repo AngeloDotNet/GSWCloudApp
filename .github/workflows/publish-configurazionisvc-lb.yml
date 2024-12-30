@@ -31,4 +31,4 @@ jobs:
          context: .
          file: ./src/ConfigurazioniSvc/ConfigurazioniSvc.LoadBalancer/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-configurazioni-lb:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-configurazioni-lb:latest
