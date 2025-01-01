@@ -4,9 +4,8 @@ using AutenticazioneSvc.DataAccessLayer;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
 using GSWCloudApp.Common.Identity.Options;
-using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
-using Serilog;
+using BLConstants = GSWCloudApp.Common.Constants.BusinessLayer;
 
 namespace AutenticazioneSvc;
 
@@ -14,37 +13,21 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        var policyCorsName = "AllowAll";
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Host.UseSerilog((context, config) =>
-        {
-            var assemblyProject = typeof(Program).Assembly.GetName().Name!;
-            var romeTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Rome");
-            var utcNow = DateTimeOffset.UtcNow;
-            var romeTime = TimeZoneInfo.ConvertTime(utcNow, romeTimeZone);
-
-            config.ReadFrom.Configuration(context.Configuration);
-            config.Enrich.WithProperty("Application", assemblyProject);
-            config.Enrich.WithProperty("Timestamp", romeTime);
-        });
+        ServiceExtensions.AddConfigurationSerilog<Program>(builder);
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.ConfigureJsonOptions();
 
-        var postgresConnection = builder.Configuration.GetConnectionString("SqlAutentica")
-            ?? throw new InvalidOperationException("Connection database string not valid.");
+        var postgresConnection = IConfigurationExtensions.GetDatabaseConnection(builder, "SqlAutentica");
+        var appOptions = IConfigurationExtensions.GetApplicationOptions(builder);
 
-        var appOptions = builder.Services.ConfigureAndGet<ApplicationOptions>(builder.Configuration, nameof(ApplicationOptions))
-            ?? throw new InvalidOperationException(nameof(ApplicationOptions));
-
-        var jwtOptions = builder.Services.ConfigureAndGet<JwtOptions>(builder.Configuration, nameof(JwtOptions))
-            ?? throw new InvalidOperationException(nameof(JwtOptions));
-
+        var jwtOptions = IConfigurationExtensions.GetJwtOptions(builder);
         var securityOptions = new SecurityOptions();
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
-        builder.Services.ConfigureCors(policyCorsName);
+        builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
 
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
@@ -70,7 +53,7 @@ public class Program
         app.UseForwardNetworking();
         app.UseRouting();
 
-        app.UseCors(policyCorsName);
+        app.UseCors(BLConstants.DefaultCorsPolicyName);
         app.UseAntiforgery();
 
         app.UseAuthorization();
