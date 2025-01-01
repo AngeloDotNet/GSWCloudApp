@@ -31,4 +31,4 @@ jobs:
          context: .
          file: ./src/AutenticazioneSvc/AutenticazioneSvc.LoadBalancer/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswcloudapp-autenticazione-lb:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-autenticazione-lb:latest
