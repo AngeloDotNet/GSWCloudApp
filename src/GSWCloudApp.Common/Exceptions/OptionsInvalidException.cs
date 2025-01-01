@@ -1,4 +1,4 @@
-﻿namespace GSWCloudApp.Common.Exceptions;
+namespace GSWCloudApp.Common.Exceptions;
 
 public class OptionsInvalidException : Exception
 {
