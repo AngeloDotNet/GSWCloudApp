@@ -14,7 +14,8 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
+            var descriptor = services.SingleOrDefault(d
+                => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
 
             if (descriptor != null)
             {

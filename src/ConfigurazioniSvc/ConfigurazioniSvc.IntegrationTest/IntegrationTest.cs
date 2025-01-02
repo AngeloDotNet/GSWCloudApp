@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using Bogus;
 using ConfigurazioniSvc.DataAccessLayer;
 using ConfigurazioniSvc.DataAccessLayer.Entities;
 using ConfigurazioniSvc.Shared.DTO;
@@ -102,61 +103,41 @@ public class IntegrationTest
         Assert.DoesNotContain(context.Configurazioni, t => t.Id == itemId);
     }
 
-    #region "Generazione dati fake per i test"
-
     private static List<Configurazione> GenerateFakeData()
     {
-        var listConfigurazione = new List<Configurazione>();
+        var faker = new Faker<Configurazione>()
+            .RuleFor(c => c.FestaId, f => f.Random.Guid())
+            .RuleFor(c => c.Chiave, f => f.Lorem.Word())
+            .RuleFor(c => c.Valore, f => f.Lorem.Word())
+            .RuleFor(c => c.Tipo, f => f.Lorem.Word())
+            .RuleFor(c => c.Posizione, f => f.Random.Int(0, 10))
+            .RuleFor(c => c.Obbligatorio, f => f.Random.Bool())
+            .RuleFor(c => c.Scope, f => f.PickRandom<ScopoConfigurazione>());
 
-        for (var i = 0; i < 10; i++)
-        {
-            var itemConfigurazione = new Configurazione
-            {
-                FestaId = Guid.NewGuid(),
-                Chiave = $"Chiave {i}",
-                Valore = $"Valore {i}",
-                Tipo = $"Tipo {i}",
-                Posizione = i,
-                Obbligatorio = true,
-                Scope = ScopoConfigurazione.None
-            };
-
-            listConfigurazione.Add(itemConfigurazione);
-        }
-
-        return listConfigurazione;
+        return faker.Generate(10);
     }
 
     private static Configurazione GenerateFakeSingleData()
     {
-        var random = new Random();
-        var value = random.Next(11, 30);
-
-        return new Configurazione
-        {
-            FestaId = Guid.NewGuid(),
-            Chiave = $"Chiave {value}",
-            Valore = $"Valore {value}",
-            Tipo = $"Tipo {value}",
-            Posizione = value,
-            Obbligatorio = true,
-            Scope = ScopoConfigurazione.None
-        };
+        return new Faker<Configurazione>()
+            .RuleFor(c => c.FestaId, f => f.Random.Guid())
+            .RuleFor(c => c.Chiave, f => f.Lorem.Word())
+            .RuleFor(c => c.Valore, f => f.Lorem.Word())
+            .RuleFor(c => c.Tipo, f => f.Lorem.Word())
+            .RuleFor(c => c.Posizione, f => f.Random.Int(11, 30))
+            .RuleFor(c => c.Obbligatorio, f => f.Random.Bool())
+            .RuleFor(c => c.Scope, f => f.PickRandom<ScopoConfigurazione>());
     }
 
     private static Configurazione GenerateFakeInvalidSingleData()
     {
-        return new Configurazione
-        {
-            FestaId = Guid.Empty,
-            Chiave = "",
-            Valore = "",
-            Tipo = "",
-            Posizione = 0,
-            Obbligatorio = true,
-            Scope = ScopoConfigurazione.None
-        };
+        return new Faker<Configurazione>()
+            .RuleFor(c => c.FestaId, f => Guid.Empty)
+            .RuleFor(c => c.Chiave, f => string.Empty)
+            .RuleFor(c => c.Valore, f => string.Empty)
+            .RuleFor(c => c.Tipo, f => string.Empty)
+            .RuleFor(c => c.Posizione, f => 0)
+            .RuleFor(c => c.Obbligatorio, f => true)
+            .RuleFor(c => c.Scope, f => ScopoConfigurazione.None);
     }
-
-    #endregion
 }
