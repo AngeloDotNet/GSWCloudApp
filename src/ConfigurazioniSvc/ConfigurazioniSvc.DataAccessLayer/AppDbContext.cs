@@ -8,11 +8,8 @@ namespace ConfigurazioniSvc.DataAccessLayer;
 
 public class AppDbContext : DbContext
 {
-    //private readonly HttpContext? httpContext;
-
     public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
-        //this.httpContext = httpContextAccessor.HttpContext;
         var httpContext = httpContextAccessor.HttpContext;
         var guid = httpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         Guid? userId = guid != null ? Guid.Parse(guid) : null;
