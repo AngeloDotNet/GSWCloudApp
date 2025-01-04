@@ -44,7 +44,7 @@ public class UploadService : IUploadService
 
             var extension = Path.GetExtension(documento.FileName);
             var contentType = documento.ContentType;
-            var lenght = documento.Length;
+            var length = documento.Length;
             var nameFile = documento.FileName;
 
             if (!Constants.AllowedDocumentExtensions.Contains(extension.ToLower()))
