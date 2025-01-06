@@ -44,7 +44,7 @@ public class UploadService : IUploadService
 
             var extension = Path.GetExtension(documento.FileName);
             var contentType = documento.ContentType;
-            var lenght = documento.Length;
+            var length = documento.Length;
             var nameFile = documento.FileName;
 
             if (!Constants.AllowedDocumentExtensions.Contains(extension.ToLower()))
@@ -52,7 +52,8 @@ public class UploadService : IUploadService
                 return TypedResults.BadRequest("This file type is not allowed.");
             }
 
-            if (documento == null || documento.Length == 0)
+            //if (documento == null || documento.Length == 0)
+            if (length == 0)
             {
                 return TypedResults.BadRequest("No file uploaded.");
             }
@@ -62,7 +63,8 @@ public class UploadService : IUploadService
                 Directory.CreateDirectory(documentPath);
             }
 
-            var filePath = Path.Combine(documentPath, documento.FileName);
+            //var filePath = Path.Combine(documentPath, documento.FileName);
+            var filePath = Path.Combine(documentPath, nameFile);
 
             if (File.Exists(filePath))
             {
@@ -78,8 +80,9 @@ public class UploadService : IUploadService
                 Path = documentPath,
                 ContentType = contentType,
                 Extension = extension,
-                Length = lenght,
-                NomeDocumento = documentoDto.NomeDocumento,
+                Length = length,
+                //NomeDocumento = documentoDto.NomeDocumento,
+                NomeDocumento = nameFile,
                 Descrizione = documentoDto.Descrizione
             };
 
