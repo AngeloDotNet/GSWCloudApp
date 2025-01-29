@@ -19,8 +19,8 @@ public static class ApplicationHelpers
     public static async Task ApplyMigrationsAsync<TDbContext>(this WebApplication app) where TDbContext : DbContext
     {
         using var scope = app.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
 
+        var dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
         var dbCreator = dbContext.GetService<IRelationalDatabaseCreator>();
 
         if (!await dbCreator.ExistsAsync())
