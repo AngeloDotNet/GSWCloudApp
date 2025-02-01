@@ -7,8 +7,8 @@ WORKDIR /src
 COPY ["src/GatewaySvc/GatewaySvc/GatewaySvc.csproj", "src/GatewaySvc/GatewaySvc/"]
 
 # Copy the Ocelot configuration files
-COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.configurazioni.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
 COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.gestionedocumenti.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
+COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.gestioneloghi.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
 
 RUN dotnet restore "src/GatewaySvc/GatewaySvc/GatewaySvc.csproj"
 COPY . .

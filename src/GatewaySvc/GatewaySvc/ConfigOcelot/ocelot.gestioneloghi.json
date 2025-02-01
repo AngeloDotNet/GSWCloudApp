@@ -1,0 +1,53 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/immagini/download/{fileName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestioneloghi",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/immagine/{fileName}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/immagini/upload",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestioneloghi",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/immagine",
+            "UpstreamHttpMethod": [ "Post" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/immagini/{fileName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-gestioneloghi",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/immagine/{fileName}",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {}
+}
