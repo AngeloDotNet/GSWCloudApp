@@ -2,7 +2,6 @@ using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Options;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -36,8 +35,7 @@ public class Program
         builder.Services.AddOcelot();
         builder.Services.ConfigureAuthFullTokenJWT<SecurityDbContext>(securityOptions, jwtOptions);
 
-        builder.Services.Configure<KestrelServerOptions>(builder.Configuration.GetSection("Kestrel"));
-        builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+        builder.Services.ConfigureOptions(builder.Configuration);
 
         var app = builder.Build();
 
