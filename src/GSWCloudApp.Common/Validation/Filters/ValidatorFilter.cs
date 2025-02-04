@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using FluentValidation;
+using GSWCloudApp.Common.Validation.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace GSWCloudApp.Common.Validation;
+namespace GSWCloudApp.Common.Validation.Filters;
 
 /// <summary>  
 /// A filter that validates the input of an endpoint using FluentValidation.  

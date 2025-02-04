@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GSWCloudApp.Common.Validation.Filters;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace GSWCloudApp.Common.Validation;
+namespace GSWCloudApp.Common.Validation.Extensions;
 
 /// <summary>
 /// Extension methods for <see cref="RouteHandlerBuilder"/> to add validation.

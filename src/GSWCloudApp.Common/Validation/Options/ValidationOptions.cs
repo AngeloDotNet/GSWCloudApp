@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace GSWCloudApp.Common.Validation;
+namespace GSWCloudApp.Common.Validation.Options;
 
 /// <summary>
 /// Options for configuring validation behavior.

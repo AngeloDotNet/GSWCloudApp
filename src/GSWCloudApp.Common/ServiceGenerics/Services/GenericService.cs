@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using GSWCloudApp.Common.RedisCache;
+using GSWCloudApp.Common.RedisCache.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GSWCloudApp.Common.Services;
+namespace GSWCloudApp.Common.ServiceGenerics.Services;
 
 /// <summary>
 /// Provides generic service methods for handling CRUD operations.
 /// </summary>
-public class GenericService : IGenericService
+internal class GenericService : IGenericService
 {
     /// <summary>
     /// Retrieves all entities of type <typeparamref name="TEntity"/> and maps them to <typeparamref name="TDto"/>.
