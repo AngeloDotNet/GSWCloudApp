@@ -86,8 +86,7 @@ internal class GenericService : IGenericService
             return TypedResults.Ok(mapper.Map<TDto>(entity));
         }
 
-        entity = await dbContext.Set<TEntity>()
-            .AsNoTracking()
+        entity = await dbContext.Set<TEntity>().AsNoTracking()
             .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
         if (entity is null)
@@ -180,8 +179,7 @@ internal class GenericService : IGenericService
     public async Task<Results<NoContent, NotFound>> DeleteAsync<TEntity>(Guid id, DbContext dbContext)
         where TEntity : class
     {
-        var entity = await dbContext.Set<TEntity>()
-            .AsNoTracking()
+        var entity = await dbContext.Set<TEntity>().AsNoTracking()
             .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
         if (entity is null)
