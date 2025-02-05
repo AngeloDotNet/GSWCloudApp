@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Asp.Versioning.ApiExplorer;
+﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -33,11 +32,42 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
     /// <returns>The OpenAPI information for the specified API version.</returns>
     private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
-        var text = new StringBuilder("API endpoints that enable the use of this microservice.");
+        //var text = new StringBuilder("API endpoints that enable the use of this microservice.");
+        //var info = new OpenApiInfo()
+        //{
+        //    Title = "API endpoints",
+        //    Version = description.ApiVersion.ToString(),
+        //    Contact = new OpenApiContact()
+        //    {
+        //        Name = "Angelo Pirola",
+        //        Email = "angelo@aepserver.it",
+        //        Url = new Uri("https://angelo.aepserver.it/")
+        //    },
+        //    License = new OpenApiLicense()
+        //    {
+        //        Name = "MIT License",
+        //        Url = new Uri("https://opensource.org/licenses/MIT")
+        //    }
+        //};
+
+        //if (description.IsDeprecated)
+        //{
+        //    text.Append(" This API version has been deprecated.");
+        //}
+
+        //info.Description = text.ToString();
+
+        //return info;
+
+        var descriptionText = description.IsDeprecated
+            ? "API endpoints that enable the use of this microservice. This API version has been deprecated."
+            : "API endpoints that enable the use of this microservice.";
+
         var info = new OpenApiInfo()
         {
             Title = "API endpoints",
             Version = description.ApiVersion.ToString(),
+            Description = descriptionText,
             Contact = new OpenApiContact()
             {
                 Name = "Angelo Pirola",
@@ -50,13 +80,6 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
                 Url = new Uri("https://opensource.org/licenses/MIT")
             }
         };
-
-        if (description.IsDeprecated)
-        {
-            text.Append(" This API version has been deprecated.");
-        }
-
-        info.Description = text.ToString();
 
         return info;
     }
