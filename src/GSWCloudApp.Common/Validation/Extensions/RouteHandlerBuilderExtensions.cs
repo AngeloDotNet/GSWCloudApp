@@ -16,7 +16,5 @@ public static class RouteHandlerBuilderExtensions
     /// <param name="builder">The route handler builder.</param>
     /// <returns>The route handler builder with validation added.</returns>
     public static RouteHandlerBuilder WithValidation<T>(this RouteHandlerBuilder builder) where T : class
-    {
-        return builder.AddEndpointFilter<ValidatorFilter<T>>().ProducesValidationProblem();
-    }
+        => builder.AddEndpointFilter<ValidatorFilter<T>>().ProducesValidationProblem();
 }

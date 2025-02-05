@@ -3,7 +3,7 @@ using GSWCloudApp.Common.RedisCache.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
-namespace GSWCloudApp.Common.RedisCache;
+namespace GSWCloudApp.Common.RedisCache.Services;
 
 /// <summary>
 /// Provides methods for interacting with the distributed cache.

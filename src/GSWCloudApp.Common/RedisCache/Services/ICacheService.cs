@@ -1,4 +1,4 @@
-namespace GSWCloudApp.Common.RedisCache;
+namespace GSWCloudApp.Common.RedisCache.Services;
 
 /// <summary>
 /// Defines methods for interacting with the cache.
