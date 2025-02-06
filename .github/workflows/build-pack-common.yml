@@ -1,9 +1,9 @@
 name: Build and Pack Common
 
 on:
-  push:
-    branches: [ main ]
-    paths: [ 'src/GSWCloudApp.Common/**' ]
+  #push:
+    #branches: [ main ]
+    #paths: [ 'src/GSWCloudApp.Common/**' ]
   workflow_dispatch:
       
 env:
