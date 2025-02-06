@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GSWCloudApp.Common.ServiceGenerics.Services;
+namespace GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
 
 /// <summary>
 /// Defines generic service methods for handling CRUD operations.

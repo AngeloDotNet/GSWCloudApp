@@ -6,6 +6,11 @@ namespace GSWCloudApp.Common.Polly;
 
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Creates an asynchronous retry policy with exponential backoff.
+    /// </summary>
+    /// <param name="logger">The logger to use for logging retry attempts.</param>
+    /// <returns>An asynchronous retry policy.</returns>
     public static AsyncRetryPolicy GetRetryPolicy(ILogger logger)
     {
         return Policy.Handle<Exception>().WaitAndRetryAsync(

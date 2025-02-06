@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace GSWCloudApp.Common.Extensions;
 
@@ -14,10 +15,13 @@ public static class EnumerationExtensions
     /// <returns>The description of the enumeration value if it exists; otherwise, the enumeration value as a string.</returns>
     public static string GetDescription(this Enum value)
     {
-        var enumString = value.ToString();
-        var fi = value.GetType().GetField(enumString)!;
-        var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        var fi = value.GetType().GetField(value.ToString())!;
 
-        return attributes.Length != 0 ? attributes[0].Description : enumString;
+        if (fi.GetCustomAttribute(typeof(DescriptionAttribute), false) is DescriptionAttribute attribute)
+        {
+            return attribute.Description;
+        }
+
+        return value.ToString();
     }
 }

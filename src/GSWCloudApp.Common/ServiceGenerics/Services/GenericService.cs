@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GSWCloudApp.Common.RedisCache.Services;
+using GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
