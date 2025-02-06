@@ -1,0 +1,22 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/email/invioemail",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    //"Host": "alb-gestioneloghi",
+                    "Host": "localhost",
+                    "Port": 5257
+                }
+            ],
+            "UpstreamPathTemplate": "/invioemail",
+            "UpstreamHttpMethod": [ "Post" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {}
+}
