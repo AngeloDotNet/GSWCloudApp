@@ -32,14 +32,14 @@ public static class IEndpointRouteBuilderExtensions
 
         var endpointRouteHandlerBuilderTypes = assembly.GetTypes().Where(t =>
             t.IsClass && !t.IsAbstract && !t.IsGenericType
-            && endpointRouteHandlerBuilderInterfaceType.IsAssignableFrom(t) && (predicate?.Invoke(t) ?? true));
+            && endpointRouteHandlerBuilderInterfaceType.IsAssignableFrom(t) && (predicate?.Invoke(t) ?? true)).ToArray();
 
         foreach (var endpointRouteHandlerBuilderType in endpointRouteHandlerBuilderTypes)
         {
             var mapEndpointsMethod = endpointRouteHandlerBuilderType.GetMethod(nameof(IEndpointRouteHandlerBuilder.MapEndpoints),
-                BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!;
+                BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
-            mapEndpointsMethod.Invoke(null, [endpoints]);
+            mapEndpointsMethod?.Invoke(null, [endpoints]);
         }
     }
 
