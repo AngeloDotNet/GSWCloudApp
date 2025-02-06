@@ -3,6 +3,7 @@ using GSWCloudApp.Common.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace GSWCloudApp.Common.Extensions;
@@ -35,8 +36,11 @@ public static class ApplicationExtensions
     /// </summary>
     /// <param name="app">The web application.</param>
     /// <param name="options">The application options.</param>
-    public static void UseDevSwagger(this WebApplication app, ApplicationOptions options)
+    //public static void UseDevSwagger(this WebApplication app, ApplicationOptions options)
+    public static void UseDevSwagger(this WebApplication app, IConfiguration configuration)
     {
+        var options = configuration.GetSection("ApplicationOptions").Get<ApplicationOptions>() ?? new();
+
         if (app.Environment.IsDevelopment() || options.SwaggerEnable)
         {
             app.UseSwagger();
