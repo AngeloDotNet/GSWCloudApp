@@ -8,6 +8,12 @@ namespace GSWCloudApp.Common.Identity.Requirements;
 
 public class UserActiveHandler(UserManager<ApplicationUser> userManager) : AuthorizationHandler<UserActiveRequirement>
 {
+    /// <summary>
+    /// Makes a decision if authorization is allowed based on a specific requirement.
+    /// </summary>
+    /// <param name="context">The authorization context.</param>
+    /// <param name="requirement">The requirement to evaluate.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UserActiveRequirement requirement)
     {
         if (context.User.Identity != null && context.User.Identity.IsAuthenticated)
