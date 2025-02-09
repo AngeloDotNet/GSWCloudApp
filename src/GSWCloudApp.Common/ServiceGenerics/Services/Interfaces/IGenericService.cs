@@ -1,94 +1,67 @@
-﻿using AutoMapper;
-using GSWCloudApp.Common.RedisCache.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
 
-/// <summary>
-/// Defines generic service methods for handling CRUD operations.
-/// </summary>
-internal interface IGenericService
+public interface IGenericService
 {
     /// <summary>
-    /// Retrieves all entities of type <typeparamref name="TEntity"/> and maps them to <typeparamref name="TDto"/>.
+    /// Retrieves all entities of type <typeparamref name="TEntity"/> from the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="cacheData">Indicates whether to cache the data.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>A list of DTOs or a NotFound result.</returns>
-    Task<Results<Ok<List<TDto>>, NotFound>> GetAllAsync<TEntity, TDto>([FromQuery] bool cacheData, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class;
+    /// <param name="dbContext">The database context to use.</param>
+    /// <param name="includes">A function to include related entities.</param>
+    /// <param name="filter">An expression to filter the entities.</param>
+    /// <param name="orderBy">An expression to order the entities.</param>
+    /// <param name="ascending">A boolean indicating whether the order should be ascending.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="IQueryable{TEntity}"/> of entities.</returns>
+    Task<IQueryable<TEntity>> GetAllAsync<TEntity>(DbContext dbContext, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null!,
+        Expression<Func<TEntity, bool>> filter = null!, Expression<Func<TEntity, object>> orderBy = null!, bool ascending = true) where TEntity : class;
 
     /// <summary>
-    /// Retrieves an entity of type <typeparamref name="TEntity"/> by its ID and maps it to <typeparamref name="TDto"/>.
+    /// Retrieves an entity of type <typeparamref name="TEntity"/> by its identifier from the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The DTO or a NotFound result.</returns>
-    Task<Results<Ok<TDto>, NotFound>> GetByIdAsync<TEntity, TDto>([FromQuery] bool cacheData, Guid id, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class;
+    /// <param name="id">The identifier of the entity.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the entity.</returns>
+    Task<TEntity> GetByIdAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class;
 
     /// <summary>
-    /// Creates a new entity of type <typeparamref name="TEntity"/> from the provided DTO and maps it to <typeparamref name="TDto"/>.
+    /// Adds a new entity of type <typeparamref name="TEntity"/> to the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <typeparam name="TCreateDto">The type of the create DTO.</typeparam>
-    /// <param name="createDto">The create DTO.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The created DTO or a BadRequest result.</returns>
-    Task<Results<Ok<TDto>, BadRequest<string>>> PostAsync<TEntity, TDto, TCreateDto>(TCreateDto createDto, DbContext dbContext, IMapper mapper)
-        where TEntity : class
-        where TDto : class;
+    /// <param name="entity">The entity to add.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the added entity.</returns>
+    Task<TEntity> PostAsync<TEntity>(TEntity entity, DbContext dbContext) where TEntity : class;
 
     /// <summary>
-    /// Updates an existing entity of type <typeparamref name="TEntity"/> with the provided DTO and maps it to <typeparamref name="TDto"/>.
+    /// Updates an existing entity of type <typeparamref name="TEntity"/> in the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <typeparam name="TEditDto">The type of the edit DTO.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="editDto">The edit DTO.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The updated DTO, a NotFound result, or a BadRequest result.</returns>
-    Task<Results<Ok<TDto>, NotFound, BadRequest<string>>> UpdateAsync<TEntity, TDto, TEditDto>(Guid id, TEditDto editDto, DbContext dbContext, IMapper mapper)
-        where TEntity : class
-        where TDto : class;
+    /// <param name="entity">The entity to update.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the updated entity.</returns>
+    Task<TEntity> UpdateAsync<TEntity>(TEntity entity, DbContext dbContext) where TEntity : class;
 
     /// <summary>
-    /// Deletes an entity of type <typeparamref name="TEntity"/> by its ID.
+    /// Deletes an entity of type <typeparamref name="TEntity"/> by its identifier from the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <returns>A NoContent result or a NotFound result.</returns>
-    Task<Results<NoContent, NotFound>> DeleteAsync<TEntity>(Guid id, DbContext dbContext)
-        where TEntity : class;
+    /// <param name="id">The identifier of the entity.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task DeleteAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class;
 
     /// <summary>
-    /// Filters entities of type <typeparamref name="TEntity"/> by the specified festa ID and maps them to <typeparamref name="TDto"/>.
+    /// Retrieves a paginated list of entities of type <typeparamref name="TEntity"/> from the specified <paramref name="query"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="festaId">The festa ID.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>A list of DTOs or a NotFound result.</returns>
-    Task<Results<Ok<List<TDto>>, NotFound>> FilterByIdFestaAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class;
+    /// <param name="query">The query to retrieve the entities.</param>
+    /// <param name="pageNumber">The page number to retrieve.</param>
+    /// <param name="pageSize">The size of the page to retrieve.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Paging{TEntity}"/> object with the paginated entities.</returns>
+    Task<Paging<TEntity>> GetAllPaginingAsync<TEntity>(IQueryable<TEntity> query, int pageNumber, int pageSize) where TEntity : class;
 }
