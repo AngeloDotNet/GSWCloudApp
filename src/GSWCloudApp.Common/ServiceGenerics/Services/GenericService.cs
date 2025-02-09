@@ -1,233 +1,134 @@
-﻿using AutoMapper;
-using GSWCloudApp.Common.RedisCache.Services;
+﻿using System.Linq.Expressions;
 using GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace GSWCloudApp.Common.ServiceGenerics.Services;
 
-/// <summary>
-/// Provides generic service methods for handling CRUD operations.
-/// </summary>
-internal class GenericService : IGenericService
+public class GenericService : IGenericService
 {
     /// <summary>
-    /// Retrieves all entities of type <typeparamref name="TEntity"/> and maps them to <typeparamref name="TDto"/>.
+    /// Retrieves all entities of type <typeparamref name="TEntity"/> from the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="cacheData">Indicates whether to cache the data.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>A list of DTOs or a NotFound result.</returns>
-    public async Task<Results<Ok<List<TDto>>, NotFound>> GetAllAsync<TEntity, TDto>([FromQuery] bool cacheData, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class
+    /// <param name="dbContext">The database context to use.</param>
+    /// <param name="includes">A function to include related entities.</param>
+    /// <param name="filter">An expression to filter the entities.</param>
+    /// <param name="orderBy">An expression to order the entities.</param>
+    /// <param name="ascending">A boolean indicating whether the order should be ascending.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="IQueryable{TEntity}"/> of entities.</returns>
+    public async Task<IQueryable<TEntity>> GetAllAsync<TEntity>(DbContext dbContext, Func<IQueryable<TEntity>,
+        IIncludableQueryable<TEntity, object>> includes = null!, Expression<Func<TEntity, bool>> filter = null!,
+        Expression<Func<TEntity, object>> orderBy = null!, bool ascending = true) where TEntity : class
     {
-        var cacheKey = typeof(TEntity).Name;
-        var entity = new List<TEntity>();
+        var query = dbContext.Set<TEntity>().AsNoTracking();
 
-        if (!cacheData)
+        if (includes != null)
         {
-            entity = await dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
-
-            if (entity.Count == 0)
-            {
-                return TypedResults.NotFound();
-            }
-
-            return TypedResults.Ok(mapper.Map<List<TDto>>(entity));
+            query = includes(query);
         }
 
-        entity = await cacheService.GetCacheAsync<List<TEntity>>(cacheKey);
-
-        if (entity != null)
+        if (filter != null)
         {
-            return TypedResults.Ok(mapper.Map<List<TDto>>(entity));
+            query = query.Where(filter);
         }
 
-        entity = await dbContext.Set<TEntity>()
-            .AsNoTracking()
-            .ToListAsync();
-
-        if (entity.Count == 0)
+        if (orderBy != null)
         {
-            return TypedResults.NotFound();
+            query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
         }
 
-        await cacheService.SetCacheAsync(cacheKey, entity);
-
-        var result = mapper.Map<List<TDto>>(entity);
-
-        return TypedResults.Ok(result);
+        return await Task.FromResult(query);
     }
 
     /// <summary>
-    /// Retrieves an entity of type <typeparamref name="TEntity"/> by its ID and maps it to <typeparamref name="TDto"/>.
+    /// Retrieves an entity of type <typeparamref name="TEntity"/> by its identifier from the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The DTO or a NotFound result.</returns>
-    public async Task<Results<Ok<TDto>, NotFound>> GetByIdAsync<TEntity, TDto>([FromQuery] bool cacheData, Guid id, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class
-    {
-        var cacheKey = $"{typeof(TEntity).Name}-{id}";
-        var entity = await cacheService.GetCacheAsync<TEntity>(cacheKey);
-
-        if (entity != null)
-        {
-            return TypedResults.Ok(mapper.Map<TDto>(entity));
-        }
-
-        entity = await dbContext.Set<TEntity>().AsNoTracking()
-            .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
-
-        if (entity is null)
-        {
-            return TypedResults.NotFound();
-        }
-
-        await cacheService.SetCacheAsync(cacheKey, entity);
-
-        var result = mapper.Map<TDto>(entity);
-
-        return TypedResults.Ok(result);
-    }
-
-    /// <summary>
-    /// Creates a new entity of type <typeparamref name="TEntity"/> from the provided DTO and maps it to <typeparamref name="TDto"/>.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <typeparam name="TCreateDto">The type of the create DTO.</typeparam>
-    /// <param name="createDto">The create DTO.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The created DTO or a BadRequest result.</returns>
-    public async Task<Results<Ok<TDto>, BadRequest<string>>> PostAsync<TEntity, TDto, TCreateDto>(TCreateDto createDto, DbContext dbContext, IMapper mapper)
-        where TEntity : class
-        where TDto : class
-    {
-        var entity = mapper.Map<TEntity>(createDto);
-
-        dbContext.Set<TEntity>().Add(entity);
-
-        try
-        {
-            await dbContext.SaveChangesAsync();
-
-            return TypedResults.Ok(mapper.Map<TDto>(entity));
-        }
-        catch (Exception ex)
-        {
-            return TypedResults.BadRequest(ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Updates an existing entity of type <typeparamref name="TEntity"/> with the provided DTO and maps it to <typeparamref name="TDto"/>.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <typeparam name="TEditDto">The type of the edit DTO.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="editDto">The edit DTO.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>The updated DTO, a NotFound result, or a BadRequest result.</returns>
-    public async Task<Results<Ok<TDto>, NotFound, BadRequest<string>>> UpdateAsync<TEntity, TDto, TEditDto>(Guid id, TEditDto editDto, DbContext dbContext, IMapper mapper)
-        where TEntity : class
-        where TDto : class
-    {
-        var entity = await dbContext.Set<TEntity>().FindAsync(id);
-
-        if (entity is null)
-        {
-            return TypedResults.NotFound();
-        }
-
-        mapper.Map(editDto, entity);
-
-        dbContext.Set<TEntity>().Update(entity);
-
-        try
-        {
-            await dbContext.SaveChangesAsync();
-
-            return TypedResults.Ok(mapper.Map<TDto>(entity));
-        }
-        catch (Exception ex)
-        {
-            return TypedResults.BadRequest(ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Deletes an entity of type <typeparamref name="TEntity"/> by its ID.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <returns>A NoContent result or a NotFound result.</returns>
-    public async Task<Results<NoContent, NotFound>> DeleteAsync<TEntity>(Guid id, DbContext dbContext)
-        where TEntity : class
+    /// <param name="id">The identifier of the entity.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the entity.</returns>
+    public async Task<TEntity> GetByIdAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class
     {
         var entity = await dbContext.Set<TEntity>().AsNoTracking()
             .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
         if (entity is null)
         {
-            return TypedResults.NotFound();
+            return null!;
         }
 
-        dbContext.Set<TEntity>().Remove(entity);
-        await dbContext.SaveChangesAsync();
-
-        return TypedResults.NoContent();
+        return entity;
     }
 
     /// <summary>
-    /// Filters entities of type <typeparamref name="TEntity"/> by the specified festa ID and maps them to <typeparamref name="TDto"/>.
+    /// Adds a new entity of type <typeparamref name="TEntity"/> to the specified <paramref name="dbContext"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TDto">The type of the DTO.</typeparam>
-    /// <param name="festaId">The festa ID.</param>
-    /// <param name="dbContext">The database context.</param>
-    /// <param name="cacheService">The cache service.</param>
-    /// <param name="mapper">The mapper.</param>
-    /// <returns>A list of DTOs or a NotFound result.</returns>
-    public async Task<Results<Ok<List<TDto>>, NotFound>> FilterByIdFestaAsync<TEntity, TDto>(Guid festaId, DbContext dbContext, ICacheService cacheService, IMapper mapper)
-        where TEntity : class
-        where TDto : class
+    /// <param name="entity">The entity to add.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the added entity.</returns>
+    public async Task<TEntity> PostAsync<TEntity>(TEntity entity, DbContext dbContext) where TEntity : class
     {
-        var cacheKey = $"{typeof(TEntity).Name}-{festaId}";
-        var entity = await cacheService.GetCacheAsync<List<TEntity>>(cacheKey);
+        dbContext.Set<TEntity>().Add(entity);
+        await dbContext.SaveChangesAsync();
 
-        if (entity != null)
+        return entity;
+    }
+
+    /// <summary>
+    /// Updates an existing entity of type <typeparamref name="TEntity"/> in the specified <paramref name="dbContext"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <param name="entity">The entity to update.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the updated entity.</returns>
+    public async Task<TEntity> UpdateAsync<TEntity>(TEntity entity, DbContext dbContext) where TEntity : class
+    {
+        dbContext.Set<TEntity>().Update(entity);
+        await dbContext.SaveChangesAsync();
+
+        return entity;
+    }
+
+    /// <summary>
+    /// Deletes an entity of type <typeparamref name="TEntity"/> by its identifier from the specified <paramref name="dbContext"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <param name="id">The identifier of the entity.</param>
+    /// <param name="dbContext">The database context to use.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task DeleteAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class
+    {
+        var entity = await dbContext.Set<TEntity>().AsNoTracking()
+            .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+
+        dbContext.Set<TEntity>().Remove(entity!);
+        await dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of entities of type <typeparamref name="TEntity"/> from the specified <paramref name="query"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <param name="query">The query to retrieve the entities.</param>
+    /// <param name="pageNumber">The page number to retrieve.</param>
+    /// <param name="pageSize">The size of the page to retrieve.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Paging{TEntity}"/> object with the paginated entities.</returns>
+    public async Task<Paging<TEntity>> GetAllPaginingAsync<TEntity>(IQueryable<TEntity> query, int pageNumber, int pageSize) where TEntity : class
+    {
+        var entities = new Paging<TEntity>
         {
-            return TypedResults.Ok(mapper.Map<List<TDto>>(entity));
-        }
+            CurrentPage = pageNumber,
+            PageSize = pageSize,
+            TotalItems = await query.CountAsync(),
+            Items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync()
+        };
 
-        entity = await dbContext.Set<TEntity>()
-            .AsNoTracking()
-            .Where(e => EF.Property<Guid>(e, "FestaId") == festaId)
-            .ToListAsync();
-
-        if (entity.Count == 0)
+        return entities.Items.Count switch
         {
-            return TypedResults.NotFound();
-        }
-
-        await cacheService.SetCacheAsync(cacheKey, entity);
-
-        return TypedResults.Ok(mapper.Map<List<TDto>>(entity));
+            0 => null!,
+            _ => entities
+        };
     }
 }
