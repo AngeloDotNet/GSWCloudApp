@@ -6,16 +6,6 @@
 public static class MinimalApi
 {
     /// <summary>
-    /// The route pattern for identifying an entity by its GUID.
-    /// </summary>
-    public const string PatternById = "{id:guid}";
-
-    /// <summary>
-    /// The route pattern for filtering entities by a specific GUID.
-    /// </summary>
-    public const string PatternFilterById = "/filter/{festaid:guid}";
-
-    /// <summary>
     /// The route pattern for uploading files.
     /// </summary>
     public const string PatternUpload = "/upload";
