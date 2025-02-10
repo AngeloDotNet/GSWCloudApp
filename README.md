@@ -1,6 +1,7 @@
-# Gestione Sagre Web Cloud App
+﻿# Gestione Sagre Web Cloud App
 
-Gestione Sagre Web Cloud App - Progetto che nasce con l'idea di voler realizzare un software libero che permetta la gestione di sagre, eventi o manifestazioni in cui sia necessario controllare le comande per la cucina e/o il bar.
+Gestione Sagre Web Cloud App - Project born with the idea of ​​creating a free software that allows the
+management of festivals or events in which it is necessary to control the orders for the kitchen and/or the bar.
 
 ### Prerequisites
 
