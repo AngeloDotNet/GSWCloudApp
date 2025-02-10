@@ -10,7 +10,7 @@ public class SmtpSettings
     /// <summary>
     /// Gets or sets the SMTP server host.
     /// </summary>
-    public string Host { get; set; } = string.Empty;
+    public string? Host { get; set; }
 
     /// <summary>
     /// Gets or sets the port number to use for the SMTP server.
