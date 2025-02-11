@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AutenticazioneSvc.DataAccessLayer\AutenticazioneSvc.DataAccessLayer.csproj" />
   </ItemGroup>
 
