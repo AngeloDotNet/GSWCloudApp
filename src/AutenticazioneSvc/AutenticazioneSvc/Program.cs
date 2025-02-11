@@ -3,7 +3,6 @@ using AutenticazioneSvc.BusinessLayer.Services;
 using AutenticazioneSvc.DataAccessLayer;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
-using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Routing;
 using BLConstants = GSWCloudApp.Common.Constants.BusinessLayer;
 
@@ -20,19 +19,22 @@ public class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.ConfigureJsonOptions();
 
-        var postgresConnection = IConfigurationExtensions.GetDatabaseConnection(builder, "SqlAutentica");
-        var appOptions = IConfigurationExtensions.GetApplicationOptions(builder);
+        //var postgresConnection = IConfigurationExtensions.GetDatabaseConnection(builder, "SqlAutentica");
+        //var appOptions = IConfigurationExtensions.GetApplicationOptions(builder);
 
-        var jwtOptions = IConfigurationExtensions.GetJwtOptions(builder);
-        var securityOptions = new SecurityOptions();
+        //var jwtOptions = IConfigurationExtensions.GetJwtOptions(builder);
+        //var securityOptions = new SecurityOptions();
 
-        builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
+        //builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(postgresConnection, appOptions);
+        builder.Services.ConfigureDbContext<Program, AppDbContext>(builder.Configuration, "SqlAutentica");
         builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
 
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
 
-        builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtOptions);
+        //builder.Services.ConfigureAuthFullTokenJWT<AppDbContext>(securityOptions, jwtOptions);
+        //builder.Services.ConfigureJWTSettings<SecurityDbContext>(builder.Configuration);
+        builder.Services.ConfigureJWTSettings<AppDbContext>(builder.Configuration);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
@@ -48,7 +50,7 @@ public class Program
         app.UseExceptionHandler();
 
         app.UseStatusCodePages();
-        app.UseDevSwagger(appOptions);
+        app.UseDevSwagger(builder.Configuration);
 
         app.UseForwardNetworking();
         app.UseRouting();

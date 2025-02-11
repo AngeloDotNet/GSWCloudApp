@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GSWCloudApp.Common" Version="1.0.70" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\GSWCloudApp.Common\GSWCloudApp.Common.csproj" />
+    </ItemGroup>
 
 </Project>

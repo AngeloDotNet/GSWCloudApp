@@ -8,15 +8,15 @@ using GSWCloudApp.Common.Identity.Entities;
 using GSWCloudApp.Common.Identity.Extensions;
 using GSWCloudApp.Common.Identity.Options;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AutenticazioneSvc.BusinessLayer.Services;
 
-public class IdentityService(IOptions<JwtOptions> jwtOptions, UserManager<ApplicationUser> userManager,
-    SignInManager<ApplicationUser> signInManager) : IIdentityService
+public class IdentityService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+    IConfiguration configuration) : IIdentityService
 {
-    private readonly JwtOptions jwtSettings = jwtOptions.Value;
+    private readonly JwtOptions jwtSettings = configuration.GetSection("JwtOptions").Get<JwtOptions>() ?? new();
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
