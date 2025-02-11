@@ -11,6 +11,7 @@ COPY ["src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/AutenticazioneSvc
 #COPY ["src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/AutenticazioneSvc.IntegrationTest.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.IntegrationTest/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.Migrations/AutenticazioneSvc.Migrations.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.Migrations/"]
 COPY ["src/AutenticazioneSvc/AutenticazioneSvc.Shared/AutenticazioneSvc.Shared.csproj", "src/AutenticazioneSvc/AutenticazioneSvc.Shared/"]
+COPY ["src/GSWCloudApp.Common/GSWCloudApp.Common.csproj", "src/GSWCloudApp.Common/"]
 
 RUN dotnet restore "src/AutenticazioneSvc/AutenticazioneSvc/AutenticazioneSvc.csproj"
 COPY . .
