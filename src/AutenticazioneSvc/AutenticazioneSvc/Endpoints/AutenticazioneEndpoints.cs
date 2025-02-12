@@ -1,6 +1,7 @@
 ﻿using AutenticazioneSvc.BusinessLayer.Services;
 using AutenticazioneSvc.Shared.DTO;
 using GSWCloudApp.Common.Routing;
+using GSWCloudApp.Common.Validation.Extensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.OpenApi.Models;
 
@@ -21,17 +22,21 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
             })
             .AllowAnonymous();
 
-        apiGroup.MapPost("/login", async Task<Results<Ok<AuthResponse>, BadRequest>> (LoginRequest request,
-            IIdentityService identityService) =>
+        apiGroup.MapPost("/login", async Task<Results<Ok<AuthResponse>, BadRequest>> (LoginRequest request, IIdentityService identityService) =>
         {
-            return await identityService.LoginAsync(request) switch
+            var result = await identityService.LoginAsync(request);
+
+            if (result != null)
             {
-                { } response => TypedResults.Ok(response),
-                _ => TypedResults.BadRequest()
-            };
+                return TypedResults.Ok(result);
+            }
+
+            return TypedResults.BadRequest();
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+        .WithValidation<LoginRequest>()
         .WithOpenApi(opt =>
         {
             opt.Summary = "User authentication process";
@@ -43,14 +48,19 @@ public class AutenticazioneEndpoints : IEndpointRouteHandlerBuilder
         apiGroup.MapPost("/refresh-token", async Task<Results<Ok<AuthResponse>, BadRequest>> (RefreshTokenRequest request,
             IIdentityService identityService) =>
         {
-            return await identityService.RefreshTokenAsync(request) switch
+            var result = await identityService.RefreshTokenAsync(request);
+
+            if (result != null)
             {
-                { } response => TypedResults.Ok(response),
-                _ => TypedResults.BadRequest()
-            };
+                return TypedResults.Ok(result);
+            }
+
+            return TypedResults.BadRequest();
         })
         .Produces<AuthResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+        .WithValidation<RefreshTokenRequest>()
         .WithOpenApi(opt =>
         {
             opt.Summary = "Token refresh process";
