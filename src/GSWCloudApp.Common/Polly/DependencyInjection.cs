@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GSWCloudApp.Common.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 
@@ -11,12 +13,14 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="logger">The logger to use for logging retry attempts.</param>
     /// <returns>An asynchronous retry policy.</returns>
-    public static AsyncRetryPolicy GetRetryPolicy(ILogger logger)
+    public static AsyncRetryPolicy GetRetryPolicy(this IConfiguration configuration, ILogger logger)
     {
-        return Policy.Handle<Exception>().WaitAndRetryAsync(
-            retryCount: 3, // Numero di tentativi
-            sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(5, attempt)), // Intervallo esponenziale
-            onRetry: (exc, timespan, attempt, context)
-            => logger.LogWarning(exc, "Tentativo {Attempt} fallito. Riprovo tra {TimespanSeconds} secondi.", attempt, timespan.TotalSeconds));
+        var options = configuration.GetSection("PollyPolicyOptions").Get<PollyPolicyOptions>() ?? new();
+
+        return Policy.Handle<Exception>()
+            .WaitAndRetryAsync(retryCount: options.RetryCount, sleepDurationProvider: attempt
+                => TimeSpan.FromSeconds(Math.Pow(options.SleepDuration, attempt)),
+                onRetry: (exc, timespan, attempt, context)
+                    => logger.LogWarning(exc, "Tentativo {Attempt} fallito. Riprovo tra {TimespanSeconds} secondi.", attempt, timespan.TotalSeconds));
     }
 }
