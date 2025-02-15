@@ -400,3 +400,6 @@ FodyWeavers.xsd
 
 # Docker
 .env
+
+# Files json
+configurations.json
