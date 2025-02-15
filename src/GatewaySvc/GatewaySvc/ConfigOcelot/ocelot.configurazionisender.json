@@ -1,0 +1,53 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionisender",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesender",
+            "UpstreamHttpMethod": [ "Get" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionisender",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesender",
+            "UpstreamHttpMethod": [ "Post" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionisender",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesender",
+            "UpstreamHttpMethod": [ "Patch" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {}
+}

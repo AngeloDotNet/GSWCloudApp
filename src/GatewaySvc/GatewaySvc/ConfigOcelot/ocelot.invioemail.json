@@ -5,9 +5,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    //"Host": "alb-gestioneloghi",
-                    "Host": "localhost",
-                    "Port": 5257
+                    "Host": "alb-invioemail",
+                    "Port": 5001
                 }
             ],
             "UpstreamPathTemplate": "/invioemail",

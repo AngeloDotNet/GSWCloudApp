@@ -1,0 +1,53 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionismtp",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesmtp",
+            "UpstreamHttpMethod": [ "Get" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionismtp",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesmtp",
+            "UpstreamHttpMethod": [ "Post" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/configurazionismtp",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "alb-configurazionesmtp",
+                    "Port": 5001
+                }
+            ],
+            "UpstreamPathTemplate": "/configurazionesmtp",
+            "UpstreamHttpMethod": [ "Patch" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {}
+}
