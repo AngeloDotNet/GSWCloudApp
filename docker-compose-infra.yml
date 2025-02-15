@@ -12,24 +12,6 @@ services:
     networks:
       - lan-network
 
-  rabbitmq:
-    image: ${IMAGE_RABBITMQ}
-    container_name: infra-rabbitmq
-    restart: "always"
-    volumes:
-      - /docker/storage/storage-infra-rabbitmq/files:/var/lib/rabbitmq
-      - /docker/storage/storage-infra-rabbitmq/logs:/var/log/rabbitmq/log
-    ports:
-      - 5672:5672
-      - 15672:15672
-      - 15692:15692
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-      - RABBITMQ_NODENAME=${RABBITMQ_NODENAME}
-    networks:
-      - lan-network
-
   postgres:
     image: ${IMAGE_POSTGRES}
     container_name: infra-postgres
