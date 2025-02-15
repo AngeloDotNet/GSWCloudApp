@@ -1,11 +1,16 @@
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Options;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 namespace GatewaySvc;
 
+/// <summary>
+/// The main entry point for the application.
+/// </summary>
+/// <param name="args">The command-line arguments.</param>
 public class Program
 {
     public static void Main(string[] args)
@@ -22,6 +27,7 @@ public class Program
         }
 
         builder.Services.AddOcelot();
+        builder.Services.Configure<KestrelServerOptions>(builder.Configuration.GetSection("Kestrel"));
 
         builder.Services.ConfigureJWTSettings<SecurityDbContext>(builder.Configuration);
         builder.Services.ConfigureOptions(builder.Configuration);

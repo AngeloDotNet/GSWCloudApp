@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+  autenticazione-alb:
+    image: ${IMAGE_AUTENTICAZIONE_ALB}
+    container_name: alb-autenticazione
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-alb-autenticazione/appsettings.json:/app/appsettings.json
+    ports:
+      - 5101:5001
+    networks:
+      - lan-network
+
+  gestionedocumenti-alb:
+    image: ${IMAGE_GESTIONEDOCUMENTI_ALB}
+    container_name: alb-gestionedocumenti
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-alb-gestionedocumenti/appsettings.json:/app/appsettings.json
+    networks:
+      - lan-network
+
+  gestioneloghi-alb:
+    image: ${IMAGE_GESTIONELOGHI_ALB}
+    container_name: alb-gestioneloghi
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-alb-gestioneloghi/appsettings.json:/app/appsettings.json
+    networks:
+      - lan-network
+
+  configurazionesmtp-alb:
+    image: ${IMAGE_CONFIGURAZIONESMTP_ALB}
+    container_name: alb-configurazionesmtp
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-alb-configurazionesmtp/appsettings.json:/app/appsettings.json
+    networks:
+      - lan-network
+
+  invioemail-alb:
+    image: ${IMAGE_INVIOEMAIL_ALB}
+    container_name: alb-invioemail
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-alb-invioemail/appsettings.json:/app/appsettings.json
+    networks:
+      - lan-network
+
+networks:
+  lan-network:
+    external:
+      name: docker-net
