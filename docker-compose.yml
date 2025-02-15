@@ -43,7 +43,7 @@ services:
       - lan-network
 
   gestioneloghi:
-    image: ${IMAGE_GETIONELOGHI}
+    image: ${IMAGE_GESTIONELOGHI}
     container_name: api-gestioneloghi
     restart: "always"
     environment:

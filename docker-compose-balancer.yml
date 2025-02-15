@@ -28,7 +28,7 @@ services:
       - lan-network
 
   gestioneloghi-alb:
-    image: ${IMAGE_GETIONELOGHI_ALB}
+    image: ${IMAGE_GESTIONELOGHI_ALB}
     container_name: alb-gestioneloghi
     restart: "always"
     environment:
