@@ -67,7 +67,6 @@ public static class ConfigurationAppExtensions
 
     private static readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
     {
-        IndentSize = 2,
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         WriteIndented = true
