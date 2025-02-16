@@ -15,16 +15,29 @@ services:
     networks:
       - lan-network
 
-  autenticazione:
-    image: ${IMAGE_AUTENTICAZIONE}
-    container_name: api-autenticazione
+  configurazionesmtp:
+    image: ${IMAGE_CONFIGURAZIONESMTP}
+    container_name: api-configurazionesmtp
     restart: "always"
     environment:
       - ASPNETCORE_ENVIRONMENT="production"
       - ASPNETCORE_URLS=http://*:5001
     volumes:
-      - /docker/storage/storage-api-autenticazione/appsettings.json:/app/appsettings.json
-      - /docker/storage/storage-api-autenticazione/logs:/app/Logs
+      - /docker/storage/storage-api-configurazionesmtp/appsettings.json:/app/appsettings.json
+      - /docker/storage/storage-api-configurazionesmtp/logs:/app/Logs
+    networks:
+      - lan-network
+
+  configurazioni:
+    image: ${IMAGE_CONFIGURAZIONI}
+    container_name: api-configurazioni
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-api-configurazioni/appsettings.json:/app/appsettings.json
+      - /docker/storage/storage-api-configurazioni/logs:/app/Logs
     networks:
       - lan-network
 
@@ -56,32 +69,6 @@ services:
     networks:
       - lan-network
 
-  configurazionesmtp:
-    image: ${IMAGE_CONFIGURAZIONESMTP}
-    container_name: api-configurazionesmtp
-    restart: "always"
-    environment:
-      - ASPNETCORE_ENVIRONMENT="production"
-      - ASPNETCORE_URLS=http://*:5001
-    volumes:
-      - /docker/storage/storage-api-configurazionesmtp/appsettings.json:/app/appsettings.json
-      - /docker/storage/storage-api-configurazionesmtp/logs:/app/Logs
-    networks:
-      - lan-network
-
-  configurazioni:
-    image: ${IMAGE_CONFIGURAZIONI}
-    container_name: api-configurazioni
-    restart: "always"
-    environment:
-      - ASPNETCORE_ENVIRONMENT="production"
-      - ASPNETCORE_URLS=http://*:5001
-    volumes:
-      - /docker/storage/storage-api-configurazioni/appsettings.json:/app/appsettings.json
-      - /docker/storage/storage-api-configurazioni/logs:/app/Logs
-    networks:
-      - lan-network
-
   invioemail:
     image: ${IMAGE_INVIOEMAIL}
     container_name: api-invioemail
@@ -92,6 +79,19 @@ services:
     volumes:
       - /docker/storage/storage-api-invioemail/appsettings.json:/app/appsettings.json
       - /docker/storage/storage-api-invioemail/logs:/app/Logs
+    networks:
+      - lan-network
+
+  autenticazione:
+    image: ${IMAGE_AUTENTICAZIONE}
+    container_name: api-autenticazione
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-api-autenticazione/appsettings.json:/app/appsettings.json
+      - /docker/storage/storage-api-autenticazione/logs:/app/Logs
     networks:
       - lan-network
 
