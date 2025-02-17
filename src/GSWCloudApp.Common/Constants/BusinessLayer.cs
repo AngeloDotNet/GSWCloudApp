@@ -44,4 +44,9 @@ public static class BusinessLayer
     /// The current month in UTC, formatted as a two-digit string.
     /// </summary>
     public static readonly string CurrentMonth = DateTime.UtcNow.Month.ToString("00");
+
+    /// <summary>
+    /// The name of the JSON configurations file.
+    /// </summary>
+    public static readonly string JsonConfigurations = "configurations.json";
 }
