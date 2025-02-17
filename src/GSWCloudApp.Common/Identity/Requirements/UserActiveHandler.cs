@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using GSWCloudApp.Common.Identity.Entities;
+using GSWCloudApp.Common.Identity.Entities.Application;
 using GSWCloudApp.Common.Identity.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

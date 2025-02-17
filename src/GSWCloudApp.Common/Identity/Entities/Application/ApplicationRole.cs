@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace GSWCloudApp.Common.Identity.Entities;
+namespace GSWCloudApp.Common.Identity.Entities.Application;
 
 public class ApplicationRole : IdentityRole<Guid>
 {
