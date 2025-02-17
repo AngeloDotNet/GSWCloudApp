@@ -1,4 +1,4 @@
-﻿namespace GSWCloudApp.Common.Entities.Interfaces;
+﻿namespace GSWCloudApp.Common.Identity.Entities.Interfaces;
 
 /// <summary>
 /// Represents an entity that supports soft deletion.

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GSWCloudApp.Common.Entities;
+namespace GSWCloudApp.Common.Identity.Entities;
 
 /// <summary>
 /// Base configuration class for entities inheriting from BaseEntity with a Guid identifier.

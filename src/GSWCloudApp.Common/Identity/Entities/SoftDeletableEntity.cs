@@ -1,6 +1,6 @@
-﻿using GSWCloudApp.Common.Entities.Interfaces;
+﻿using GSWCloudApp.Common.Identity.Entities.Interfaces;
 
-namespace GSWCloudApp.Common.Entities;
+namespace GSWCloudApp.Common.Identity.Entities;
 
 /// <summary>
 /// Represents an entity that supports soft deletion and tracks creation and modification details.

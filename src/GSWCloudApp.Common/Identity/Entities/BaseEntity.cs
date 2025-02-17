@@ -1,6 +1,6 @@
-﻿using GSWCloudApp.Common.Entities.Interfaces;
+﻿using GSWCloudApp.Common.Identity.Entities.Interfaces;
 
-namespace GSWCloudApp.Common.Entities;
+namespace GSWCloudApp.Common.Identity.Entities;
 
 /// <summary>
 /// Represents a base entity with a generic identifier.

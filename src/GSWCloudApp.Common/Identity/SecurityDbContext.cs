@@ -1,4 +1,4 @@
-﻿using GSWCloudApp.Common.Identity.Entities;
+﻿using GSWCloudApp.Common.Identity.Entities.Application;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

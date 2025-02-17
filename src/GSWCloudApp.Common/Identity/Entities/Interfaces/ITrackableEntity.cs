@@ -1,12 +1,9 @@
-﻿using GSWCloudApp.Common.Entities.Interfaces;
-
-namespace GSWCloudApp.Common.Entities;
+﻿namespace GSWCloudApp.Common.Identity.Entities.Interfaces;
 
 /// <summary>
-/// Represents an entity that tracks creation and modification details.
+/// Interface for trackable entities, providing properties to track creation and modification details.
 /// </summary>
-/// <typeparam name="TKey">The type of the identifier.</typeparam>
-public abstract class TrackableEntity<TKey> : BaseEntity<TKey>, ITrackableEntity where TKey : IEquatable<TKey>
+public interface ITrackableEntity
 {
     /// <summary>
     /// Gets or sets the ID of the user who created the entity.
