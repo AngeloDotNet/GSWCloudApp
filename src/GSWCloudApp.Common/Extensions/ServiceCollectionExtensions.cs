@@ -1,16 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 using Asp.Versioning;
-using AutoMapper;
-using FluentValidation;
-using GSWCloudApp.Common.Identity.Entities;
+using GSWCloudApp.Common.Identity.Entities.Application;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Identity.Requirements;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache.Options;
-using GSWCloudApp.Common.RedisCache.Services;
-using GSWCloudApp.Common.ServiceGenerics.Services;
-using GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
 using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -52,17 +47,6 @@ public static class ServiceExtensions
         });
     }
 
-    ///// <summary>
-    ///// Configures the database context with the specified options.
-    ///// </summary>
-    ///// <typeparam name="T">The type of the entity.</typeparam>
-    ///// <typeparam name="TDbContext">The type of the database context.</typeparam>
-    ///// <param name="services">The service collection to configure.</param>
-    ///// <param name="databaseConnection">The database connection string.</param>
-    ///// <param name="applicationOptions">The application options.</param>
-    ///// <returns>The configured service collection.</returns>
-    //public static IServiceCollection ConfigureDbContextAsync<T, TDbContext>(this IServiceCollection services,
-    //    string databaseConnection, ApplicationOptions applicationOptions) where T : class where TDbContext : DbContext
     /// <summary>
 	/// Configures the database context with the specified options.
 	/// </summary>
@@ -213,7 +197,6 @@ public static class ServiceExtensions
     /// <param name="configuration">The configuration to get the settings from.</param>
     /// <param name="redisConnection">The Redis connection string.</param>
     /// <returns>The configured service collection.</returns>
-    [Obsolete("Obsolete method, will be removed in next releases", true)]
     public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, RedisOptions redisOptions)
     {
         return services.AddStackExchangeRedisCache(action =>
@@ -221,51 +204,6 @@ public static class ServiceExtensions
             action.Configuration = redisOptions.Hostname;
             action.InstanceName = redisOptions.InstanceName;
         });
-    }
-
-    /// <summary>
-    /// Configures services with AutoMapper and FluentValidation.
-    /// </summary>
-    /// <typeparam name="TMappingProfile">The type of the AutoMapper profile.</typeparam>
-    /// <typeparam name="TValidator">The type of the FluentValidation validator.</typeparam>
-    /// <param name="services">The service collection to configure.</param>
-    /// <returns>The configured service collection.</returns>
-    [Obsolete("Obsolete method, will be removed in next releases", true)]
-    public static IServiceCollection ConfigureServices<TMappingProfile, TValidator>(this IServiceCollection services)
-    where TMappingProfile : Profile
-    where TValidator : IValidator
-    {
-        services.AddAutoMapper(typeof(TMappingProfile).Assembly);
-        services.AddValidatorsFromAssemblyContaining<TValidator>();
-
-        // Service Registrations with Singleton Lifecycle
-        services.AddSingleton<ICacheService, CacheService>();
-
-        // Service Registrations with Transient Lifecycle
-        services.AddTransient<IGenericService, GenericService>();
-
-        return services;
-    }
-
-    /// <summary>
-    /// Configures services with AutoMapper and FluentValidation without caching.
-    /// </summary>
-    /// <typeparam name="TMappingProfile">The type of the AutoMapper profile.</typeparam>
-    /// <typeparam name="TValidator">The type of the FluentValidation validator.</typeparam>
-    /// <param name="services">The service collection to configure.</param>
-    /// <returns>The configured service collection.</returns>
-    [Obsolete("Obsolete method, will be removed in next releases", true)]
-    public static IServiceCollection ConfigureServicesNoCaching<TMappingProfile, TValidator>(this IServiceCollection services)
-    where TMappingProfile : Profile
-    where TValidator : IValidator
-    {
-        services.AddAutoMapper(typeof(TMappingProfile).Assembly);
-        services.AddValidatorsFromAssemblyContaining<TValidator>();
-
-        // Service Registrations with Transient Lifecycle
-        services.AddTransient<IGenericService, GenericService>();
-
-        return services;
     }
 
     /// <summary>
@@ -296,18 +234,14 @@ public static class ServiceExtensions
     }
 
     /// <summary>
-    /// Configures full JWT authentication for the application, including Identity and authorization policies.
+    /// Configures JWT settings for the application.
     /// </summary>
     /// <typeparam name="TDbContext">The type of the database context.</typeparam>
     /// <param name="services">The service collection to configure.</param>
-	/// <param name="configuration">The configuration to get the settings from.</param>
-    ///// <param name="identityOptions">The identity options to use for configuration.</param>
-    ///// <param name="jwtOptions">The JWT options to use for configuration.</param>
+    /// <param name="configuration">The configuration to get the settings from.</param>
     /// <returns>The configured service collection.</returns>
-    //public static IServiceCollection ConfigureAuthFullTokenJWT<TDbContext>(this IServiceCollection services,
-    //    SecurityOptions identityOptions, JwtOptions jwtOptions) where TDbContext : DbContext
-    public static IServiceCollection ConfigureJWTSettings<TDbContext>(this IServiceCollection services,
-        IConfiguration configuration) where TDbContext : DbContext
+    public static IServiceCollection ConfigureJWTSettings<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+        where TDbContext : DbContext
     {
         var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>() ?? new();
         var identityOptions = new SecurityOptions();
