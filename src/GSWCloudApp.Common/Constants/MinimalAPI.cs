@@ -6,6 +6,11 @@
 public static class MinimalApi
 {
     /// <summary>
+    /// The route pattern for an empty path.
+    /// </summary>
+    public const string PatternEmpty = "";
+
+    /// <summary>
     /// The route pattern for uploading files.
     /// </summary>
     public const string PatternUpload = "/upload";
@@ -24,4 +29,9 @@ public static class MinimalApi
     /// The route pattern for deleting an image by its file name.
     /// </summary>
     public const string PatternDeleteImage = "/{fileName}";
+
+    /// <summary>
+    /// The route pattern for specifying a language.
+    /// </summary>
+    public const string PatternLanguage = "/{language}";
 }
