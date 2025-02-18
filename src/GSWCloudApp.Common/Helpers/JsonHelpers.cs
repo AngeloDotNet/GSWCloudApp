@@ -8,7 +8,6 @@ public static class JsonHelpers
     {
         return new JsonSerializerOptions
         {
-            IndentSize = 2,
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
