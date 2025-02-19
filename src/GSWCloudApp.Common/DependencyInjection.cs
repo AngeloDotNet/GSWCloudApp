@@ -5,7 +5,6 @@ using GSWCloudApp.Common.RedisCache.Options;
 using GSWCloudApp.Common.RedisCache.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
@@ -33,15 +32,8 @@ public static class DependencyInjection
     public static IServiceCollection ConfigureMediator<THandler>(this IServiceCollection services) where THandler : class
         => services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(THandler).Assembly));
 
-    /// <summary>
-    /// Creates an asynchronous retry policy with exponential backoff.
-    /// </summary>
-    /// <param name="logger">The logger to use for logging retry attempts.</param>
-    /// <returns>An asynchronous retry policy.</returns>
-    public static AsyncRetryPolicy GetRetryPolicy(this IConfiguration configuration, ILogger logger)
+    public static AsyncRetryPolicy GetRetryPolicy(ILogger logger, PollyPolicyOptions options)
     {
-        var options = configuration.GetSection("PollyPolicyOptions").Get<PollyPolicyOptions>() ?? new();
-
         return Policy.Handle<Exception>()
             .WaitAndRetryAsync(retryCount: options.RetryCount, sleepDurationProvider: attempt
                 => TimeSpan.FromSeconds(Math.Pow(options.SleepDuration, attempt)),
