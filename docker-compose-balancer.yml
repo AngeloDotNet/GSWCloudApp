@@ -51,17 +51,17 @@ services:
     networks:
       - lan-network
 
-  invioemail-alb:
-    image: ${IMAGE_INVIOEMAIL_ALB}
-    container_name: alb-invioemail
-    restart: "always"
-    environment:
-      - ASPNETCORE_ENVIRONMENT="production"
-      - ASPNETCORE_URLS=http://*:5001
-    volumes:
-      - /docker/storage/storage-alb-invioemail/appsettings.json:/app/appsettings.json
-    networks:
-      - lan-network
+  # invioemail-alb:
+  #   image: ${IMAGE_INVIOEMAIL_ALB}
+  #   container_name: alb-invioemail
+  #   restart: "always"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT="production"
+  #     - ASPNETCORE_URLS=http://*:5001
+  #   volumes:
+  #     - /docker/storage/storage-alb-invioemail/appsettings.json:/app/appsettings.json
+  #   networks:
+  #     - lan-network
 
 networks:
   lan-network:
