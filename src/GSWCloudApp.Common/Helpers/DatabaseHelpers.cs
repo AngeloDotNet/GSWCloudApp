@@ -11,7 +11,7 @@ public static class DatabaseHelpers
     /// <param name="assetName">The name of the SQL script asset to execute.</param>
     public static void ExecuteSQLScriptFromAssembly(this MigrationBuilder migrationBuilder, string assetName)
     {
-        var sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SQLScripts", assetName);
-        migrationBuilder.Sql(File.ReadAllText(sqlFile));
+        var sqlScriptFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SQLScripts", assetName);
+        migrationBuilder.Sql(File.ReadAllText(sqlScriptFile));
     }
 }
