@@ -33,5 +33,5 @@ public class ConfigurationApp
     ///// <summary>
     ///// Gets or sets the default admin password.
     ///// </summary>
-    //public string DefaultAdminPassword { get; set; } = null!;
+    public string DefaultAdminPassword { get; set; } = null!;
 }
