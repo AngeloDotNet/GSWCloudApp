@@ -34,4 +34,19 @@ public static class MinimalApi
     /// The route pattern for specifying a language.
     /// </summary>
     public const string PatternLanguage = "/{language}";
+
+    /// <summary>
+    /// The route pattern for user login.
+    /// </summary>
+    public const string PatternLogin = "/login";
+
+    /// <summary>
+    /// The route pattern for refreshing a token.
+    /// </summary>
+    public const string PatternRefreshToken = "/refresh-token";
+
+    /// <summary>
+    /// The route pattern for user registration.
+    /// </summary>
+    public const string PatternRegister = "/register";
 }
