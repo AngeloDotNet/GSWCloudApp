@@ -50,8 +50,7 @@ public class GenericService : IGenericService
     /// <returns>A task that represents the asynchronous operation. The task result contains the entity.</returns>
     public async Task<TEntity> GetByIdAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class
     {
-        var entity = await dbContext.Set<TEntity>().AsNoTracking()
-            .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+        var entity = await dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
         if (entity is null)
         {
@@ -100,8 +99,7 @@ public class GenericService : IGenericService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task DeleteAsync<TEntity>(Guid id, DbContext dbContext) where TEntity : class
     {
-        var entity = await dbContext.Set<TEntity>().AsNoTracking()
-            .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+        var entity = await dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
         dbContext.Set<TEntity>().Remove(entity!);
         await dbContext.SaveChangesAsync();
