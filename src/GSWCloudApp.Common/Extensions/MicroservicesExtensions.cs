@@ -1,8 +1,11 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ConfigurazioniSvc.Shared;
 using GSWCloudApp.Common.Constants;
 using GSWCloudApp.Common.Exceptions;
+using GSWCloudApp.Common.Identity.Options;
+using GSWCloudApp.Common.Options;
 using Microsoft.Extensions.Configuration;
 
 namespace GSWCloudApp.Common.Extensions;
@@ -24,38 +27,10 @@ public static class MicroservicesExtensions
     /// <exception cref="InvalidResponseApiException">Thrown when the response from the API is invalid.</exception>
     public static async Task<T> GetSettingsAsync<T>(HttpClient httpClient, IConfiguration configuration, string endpoint) where T : class
     {
-        var serverApi = SetApplicationEnv(configuration, MicroservicesName.ConfigurazioneSmtpSvc);
+        var serverApi = InternalExtensions.SetApplicationEnv(configuration, MicroservicesName.ConfigurazioneSmtpSvc);
         var endpointApi = string.Concat(serverApi, endpoint);
 
         return await GetSettingsAsync<T>(httpClient, endpointApi);
-    }
-
-    /// <summary>
-    /// Sets the application environment based on the configuration and application name.
-    /// </summary>
-    /// <param name="configuration">The configuration object.</param>
-    /// <param name="application">The name of the application.</param>
-    /// <returns>The server API address based on the environment and application name.</returns>
-    public static string SetApplicationEnv(IConfiguration configuration, string application)
-    {
-        var serverApi = string.Empty;
-        var environment = configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant();
-
-        if (environment == "development" || environment == "production")
-        {
-            serverApi = application switch
-            {
-                MicroservicesName.ConfigurazioneSmtpSvc
-                    => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioneSmtpSvc : ServiceAddress.Docker_ConfigurazioneSmtpSvc,
-
-                MicroservicesName.ConfigurazioniSvc
-                    => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioniSvc : ServiceAddress.Docker_ConfigurazioniSvc,
-
-                _ => string.Empty
-            };
-        }
-
-        return serverApi;
     }
 
     /// <summary>
@@ -86,4 +61,48 @@ public static class MicroservicesExtensions
 
         return result!.FirstOrDefault()!;
     }
+
+    /// <summary>
+    /// Retrieves the connection string from the naming configuration asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <param name="nameConnectionString">The name of the connection string.</param>
+    /// <returns>The connection string.</returns>
+    public static async Task<string> GetConnectionStringFromNamingAsync(IConfiguration configuration, string nameConnectionString)
+        => await InternalExtensions.GetConnectionStringFromNamingAsync(configuration, nameConnectionString);
+
+    /// <summary>
+    /// Retrieves the application configuration asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The application configuration.</returns>
+    public static async Task<ConfigurationApp> GetConfigurationAppAsync(IConfiguration configuration)
+        => await InternalExtensions.GetTAsync<ConfigurationApp>(configuration);
+
+    /// <summary>
+    /// Retrieves the application options asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The application options.</returns>
+    public static async Task<ApplicationOptions> GetApplicationOptionsAsync(IConfiguration configuration)
+        => await InternalExtensions.GetTAsync<ApplicationOptions>(configuration);
+
+    /// <summary>
+    /// Retrieves the worker settings asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The worker settings.</returns>
+    public static async Task<WorkerSettings> GetWorkerSettingsAsync(IConfiguration configuration)
+        => await InternalExtensions.GetTAsync<WorkerSettings>(configuration);
+
+    /// <summary>
+    /// Retrieves the JWT options asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The JWT options.</returns>
+    public static async Task<JwtOptions> GetJwtOptionsAsync(IConfiguration configuration)
+        => await InternalExtensions.GetTAsync<JwtOptions>(configuration);
+
+    public static async Task<PollyPolicyOptions> GetPollyPolicyOptionsAsync(IConfiguration configuration)
+        => await InternalExtensions.GetTAsync<PollyPolicyOptions>(configuration);
 }

@@ -48,18 +48,17 @@ public static class ServiceExtensions
     }
 
     /// <summary>
-	/// Configures the database context with the specified options.
-	/// </summary>
-	/// <typeparam name="T">The type of the entity.</typeparam>
-	/// <typeparam name="TDbContext">The type of the database context.</typeparam>
-	/// <param name="services">The service collection to configure.</param>
-	/// <param name="configuration">The configuration to get the settings from.</param>
-	/// <returns>The configured service collection.</returns>
-    public static IServiceCollection ConfigureDbContext<T, TDbContext>(this IServiceCollection services,
-        IConfiguration configuration, string nameConnectionString) where T : class where TDbContext : DbContext
+    /// Configures the database context for the application.
+    /// </summary>
+    /// <typeparam name="T">The type of the class.</typeparam>
+    /// <typeparam name="TDbContext">The type of the database context.</typeparam>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="applicationOptions">The application options.</param>
+    /// <param name="databaseConnection">The database connection string.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection ConfigureDbContextAsync<T, TDbContext>(this IServiceCollection services,
+        ApplicationOptions applicationOptions, string databaseConnection) where T : class where TDbContext : DbContext
     {
-        var applicationOptions = configuration.GetSection("ApplicationOptions").Get<ApplicationOptions>() ?? new();
-        var databaseConnection = configuration.GetConnectionString(nameConnectionString);
         var assemblyMigrations = $"{typeof(T).Assembly.GetName().Name}.Migrations";
 
         services.AddScoped<DbContext, TDbContext>();
@@ -194,8 +193,7 @@ public static class ServiceExtensions
     /// Configures Redis cache for the application.
     /// </summary>
     /// <param name="services">The service collection to configure.</param>
-    /// <param name="configuration">The configuration to get the settings from.</param>
-    /// <param name="redisConnection">The Redis connection string.</param>
+    /// <param name="redisOptions">The Redis options.</param>
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection ConfigureRedisCache(this IServiceCollection services, RedisOptions redisOptions)
     {
@@ -238,35 +236,34 @@ public static class ServiceExtensions
     /// </summary>
     /// <typeparam name="TDbContext">The type of the database context.</typeparam>
     /// <param name="services">The service collection to configure.</param>
-    /// <param name="configuration">The configuration to get the settings from.</param>
+    /// <param name="jwtOptions">The JWT options.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection ConfigureJWTSettings<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureJWTSettings<TDbContext>(this IServiceCollection services, JwtOptions jwtOptions)
         where TDbContext : DbContext
     {
-        var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>() ?? new();
-        var identityOptions = new SecurityOptions();
+        var iOptions = new SecurityOptions();
 
         services
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
-                // Criteri di validazione dell'utente
-                options.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
+                // User validation criteria
+                options.User.RequireUniqueEmail = iOptions.RequireUniqueEmail;
 
-                // Criteri di validazione della password
-                options.Password.RequireDigit = identityOptions.RequireDigit;
-                options.Password.RequiredLength = identityOptions.RequireLenght;
-                options.Password.RequireUppercase = identityOptions.RequireUppercase;
-                options.Password.RequireLowercase = identityOptions.RequireLowercase;
-                options.Password.RequireNonAlphanumeric = identityOptions.RequireNonAlphanumeric;
-                options.Password.RequiredUniqueChars = identityOptions.RequireUniqueChars;
+                // Password validation criteria
+                options.Password.RequireDigit = iOptions.RequireDigit;
+                options.Password.RequiredLength = iOptions.RequireLenght;
+                options.Password.RequireUppercase = iOptions.RequireUppercase;
+                options.Password.RequireLowercase = iOptions.RequireLowercase;
+                options.Password.RequireNonAlphanumeric = iOptions.RequireNonAlphanumeric;
+                options.Password.RequiredUniqueChars = iOptions.RequireUniqueChars;
 
-                // Conferma dell'account
-                options.SignIn.RequireConfirmedEmail = identityOptions.RequireConfirmedEmail;
+                // Account confirmation
+                options.SignIn.RequireConfirmedEmail = iOptions.RequireConfirmedEmail;
 
-                // Blocco dell'account
-                options.Lockout.AllowedForNewUsers = identityOptions.AllowedForNewUsers;
-                options.Lockout.MaxFailedAccessAttempts = identityOptions.MaxFailedAccessAttempts;
-                options.Lockout.DefaultLockoutTimeSpan = identityOptions.DefaultLockoutTimeSpan;
+                // Account lockout
+                options.Lockout.AllowedForNewUsers = iOptions.AllowedForNewUsers;
+                options.Lockout.MaxFailedAccessAttempts = iOptions.MaxFailedAccessAttempts;
+                options.Lockout.DefaultLockoutTimeSpan = iOptions.DefaultLockoutTimeSpan;
             })
             .AddEntityFrameworkStores<TDbContext>()
             .AddDefaultTokenProviders();
