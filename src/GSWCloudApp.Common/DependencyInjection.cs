@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using GSWCloudApp.Common.Options;
-using GSWCloudApp.Common.RedisCache.Options;
 using GSWCloudApp.Common.RedisCache.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services.Interfaces;
@@ -32,6 +31,12 @@ public static class DependencyInjection
     public static IServiceCollection ConfigureMediator<THandler>(this IServiceCollection services) where THandler : class
         => services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(THandler).Assembly));
 
+    /// <summary>
+    /// Gets a Polly retry policy with the specified options.
+    /// </summary>
+    /// <param name="logger">The logger to use for logging retry attempts.</param>
+    /// <param name="options">The options for configuring the retry policy.</param>
+    /// <returns>The configured Polly retry policy.</returns>
     public static AsyncRetryPolicy GetRetryPolicy(ILogger logger, PollyPolicyOptions options)
     {
         return Policy.Handle<Exception>()

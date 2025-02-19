@@ -60,7 +60,7 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
         //return info;
 
         var descriptionText = description.IsDeprecated
-            ? "API endpoints that enable the use of this microservice. This API version has been deprecated."
+            ? "API endpoints that enable the use of this microservice, but this API version has been deprecated."
             : "API endpoints that enable the use of this microservice.";
 
         var info = new OpenApiInfo()
@@ -80,6 +80,8 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
                 Url = new Uri("https://opensource.org/licenses/MIT")
             }
         };
+
+        info.Description = descriptionText;
 
         return info;
     }

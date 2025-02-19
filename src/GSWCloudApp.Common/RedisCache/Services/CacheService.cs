@@ -1,5 +1,5 @@
 using System.Text.Json;
-using GSWCloudApp.Common.RedisCache.Options;
+using GSWCloudApp.Common.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 

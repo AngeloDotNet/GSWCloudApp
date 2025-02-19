@@ -75,7 +75,7 @@ public static class MicroservicesExtensions
     /// Retrieves the application configuration asynchronously.
     /// </summary>
     /// <param name="configuration">The configuration object.</param>
-    /// <returns>The application configuration.</returns>
+    /// <returns>The application configuration, or null if an error occurs.</returns>
     public static async Task<ConfigurationApp> GetConfigurationAppAsync(IConfiguration configuration)
         => await InternalExtensions.GetTAsync<ConfigurationApp>(configuration);
 
@@ -103,6 +103,11 @@ public static class MicroservicesExtensions
     public static async Task<JwtOptions> GetJwtOptionsAsync(IConfiguration configuration)
         => await InternalExtensions.GetTAsync<JwtOptions>(configuration);
 
+    /// <summary>
+    /// Retrieves the Polly policy options asynchronously.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The Polly policy options.</returns>
     public static async Task<PollyPolicyOptions> GetPollyPolicyOptionsAsync(IConfiguration configuration)
         => await InternalExtensions.GetTAsync<PollyPolicyOptions>(configuration);
 }

@@ -1,5 +1,8 @@
-namespace GSWCloudApp.Common.RedisCache.Options;
+﻿namespace GSWCloudApp.Common.Options;
 
+/// <summary>
+/// Represents the configuration options for Redis.
+/// </summary>
 public class RedisOptions
 {
     /// <summary>
@@ -8,7 +11,7 @@ public class RedisOptions
     public string Hostname { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the instance name of the Redis cache.
+    /// Gets or sets the instance name of the Redis server.
     /// </summary>
     public string InstanceName { get; set; } = null!;
 
