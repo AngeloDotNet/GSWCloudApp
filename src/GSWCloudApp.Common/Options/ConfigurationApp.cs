@@ -3,6 +3,9 @@ using GSWCloudApp.Common.Options;
 
 namespace ConfigurazioniSvc.Shared;
 
+/// <summary>
+/// Represents the configuration settings for the application.
+/// </summary>
 public class ConfigurationApp
 {
     /// <summary>
@@ -30,8 +33,13 @@ public class ConfigurationApp
     /// </summary>
     public PollyPolicyOptions PollyPolicyOptions { get; set; } = null!;
 
-    ///// <summary>
-    ///// Gets or sets the default admin password.
-    ///// </summary>
+    /// <summary>
+    /// Gets or sets the default admin password.
+    /// </summary>
     public string DefaultAdminPassword { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Redis options.
+    /// </summary>
+    public RedisOptions RedisOptions { get; set; } = null!;
 }
