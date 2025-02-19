@@ -251,7 +251,7 @@ public static class ServiceExtensions
 
                 // Password validation criteria
                 options.Password.RequireDigit = iOptions.RequireDigit;
-                options.Password.RequiredLength = iOptions.RequireLenght;
+                options.Password.RequiredLength = iOptions.RequiredLength;
                 options.Password.RequireUppercase = iOptions.RequireUppercase;
                 options.Password.RequireLowercase = iOptions.RequireLowercase;
                 options.Password.RequireNonAlphanumeric = iOptions.RequireNonAlphanumeric;
