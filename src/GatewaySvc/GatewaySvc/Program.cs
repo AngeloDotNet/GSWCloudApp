@@ -13,12 +13,15 @@ namespace GatewaySvc;
 /// <param name="args">The command-line arguments.</param>
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        var applicationOptions = await MicroservicesExtensions.GetApplicationOptionsAsync(builder.Configuration);
+        var jwtOptions = await MicroservicesExtensions.GetJwtOptionsAsync(builder.Configuration);
         var securityOptions = new SecurityOptions();
 
-        builder.Services.ConfigureDbContext<Program, SecurityDbContext>(builder.Configuration, "SqlAutentica");
+        builder.Services.ConfigureDbContextAsync<Program, SecurityDbContext>(applicationOptions, "SqlAutentica");
 
         var configFiles = Directory.GetFiles("ConfigOcelot", "*.json");
         foreach (var configFile in configFiles)
@@ -29,7 +32,7 @@ public class Program
         builder.Services.AddOcelot();
         builder.Services.Configure<KestrelServerOptions>(builder.Configuration.GetSection("Kestrel"));
 
-        builder.Services.ConfigureJWTSettings<SecurityDbContext>(builder.Configuration);
+        builder.Services.ConfigureJWTSettings<SecurityDbContext>(jwtOptions);
         builder.Services.ConfigureOptions(builder.Configuration);
 
         var app = builder.Build();
