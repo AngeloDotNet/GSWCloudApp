@@ -256,6 +256,12 @@ public static class ServiceExtensions
                 options.Password.RequireLowercase = iOptions.RequiredLowercase;
                 options.Password.RequireNonAlphanumeric = iOptions.RequiredNonAlphanumeric;
                 options.Password.RequiredUniqueChars = iOptions.RequiredUniqueChars;
+                options.Password.RequireDigit = iOptions.RequireDigit;
+                options.Password.RequiredLength = iOptions.RequiredLength;
+                options.Password.RequireUppercase = iOptions.RequireUppercase;
+                options.Password.RequireLowercase = iOptions.RequireLowercase;
+                options.Password.RequireNonAlphanumeric = iOptions.RequireNonAlphanumeric;
+                options.Password.RequiredUniqueChars = iOptions.RequireUniqueChars;
 
                 // Account confirmation
                 options.SignIn.RequireConfirmedEmail = iOptions.RequiredConfirmedEmail;
