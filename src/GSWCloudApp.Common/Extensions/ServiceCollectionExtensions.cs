@@ -5,7 +5,6 @@ using GSWCloudApp.Common.Identity.Entities.Application;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Identity.Requirements;
 using GSWCloudApp.Common.Options;
-using GSWCloudApp.Common.RedisCache.Options;
 using GSWCloudApp.Common.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -256,12 +255,6 @@ public static class ServiceExtensions
                 options.Password.RequireLowercase = iOptions.RequiredLowercase;
                 options.Password.RequireNonAlphanumeric = iOptions.RequiredNonAlphanumeric;
                 options.Password.RequiredUniqueChars = iOptions.RequiredUniqueChars;
-                options.Password.RequireDigit = iOptions.RequireDigit;
-                options.Password.RequiredLength = iOptions.RequiredLength;
-                options.Password.RequireUppercase = iOptions.RequireUppercase;
-                options.Password.RequireLowercase = iOptions.RequireLowercase;
-                options.Password.RequireNonAlphanumeric = iOptions.RequireNonAlphanumeric;
-                options.Password.RequiredUniqueChars = iOptions.RequireUniqueChars;
 
                 // Account confirmation
                 options.SignIn.RequireConfirmedEmail = iOptions.RequiredConfirmedEmail;

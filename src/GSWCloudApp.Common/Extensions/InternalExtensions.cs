@@ -21,7 +21,7 @@ internal static class InternalExtensions
     internal static string SetApplicationEnv(IConfiguration configuration, string application)
     {
         var serverApi = string.Empty;
-        var environment = configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant();
+        var environment = GetEnvironment(configuration);
 
         if (environment is "development" or "production")
         {
@@ -38,6 +38,16 @@ internal static class InternalExtensions
         }
 
         return serverApi;
+    }
+
+    /// <summary>
+    /// Gets the current environment from the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration object.</param>
+    /// <returns>The current environment as a string.</returns>
+    internal static string GetEnvironment(IConfiguration configuration)
+    {
+        return configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant() ?? string.Empty;
     }
 
     /// <summary>
