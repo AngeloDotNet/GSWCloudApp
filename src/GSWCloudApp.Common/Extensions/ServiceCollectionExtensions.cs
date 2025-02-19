@@ -247,18 +247,18 @@ public static class ServiceExtensions
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 // User validation criteria
-                options.User.RequireUniqueEmail = iOptions.RequireUniqueEmail;
+                options.User.RequireUniqueEmail = iOptions.RequiredUniqueEmail;
 
                 // Password validation criteria
-                options.Password.RequireDigit = iOptions.RequireDigit;
-                options.Password.RequiredLength = iOptions.RequireLenght;
-                options.Password.RequireUppercase = iOptions.RequireUppercase;
-                options.Password.RequireLowercase = iOptions.RequireLowercase;
-                options.Password.RequireNonAlphanumeric = iOptions.RequireNonAlphanumeric;
-                options.Password.RequiredUniqueChars = iOptions.RequireUniqueChars;
+                options.Password.RequireDigit = iOptions.RequiredDigit;
+                options.Password.RequiredLength = iOptions.RequiredLenght;
+                options.Password.RequireUppercase = iOptions.RequiredUppercase;
+                options.Password.RequireLowercase = iOptions.RequiredLowercase;
+                options.Password.RequireNonAlphanumeric = iOptions.RequiredNonAlphanumeric;
+                options.Password.RequiredUniqueChars = iOptions.RequiredUniqueChars;
 
                 // Account confirmation
-                options.SignIn.RequireConfirmedEmail = iOptions.RequireConfirmedEmail;
+                options.SignIn.RequireConfirmedEmail = iOptions.RequiredConfirmedEmail;
 
                 // Account lockout
                 options.Lockout.AllowedForNewUsers = iOptions.AllowedForNewUsers;

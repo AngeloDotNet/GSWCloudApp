@@ -8,42 +8,42 @@ public class SecurityOptions
     /// <summary>
     /// Gets a value indicating whether a digit is required in the password.
     /// </summary>
-    public bool RequireDigit { get; init; } = true;
+    public bool RequiredDigit { get; init; } = true;
 
     /// <summary>
     /// Gets the required length of the password.
     /// </summary>
-    public int RequireLenght { get; init; } = 8;
+    public int RequiredLenght { get; init; } = 8;
 
     /// <summary>
     /// Gets a value indicating whether an uppercase letter is required in the password.
     /// </summary>
-    public bool RequireUppercase { get; init; } = true;
+    public bool RequiredUppercase { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether a lowercase letter is required in the password.
     /// </summary>
-    public bool RequireLowercase { get; init; } = true;
+    public bool RequiredLowercase { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether a non-alphanumeric character is required in the password.
     /// </summary>
-    public bool RequireNonAlphanumeric { get; init; } = true;
+    public bool RequiredNonAlphanumeric { get; init; } = true;
 
     /// <summary>
     /// Gets the number of unique characters required in the password.
     /// </summary>
-    public int RequireUniqueChars { get; init; } = 4;
+    public int RequiredUniqueChars { get; init; } = 4;
 
     /// <summary>
     /// Gets a value indicating whether a unique email is required for each user.
     /// </summary>
-    public bool RequireUniqueEmail { get; init; } = true;
+    public bool RequiredUniqueEmail { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether email confirmation is required for user registration.
     /// </summary>
-    public bool RequireConfirmedEmail { get; init; } = true;
+    public bool RequiredConfirmedEmail { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether new users are allowed.
