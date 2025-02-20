@@ -17,11 +17,13 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        var databaseConnections = await MicroservicesExtensions.GetConnectionStringFromNamingAsync(builder.Configuration, "SqlAutentica");
         var applicationOptions = await MicroservicesExtensions.GetApplicationOptionsAsync(builder.Configuration);
+
         var jwtOptions = await MicroservicesExtensions.GetJwtOptionsAsync(builder.Configuration);
         var securityOptions = new SecurityOptions();
 
-        builder.Services.ConfigureDbContextAsync<Program, SecurityDbContext>(applicationOptions, "SqlAutentica");
+        builder.Services.ConfigureDbContextAsync<Program, SecurityDbContext>(applicationOptions, databaseConnections);
 
         var configFiles = Directory.GetFiles("ConfigOcelot", "*.json");
         foreach (var configFile in configFiles)
