@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace GSWCloudApp.Common.Helpers;
 
-//TODO: Add XML documentation
+/// <summary>
+/// Provides helper methods for user-related operations.
+/// </summary>
 public static class UsersHelpers
 {
     /// <summary>
