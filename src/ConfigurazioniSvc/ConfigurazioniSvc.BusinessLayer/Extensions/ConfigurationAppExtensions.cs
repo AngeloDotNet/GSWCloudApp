@@ -8,22 +8,18 @@ namespace ConfigurazioniSvc.BusinessLayer.Extensions;
 
 public static class ConfigurationAppExtensions
 {
-    public static void RigenerateJSON(IConfiguration configuration, string filePath)
+    public static void GenerateJSON(IConfiguration configuration, string filePath)
     {
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
         }
 
-        GenerateJSON(configuration, filePath);
-    }
-
-    public static void GenerateJSON(IConfiguration configuration, string filePath)
-    {
         var applicationOptions = configuration.GetSection("ApplicationOptions").Get<ApplicationOptions>() ?? new();
         var jwtSettings = configuration.GetSection("JwtOptions").Get<JwtOptions>() ?? new();
         var workerSettings = configuration.GetSection("WorkerSettings").Get<WorkerSettings>() ?? new();
         var pollyPolicyOptions = configuration.GetSection("PollyPolicyOptions").Get<PollyPolicyOptions>() ?? new();
+        var redisOptions = configuration.GetSection("RedisOptions").Get<RedisOptions>() ?? new();
 
         var configurationApp = new ConfigurationApp()
         {
@@ -58,6 +54,13 @@ public static class ConfigurationAppExtensions
             {
                 RetryCount = pollyPolicyOptions.RetryCount,
                 SleepDuration = pollyPolicyOptions.SleepDuration
+            },
+            RedisOptions = new RedisOptions()
+            {
+                Hostname = redisOptions.Hostname,
+                InstanceName = redisOptions.InstanceName,
+                AbsoluteExpireTime = redisOptions.AbsoluteExpireTime,
+                SlidingExpireTime = redisOptions.SlidingExpireTime
             },
             DefaultAdminPassword = configuration.GetSection("DefaultAdminPassword").Value ?? string.Empty
         };

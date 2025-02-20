@@ -1,5 +1,9 @@
 using ConfigurazioniSvc.BusinessLayer.Extensions;
+using ConfigurazioniSvc.BusinessLayer.Mediator.Handlers.Get;
+using ConfigurazioniSvc.BusinessLayer.Services;
+using GSWCloudApp.Common;
 using GSWCloudApp.Common.Extensions;
+using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.Routing;
 using BLConstants = GSWCloudApp.Common.Constants.BusinessLayer;
 
@@ -10,9 +14,10 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var applicationOptions = builder.Configuration.GetSection("ApplicationOptions").Get<ApplicationOptions>() ?? new();
 
         ServiceExtensions.AddConfigurationSerilog<Program>(builder);
-        ConfigurationAppExtensions.RigenerateJSON(builder.Configuration, Path.Combine(Directory.GetCurrentDirectory(), BLConstants.JsonConfigurations));
+        ConfigurationAppExtensions.GenerateJSON(builder.Configuration, Path.Combine(Directory.GetCurrentDirectory(), BLConstants.JsonConfigurations));
 
         builder.Services.ConfigureJsonOptions();
         builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
@@ -21,6 +26,9 @@ public class Program
         builder.Services.ConfigureSwagger();
 
         builder.Services.AddAntiforgery();
+        builder.Services.AddTransient<IConfigurazioniService, ConfigurazioniService>();
+
+        builder.Services.ConfigureMediator<GetConfigurationsHandler>();
         builder.Services.ConfigureProblemDetails();
 
         builder.Services.ConfigureOptions(builder.Configuration);
@@ -31,7 +39,7 @@ public class Program
         app.UseExceptionHandler();
         app.UseStatusCodePages();
 
-        app.UseDevSwagger(builder.Configuration);
+        app.UseDevSwagger(applicationOptions);
         app.UseForwardNetworking();
 
         app.UseRouting();

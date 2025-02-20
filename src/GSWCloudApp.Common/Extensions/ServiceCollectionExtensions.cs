@@ -241,6 +241,8 @@ public static class ServiceExtensions
         where TDbContext : DbContext
     {
         var iOptions = new SecurityOptions();
+        var listPolicies = InternalExtensions.GetPermissionPolicies();
+        var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey));
 
         services
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -286,7 +288,7 @@ public static class ServiceExtensions
                     ValidAudience = jwtOptions.Audience,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
+                    IssuerSigningKey = issuerSigningKey,
                     RequireExpirationTime = true,
                     ClockSkew = TimeSpan.Zero
                 };
@@ -299,6 +301,11 @@ public static class ServiceExtensions
                 var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
                 policyBuilder.Requirements.Add(new UserActiveRequirement());
                 options.FallbackPolicy = options.DefaultPolicy = policyBuilder.Build();
+
+                foreach (var policy in listPolicies)
+                {
+                    options.AddPolicy(policy.Key.ToString(), policyBuilder => policyBuilder.RequireRole(policy.Value));
+                }
             });
 
         return services;

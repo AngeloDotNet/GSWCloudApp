@@ -1,7 +1,7 @@
-﻿using ConfigurazioniSvc.BusinessLayer.Extensions;
+﻿using ConfigurazioniSvc.BusinessLayer.Services;
+using GSWCloudApp.Common.Constants;
 using GSWCloudApp.Common.Routing;
 using Microsoft.OpenApi.Models;
-using Constants = GSWCloudApp.Common.Constants.BusinessLayer;
 
 namespace ConfigurazioniSvc.Endpoints;
 
@@ -9,6 +9,8 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 {
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
+        var apiService = endpoints.ServiceProvider.GetRequiredService<IConfigurazioniService>();
+
         var apiGroup = endpoints
             .MapGroup("/configurazioni")
             .MapToApiVersion(1)
@@ -19,23 +21,15 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(string.Empty, IResult (IConfiguration configuration) =>
-        {
-            var fileName = Constants.JsonConfigurations;
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        apiGroup.MapGet(MinimalApi.PatternEmpty, apiService.GetConfigurationsAsync)
+            .Produces<string>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithOpenApi(opt =>
+            {
+                opt.Summary = "Get all configurations";
+                opt.Description = "Extracts all microservices configurations";
 
-            ConfigurationAppExtensions.RigenerateJSON(configuration, filePath);
-            var fileBytes = File.ReadAllBytes(filePath);
-
-            return Results.File(fileBytes, "application/json", fileName);
-        })
-        .Produces<string>(StatusCodes.Status200OK)
-        .WithOpenApi(opt =>
-        {
-            opt.Summary = "Get all configurations";
-            opt.Description = "Extracts all microservices configurations";
-
-            return opt;
-        });
+                return opt;
+            });
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using ConfigurazioniSvc.Shared;
 using GSWCloudApp.Common.Constants;
+using GSWCloudApp.Common.Enums;
+using GSWCloudApp.Common.Identity;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Options;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +50,20 @@ internal static class InternalExtensions
     internal static string GetEnvironment(IConfiguration configuration)
     {
         return configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant() ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the permission policies as a dictionary.
+    /// </summary>
+    /// <returns>A dictionary containing the permission policies and their corresponding role names.</returns>
+    internal static Dictionary<TipoPolicy, string> GetPermissionPolicies()
+    {
+        return new Dictionary<TipoPolicy, string>
+        {
+            { TipoPolicy.Administrator, RoleNames.Administrator },
+            { TipoPolicy.PowerUser, RoleNames.PowerUser },
+            { TipoPolicy.User, RoleNames.User }
+        };
     }
 
     /// <summary>

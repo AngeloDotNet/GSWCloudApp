@@ -7,9 +7,14 @@ WORKDIR /src
 COPY ["src/GatewaySvc/GatewaySvc/GatewaySvc.csproj", "src/GatewaySvc/GatewaySvc/"]
 
 # Copy the Ocelot configuration files
+COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.configurazionesmtp.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
+COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.configurazionisender.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
 COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.gestionedocumenti.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
 COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.gestioneloghi.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
-COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.invioemail.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
+
+# Servizio non raggiungibile dall'esterno
+#COPY ["src/GatewaySvc/GatewaySvc/ConfigOcelot/ocelot.invioemail.json", "src/GatewaySvc/GatewaySvc/ConfigOcelot/"]
+
 COPY ["src/GSWCloudApp.Common/GSWCloudApp.Common.csproj", "src/GSWCloudApp.Common/"]
 
 RUN dotnet restore "src/GatewaySvc/GatewaySvc/GatewaySvc.csproj"
