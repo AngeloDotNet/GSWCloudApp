@@ -13,8 +13,7 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add reverse proxy services and load configuration from appsettings
-        builder.Services.AddReverseProxy()
-            .LoadFromConfig(builder.Configuration.GetSection("LoadBalancer"));
+        builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("LoadBalancer"));
 
         // Configure Kestrel server options
         builder.Services.Configure<KestrelServerOptions>(builder.Configuration.GetSection("Kestrel"));

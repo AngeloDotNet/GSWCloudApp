@@ -1,11 +1,12 @@
 using AutenticazioneSvc.BusinessLayer.HostedService;
 using AutenticazioneSvc.BusinessLayer.Services;
+using AutenticazioneSvc.BusinessLayer.Services.Interfaces;
 using AutenticazioneSvc.BusinessLayer.Validator;
 using AutenticazioneSvc.DataAccessLayer;
+using GSWCloudApp.Common;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
 using GSWCloudApp.Common.Routing;
-using GSWCloudApp.Common.Validation;
 using BLConstants = GSWCloudApp.Common.Constants.BusinessLayer;
 
 namespace AutenticazioneSvc;
@@ -15,19 +16,23 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var applicationOptions = await MicroservicesExtensions.GetApplicationOptionsAsync(builder.Configuration);
+
+        var databaseConnection = await MicroservicesExtensions.GetConnectionStringFromNamingAsync(builder.Configuration, "SqlAutentica");
+        var jwtOptions = await MicroservicesExtensions.GetJwtOptionsAsync(builder.Configuration);
 
         ServiceExtensions.AddConfigurationSerilog<Program>(builder);
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.ConfigureJsonOptions();
 
-        builder.Services.ConfigureDbContext<Program, AppDbContext>(builder.Configuration, "SqlAutentica");
+        builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(applicationOptions, databaseConnection);
         builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
 
         builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureAuthSwagger();
 
-        builder.Services.ConfigureJWTSettings<AppDbContext>(builder.Configuration);
+        builder.Services.ConfigureJWTSettings<AppDbContext>(jwtOptions);
         builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         builder.Services.AddAntiforgery();
@@ -45,7 +50,7 @@ public class Program
         app.UseExceptionHandler();
 
         app.UseStatusCodePages();
-        app.UseDevSwagger(builder.Configuration);
+        app.UseDevSwagger(applicationOptions);
 
         app.UseForwardNetworking();
         app.UseRouting();

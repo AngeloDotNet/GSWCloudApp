@@ -1,5 +1,6 @@
-﻿using GSWCloudApp.Common.Identity;
-using GSWCloudApp.Common.Identity.Entities;
+﻿using GSWCloudApp.Common.Extensions;
+using GSWCloudApp.Common.Identity;
+using GSWCloudApp.Common.Identity.Entities.Application;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,15 +11,15 @@ namespace AutenticazioneSvc.BusinessLayer.HostedService;
 
 public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStartupTask> logger, IConfiguration configuration) : IHostedService
 {
-    private readonly ILogger<AuthStartupTask> _logger = logger;
-    private readonly IConfiguration _configuration = configuration;
+    //private readonly ILogger<AuthStartupTask> logger = logger;
+    //private readonly IConfiguration configuration = configuration;
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-        await GenerateRolesAsync(roleManager, _logger);
+        await GenerateRolesAsync(roleManager, logger);
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         await GenerateAdminUserProfileAsync(userManager);
@@ -41,9 +42,8 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
 
         async Task CheckCreateUserAsync(ApplicationUser user, params string[] roles)
         {
-            var userPassword = _configuration.GetSection("DefaultAdminPassword").Value
-                ?? throw new InvalidOperationException("DefaultAdminPassword not found in appsettings.json");
-
+            var configApp = await MicroservicesExtensions.GetConfigurationAppAsync(configuration);
+            var userPassword = configApp.DefaultAdminPassword;
             var dbUser = await userManager.FindByEmailAsync(user.Email!);
 
             if (dbUser == null)
