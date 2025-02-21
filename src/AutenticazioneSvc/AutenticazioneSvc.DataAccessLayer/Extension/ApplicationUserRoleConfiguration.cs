@@ -1,4 +1,4 @@
-﻿using GSWCloudApp.Common.Identity.Entities;
+﻿using GSWCloudApp.Common.Identity.Entities.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
