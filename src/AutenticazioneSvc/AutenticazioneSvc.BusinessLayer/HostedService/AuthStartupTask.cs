@@ -42,7 +42,8 @@ public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStart
 
         async Task CheckCreateUserAsync(ApplicationUser user, params string[] roles)
         {
-            var userPassword = MicroservicesExtensions.GetConfigurationAppAsync(configuration).Result.DefaultAdminPassword;
+            var configApp = await MicroservicesExtensions.GetConfigurationAppAsync(configuration);
+            var userPassword = configApp.DefaultAdminPassword;
             var dbUser = await userManager.FindByEmailAsync(user.Email!);
 
             if (dbUser == null)
