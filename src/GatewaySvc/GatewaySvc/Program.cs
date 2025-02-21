@@ -7,10 +7,6 @@ using Ocelot.Middleware;
 
 namespace GatewaySvc;
 
-/// <summary>
-/// The main entry point for the application.
-/// </summary>
-/// <param name="args">The command-line arguments.</param>
 public class Program
 {
     public static async Task Main(string[] args)
