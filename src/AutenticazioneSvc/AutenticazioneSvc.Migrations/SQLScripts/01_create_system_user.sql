@@ -1,0 +1,1 @@
+INSERT INTO "AspNetUsers" ("Id","FirstName", "LastName", "UserName", "Email", "EmailConfirmed", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnabled", "AccessFailedCount") values ('00000000-0000-0000-0000-000000000000', 'System', 'User', 'System', 'system@example.com', false, false, false, false, 0);
