@@ -11,9 +11,6 @@ namespace AutenticazioneSvc.BusinessLayer.HostedService;
 
 public class AuthStartupTask(IServiceProvider serviceProvider, ILogger<AuthStartupTask> logger, IConfiguration configuration) : IHostedService
 {
-    //private readonly ILogger<AuthStartupTask> logger = logger;
-    //private readonly IConfiguration configuration = configuration;
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
