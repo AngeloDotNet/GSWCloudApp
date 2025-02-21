@@ -2,11 +2,13 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using AutenticazioneSvc.BusinessLayer.Services.Interfaces;
 using AutenticazioneSvc.Shared.DTO;
+using GSWCloudApp.Common.Constants;
+using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Identity;
-using GSWCloudApp.Common.Identity.Entities;
+using GSWCloudApp.Common.Identity.Entities.Application;
 using GSWCloudApp.Common.Identity.Extensions;
-using GSWCloudApp.Common.Identity.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,10 +18,9 @@ namespace AutenticazioneSvc.BusinessLayer.Services;
 public class IdentityService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
     IConfiguration configuration) : IIdentityService
 {
-    private readonly JwtOptions jwtSettings = configuration.GetSection("JwtOptions").Get<JwtOptions>() ?? new();
-
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
+        var jwtSettings = await MicroservicesExtensions.GetJwtOptionsAsync(configuration);
         var signInResult = await signInManager.PasswordSignInAsync(request.UserName, request.Password, false, false);
 
         if (!signInResult.Succeeded)
@@ -37,6 +38,8 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
         await userManager.UpdateSecurityStampAsync(user);
 
         var userRoles = await userManager.GetRolesAsync(user);
+        IList<string> userPermissions = []; //TODO: I permessi dovranno essere recuperati dal database
+        IList<string> userModules = []; //TODO: I moduli dovranno essere recuperati dal database
 
         var claims = new List<Claim>()
         {
@@ -45,15 +48,14 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
             new(ClaimTypes.Email, user.Email ?? string.Empty),
             new(ClaimTypes.SerialNumber, user.SecurityStamp!.ToString()),
 
-            new("FullName", string.Join(" ", user.LastName, user.FirstName))
-
-            //TODO: Manca il claim per la licenza
+            new(IdentityClaims.FullName, string.Join(" ", user.LastName, user.FirstName)),
+            new(IdentityClaims.License, "Free")
         }
-        //TODO: Manca la union della lista dei permessi
-        //TODO: Manca la union della lista dei moduli a cui l'utente può accedere
+        .Union(userPermissions.Select(userPermissions => new Claim(IdentityClaims.Permesso, userPermissions))).ToList()
+        .Union(userModules.Select(userModules => new Claim(IdentityClaims.Modulo, userModules))).ToList()
         .Union(userRoles.Select(role => new Claim(ClaimTypes.Role, role))).ToList();
 
-        var loginResponse = CreateToken(claims);
+        var loginResponse = await CreateTokenAsync(claims);
 
         user.RefreshToken = loginResponse.RefreshToken;
         user.RefreshTokenExpirationDate = DateTime.UtcNow.AddMinutes(jwtSettings.RefreshTokenExpirationMinutes);
@@ -65,7 +67,8 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
 
     public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        var user = ValidateAccessToken(request.AccessToken);
+        var jwtSettings = await MicroservicesExtensions.GetJwtOptionsAsync(configuration);
+        var user = await ValidateAccessTokenAsync(request.AccessToken);
 
         if (user != null)
         {
@@ -77,7 +80,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
                 return null!;
             }
 
-            var loginResponse = CreateToken(user.Claims.ToList());
+            var loginResponse = await CreateTokenAsync(user.Claims.ToList());
 
             dbUser.RefreshToken = loginResponse.RefreshToken;
             dbUser.RefreshTokenExpirationDate = DateTime.UtcNow.AddMinutes(jwtSettings.RefreshTokenExpirationMinutes);
@@ -90,8 +93,9 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
         return null!;
     }
 
-    private AuthResponse CreateToken(IList<Claim> claims)
+    private async Task<AuthResponse> CreateTokenAsync(IList<Claim> claims)
     {
+        var jwtSettings = await MicroservicesExtensions.GetJwtOptionsAsync(configuration);
         var audienceClaim = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Aud);
         claims.Remove(audienceClaim!);
 
@@ -125,8 +129,9 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
         }
     }
 
-    private ClaimsPrincipal ValidateAccessToken(string accessToken)
+    private async Task<ClaimsPrincipal> ValidateAccessTokenAsync(string accessToken)
     {
+        var jwtSettings = await MicroservicesExtensions.GetJwtOptionsAsync(configuration);
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,

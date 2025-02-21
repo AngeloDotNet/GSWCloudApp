@@ -1,6 +1,6 @@
 ﻿using AutenticazioneSvc.Shared.DTO;
 
-namespace AutenticazioneSvc.BusinessLayer.Services;
+namespace AutenticazioneSvc.BusinessLayer.Services.Interfaces;
 
 public interface IIdentityService
 {
