@@ -38,9 +38,8 @@ public class IdentityService(UserManager<ApplicationUser> userManager, SignInMan
         await userManager.UpdateSecurityStampAsync(user);
 
         var userRoles = await userManager.GetRolesAsync(user);
-        IList<string> userPermissions = []; //TODO: I permessi dovranno essere recuperati dal database
-        IList<string> userModules = []; //TODO: I moduli dovranno essere recuperati dal database
-
+        IList<string> userPermissions = new List<string>(); //TODO: I permessi dovranno essere recuperati dal database
+        IList<string> userModules = new List<string>(); //TODO: I moduli dovranno essere recuperati dal database
         var claims = new List<Claim>()
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
