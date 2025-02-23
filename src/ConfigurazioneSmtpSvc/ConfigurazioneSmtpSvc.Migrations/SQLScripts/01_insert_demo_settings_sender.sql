@@ -1,0 +1,1 @@
+INSERT INTO "SettingSender" ("Id","Name", "Email", "CreatedByUserId", "CreatedDateTime") values ('3C899824-EDC2-4BD7-B341-35419F8D3007', 'Nominativo Sender', 'Email Sender', '00000000-0000-0000-0000-000000000000', CURRENT_TIMESTAMP);

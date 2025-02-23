@@ -1,0 +1,1 @@
+INSERT INTO "SettingSmtp" ("Id", "Host", "Port", "Security", "Username", "Password", "CreatedByUserId", "CreatedDateTime") values ('4538F90F-5E0B-496A-9D2B-98A9B72E8E12', 'smtp.example.org', 25, 'StartTls', 'Username server SMTP', 'Password server SMTP', '00000000-0000-0000-0000-000000000000', CURRENT_TIMESTAMP);

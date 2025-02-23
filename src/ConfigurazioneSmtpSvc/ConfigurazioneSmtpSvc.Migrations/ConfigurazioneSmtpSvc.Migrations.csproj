@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ConfigurazioneSmtpSvc.DataAccessLayer\ConfigurazioneSmtpSvc.DataAccessLayer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="SQLScripts\01_insert_demo_settings_sender.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SQLScripts\02_insert_demo_settings_smtp.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>    
+
+</Project>
