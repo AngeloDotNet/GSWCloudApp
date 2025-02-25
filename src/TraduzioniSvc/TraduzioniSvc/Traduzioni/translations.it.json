@@ -1,0 +1,19 @@
+{
+  "fields": [
+    {
+      "gruppo": "Pulsanti",
+      "traduzioni": [
+        {
+          "oggetto": "Submit",
+          "traduzione": "Invio",
+          "stato": true
+        },
+        {
+          "oggetto": "Cancel",
+          "traduzione": "Annulla",
+          "stato": true
+        }
+      ]
+    }
+  ]
+}
