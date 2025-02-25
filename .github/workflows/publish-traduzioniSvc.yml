@@ -35,4 +35,4 @@ jobs:
          context: .
          file: ./src/TraduzioniSvc/TraduzioniSvc/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-traduzionisvc:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-traduzioni:latest
