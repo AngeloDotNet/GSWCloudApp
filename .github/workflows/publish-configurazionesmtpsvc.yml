@@ -35,4 +35,4 @@ jobs:
          context: .
          file: ./src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc/Dockerfile
          push: true
-         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-configurazionesmtpsvc:latest
+         tags: ${{ secrets.DOCKER_USERNAME }}/gswca-configurazionesmtp:latest
