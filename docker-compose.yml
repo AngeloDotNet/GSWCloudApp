@@ -107,6 +107,21 @@ services:
     networks:
       - lan-network
 
+  traduzioni:
+    image: ${IMAGE_TRADUZIONI}
+    container_name: api-traduzioni
+    restart: "always"
+    environment:
+      - ASPNETCORE_ENVIRONMENT="production"
+      - ASPNETCORE_URLS=http://*:5001
+    volumes:
+      - /docker/storage/storage-api-traduzioni/appsettings.json:/app/appsettings.json
+      - /docker/storage/storage-api-traduzioni/logs:/app/Logs
+    depends_on:
+      - configurazioni
+    networks:
+      - lan-network
+
 networks:
   lan-network:
     external:
