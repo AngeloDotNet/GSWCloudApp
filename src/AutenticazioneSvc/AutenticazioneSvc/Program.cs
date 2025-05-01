@@ -41,7 +41,7 @@ public class Program
         builder.Services.ConfigureProblemDetails();
         builder.Services.ConfigureFluentValidation<LoginValidator>();
 
-        builder.Services.ConfigureOptions(builder.Configuration);
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
