@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services;
@@ -14,21 +13,12 @@ namespace GSWCloudApp.Common;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Configures AutoMapper with the specified profile.
-    /// </summary>
-    /// <typeparam name="TMapProfile">The type of the AutoMapper profile.</typeparam>
-    /// <param name="services">The service collection to add the AutoMapper configuration to.</param>
-    /// <returns>The updated service collection.</returns>
-    public static IServiceCollection ConfigureAutoMapper<TMapProfile>(this IServiceCollection services) where TMapProfile : Profile
-        => services.AddAutoMapper(typeof(TMapProfile).Assembly);
-
-    /// <summary>
     /// Configures MediatR with the specified handler.
     /// </summary>
     /// <typeparam name="THandler">The type of the MediatR handler.</typeparam>
     /// <param name="services">The service collection to add the MediatR configuration to.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection ConfigureMediator<THandler>(this IServiceCollection services) where THandler : class
+    public static IServiceCollection AddMediator<THandler>(this IServiceCollection services) where THandler : class
         => services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(THandler).Assembly));
 
     /// <summary>
