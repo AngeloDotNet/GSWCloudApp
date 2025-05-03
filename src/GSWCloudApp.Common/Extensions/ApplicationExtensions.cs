@@ -35,6 +35,7 @@ public static class ApplicationExtensions
     /// </summary>
     /// <param name="app">The web application.</param>
     /// <param name="options">The application options.</param>
+    [Obsolete("UseDevSwagger is deprecated, please use UseDefaultServices instead.")]
     public static void UseDevSwagger(this WebApplication app, ApplicationOptions options)
     {
         if (app.Environment.IsDevelopment() || options.SwaggerEnable)
@@ -57,6 +58,7 @@ public static class ApplicationExtensions
     /// Configures the application to use forwarded headers.
     /// </summary>
     /// <param name="app">The web application.</param>
+    [Obsolete("UseForwardNetworking is deprecated, please use UseDefaultServices instead.")]
     public static void UseForwardNetworking(this WebApplication app)
     {
         app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -66,5 +68,39 @@ public static class ApplicationExtensions
 
         // Non necessario se viene usato NGINX come proxy
         // app.UseHttpsRedirection();
+    }
+
+    public static void UseDefaultServices(this WebApplication app, ApplicationOptions applicationOptions, string policyName)
+    {
+        app.UseExceptionHandler();
+        app.UseStatusCodePages();
+
+        //app.UseDevSwagger(applicationOptions);
+        if (app.Environment.IsDevelopment() || applicationOptions.SwaggerEnable)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                var descriptions = app.DescribeApiVersions();
+
+                foreach (var description in descriptions)
+                {
+                    var url = $"/swagger/{description.GroupName}/swagger.json";
+                    options.SwaggerEndpoint(url, description.GroupName);
+                }
+            });
+        }
+
+        //app.UseForwardNetworking();
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+
+        // Non necessario se viene usato NGINX come proxy
+        // app.UseHttpsRedirection();
+
+        app.UseRouting();
+        app.UseCors(policyName);
     }
 }
