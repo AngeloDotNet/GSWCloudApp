@@ -25,10 +25,10 @@ public class Program
         builder.Services.AddAntiforgery();
         builder.Services.AddTransient<ITranslateService, TranslateService>();
 
-        builder.Services.ConfigureMediator<GetTranslationsHandler>();
+        builder.Services.AddMediator<GetTranslationsHandler>();
         builder.Services.ConfigureProblemDetails();
 
-        builder.Services.ConfigureOptions(builder.Configuration);
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);

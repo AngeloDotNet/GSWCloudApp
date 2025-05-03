@@ -1,0 +1,194 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".env" />
+    <File Path=".env.template" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="docker-compose-balancer.yml" />
+    <File Path="docker-compose-infra.yml" />
+    <File Path="docker-compose.yml" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/.config/" Id="a8405c38-8061-4bf8-3449-8339016c7eff">
+    <File Path=".config/dotnet-tools.json" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/GSWCloudApp.Common/GSWCloudApp.Common.csproj" />
+    <Project Path="src/GSWCloudApp.Service/GSWCloudApp.Service.csproj" />
+    <Project Path="src/GSWCloudApp.Shared/GSWCloudApp.Shared.csproj" />
+    <Project Path="src/GSWCloudApp.UI/GSWCloudApp.UI.csproj" />
+    <Project Path="src/GSWCloudApp/GSWCloudApp.csproj" />
+  </Folder>
+  <Folder Name="/src/AdminSvc/" Id="c676fdd5-d012-1b9e-9036-4c69c842470c">
+    <Project Path="src/AdminSvc/AdminSvc.BusinessLayer/AdminSvc.BusinessLayer.csproj" />
+    <Project Path="src/AdminSvc/AdminSvc.DataAccessLayer/AdminSvc.DataAccessLayer.csproj" />
+    <Project Path="src/AdminSvc/AdminSvc.LoadBalancer/AdminSvc.LoadBalancer.csproj" />
+    <Project Path="src/AdminSvc/AdminSvc.Migrations/AdminSvc.Migrations.csproj" />
+    <Project Path="src/AdminSvc/AdminSvc.Shared/AdminSvc.Shared.csproj" />
+    <Project Path="src/AdminSvc/AdminSvc/AdminSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/AutenticazioneSvc/" Id="28744b29-e2c1-d71d-2e3e-34a9f5405476">
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer/AutenticazioneSvc.BusinessLayer.csproj" />
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/AutenticazioneSvc.DataAccessLayer.csproj" />
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.LoadBalancer/AutenticazioneSvc.LoadBalancer.csproj" />
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.Migrations/AutenticazioneSvc.Migrations.csproj" />
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.Shared/AutenticazioneSvc.Shared.csproj" />
+    <Project Path="src/AutenticazioneSvc/AutenticazioneSvc/AutenticazioneSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/CategorieSvc/" Id="f1bc4f81-dbef-9ead-75ad-0b9dc7f580df">
+    <Project Path="src/CategorieSvc/CategorieSvc.BusinessLayer/CategorieSvc.BusinessLayer.csproj" />
+    <Project Path="src/CategorieSvc/CategorieSvc.DataAccessLayer/CategorieSvc.DataAccessLayer.csproj" />
+    <Project Path="src/CategorieSvc/CategorieSvc.LoadBalancer/CategorieSvc.LoadBalancer.csproj" />
+    <Project Path="src/CategorieSvc/CategorieSvc.Migrations/CategorieSvc.Migrations.csproj" />
+    <Project Path="src/CategorieSvc/CategorieSvc.Shared/CategorieSvc.Shared.csproj" />
+    <Project Path="src/CategorieSvc/CategorieSvc/CategorieSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/ConfigurazioneSmtpSvc/" Id="ca8a82b7-ca0e-c873-52f1-5174959d4041">
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.BusinessLayer/ConfigurazioneSmtpSvc.BusinessLayer.csproj" />
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.DataAccessLayer/ConfigurazioneSmtpSvc.DataAccessLayer.csproj" />
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.LoadBalancer/ConfigurazioneSmtpSvc.LoadBalancer.csproj" />
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.Migrations/ConfigurazioneSmtpSvc.Migrations.csproj" />
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.Shared/ConfigurazioneSmtpSvc.Shared.csproj" />
+    <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/ConfigurazioniSvc/" Id="11df0f5d-7d99-31cc-5df3-351b4a42d377">
+    <Project Path="src/ConfigurazioniSvc/ConfigurazioniSvc.BusinessLayer/ConfigurazioniSvc.BusinessLayer.csproj" />
+    <Project Path="src/ConfigurazioniSvc/ConfigurazioniSvc.Shared/ConfigurazioniSvc.Shared.csproj" />
+    <Project Path="src/ConfigurazioniSvc/ConfigurazioniSvc/ConfigurazioniSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/GatewaySvc/" Id="51ed244f-bdc6-bdd7-e2af-a78c8e27c685">
+    <Project Path="src/GatewaySvc/GatewaySvc/GatewaySvc.csproj" />
+  </Folder>
+  <Folder Name="/src/GestioneDocumentiSvc/" Id="f26808a7-e460-64ca-510f-513f0b9985fe">
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc.BusinessLayer/GestioneDocumentiSvc.BusinessLayer.csproj" />
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc.DataAccessLayer/GestioneDocumentiSvc.DataAccessLayer.csproj" />
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc.LoadBalancer/GestioneDocumentiSvc.LoadBalancer.csproj" />
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc.Migrations/GestioneDocumentiSvc.Migrations.csproj" />
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc.Shared/GestioneDocumentiSvc.Shared.csproj" />
+    <Project Path="src/GestioneDocumentiSvc/GestioneDocumentiSvc/GestioneDocumentiSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/GestioneLicenzeSvc/" Id="bcdf0c55-bb78-6974-615e-81d23223bf38">
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc.BusinessLayer/GestioneLicenzeSvc.BusinessLayer.csproj" />
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc.DataAccessLayer/GestioneLicenzeSvc.DataAccessLayer.csproj" />
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc.LoadBalancer/GestioneLicenzeSvc.LoadBalancer.csproj" />
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc.Migrations/GestioneLicenzeSvc.Migrations.csproj" />
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc.Shared/GestioneLicenzeSvc.Shared.csproj" />
+    <Project Path="src/GestioneLicenzeSvc/GestioneLicenzeSvc/GestioneLicenzeSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/GestioneLoghiSvc/" Id="5edb313f-5345-e7d1-0c27-598fa19d7772">
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc.BusinessLayer/GestioneLoghiSvc.BusinessLayer.csproj" />
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc.DataAccessLayer/GestioneLoghiSvc.DataAccessLayer.csproj" />
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc.LoadBalancer/GestioneLoghiSvc.LoadBalancer.csproj" />
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc.Migrations/GestioneLoghiSvc.Migrations.csproj" />
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc.Shared/GestioneLoghiSvc.Shared.csproj" />
+    <Project Path="src/GestioneLoghiSvc/GestioneLoghiSvc/GestioneLoghiSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/GestioneModuliSvc/" Id="caad0675-7e7b-e262-9bd2-74d311cde54c">
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc.BusinessLayer/GestioneModuliSvc.BusinessLayer.csproj" />
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc.DataAccessLayer/GestioneModuliSvc.DataAccessLayer.csproj" />
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc.LoadBalancer/GestioneModuliSvc.LoadBalancer.csproj" />
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc.Migrations/GestioneModuliSvc.Migrations.csproj" />
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc.Shared/GestioneModuliSvc.Shared.csproj" />
+    <Project Path="src/GestioneModuliSvc/GestioneModuliSvc/GestioneModuliSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/InvioEmailSvc/" Id="6dfc988b-9f94-cf24-b83f-13171c6ddeeb">
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc.BusinessLayer/InvioEmailSvc.BusinessLayer.csproj" />
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc.DataAccessLayer/InvioEmailSvc.DataAccessLayer.csproj" />
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc.LoadBalancer/InvioEmailSvc.LoadBalancer.csproj" />
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc.Migrations/InvioEmailSvc.Migrations.csproj" />
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc.Shared/InvioEmailSvc.Shared.csproj" />
+    <Project Path="src/InvioEmailSvc/InvioEmailSvc/InvioEmailSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/MenuSvc/" Id="12e4c2ae-0d9d-9c2c-417b-1618b936df65">
+    <Project Path="src/MenuSvc/MenuSvc.BusinessLayer/MenuSvc.BusinessLayer.csproj" />
+    <Project Path="src/MenuSvc/MenuSvc.DataAccessLayer/MenuSvc.DataAccessLayer.csproj" />
+    <Project Path="src/MenuSvc/MenuSvc.LoadBalancer/MenuSvc.LoadBalancer.csproj" />
+    <Project Path="src/MenuSvc/MenuSvc.Migrations/MenuSvc.Migrations.csproj" />
+    <Project Path="src/MenuSvc/MenuSvc.Shared/MenuSvc.Shared.csproj" />
+    <Project Path="src/MenuSvc/MenuSvc/MenuSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/MovimentiCassaSvc/" Id="eb647322-033d-4d4b-dbcd-5623ac81bdd4">
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.BusinessLayer/MovimentiCassaSvc.BusinessLayer.csproj" />
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.DataAccessLayer/MovimentiCassaSvc.DataAccessLayer.csproj" />
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.LoadBalancer/MovimentiCassaSvc.LoadBalancer.csproj" />
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.Migrations/MovimentiCassaSvc.Migrations.csproj" />
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.Shared/MovimentiCassaSvc.Shared.csproj" />
+    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc/MovimentiCassaSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/NotificheSvc/" Id="b9d2b497-8bec-2fed-69fe-74af667f54cc">
+    <Project Path="src/NotificheSvc/NotificheSvc.BusinessLayer/NotificheSvc.BusinessLayer.csproj" />
+    <Project Path="src/NotificheSvc/NotificheSvc.DataAccessLayer/NotificheSvc.DataAccessLayer.csproj" />
+    <Project Path="src/NotificheSvc/NotificheSvc.LoadBalancer/NotificheSvc.LoadBalancer.csproj" />
+    <Project Path="src/NotificheSvc/NotificheSvc.Migrations/NotificheSvc.Migrations.csproj" />
+    <Project Path="src/NotificheSvc/NotificheSvc.Shared/NotificheSvc.Shared.csproj" />
+    <Project Path="src/NotificheSvc/NotificheSvc/NotificheSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/OperazioniAvvioSvc/" Id="cc5400f8-cd8b-cf60-0380-8bce700fdb76">
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.BusinessLayer/OperazioniAvvioSvc.BusinessLayer.csproj" />
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.DataAccessLayer/OperazioniAvvioSvc.DataAccessLayer.csproj" />
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.LoadBalancer/OperazioniAvvioSvc.LoadBalancer.csproj" />
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.Migrations/OperazioniAvvioSvc.Migrations.csproj" />
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.Shared/OperazioniAvvioSvc.Shared.csproj" />
+    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc/OperazioniAvvioSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/PrenotazioniSvc/" Id="15f6bbf7-d447-0845-dc4b-d45be9b58c2f">
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.BusinessLayer/PrenotazioniSvc.BusinessLayer.csproj" />
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.DataAccessLayer/PrenotazioniSvc.DataAccessLayer.csproj" />
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.LoadBalancer/PrenotazioniSvc.LoadBalancer.csproj" />
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.Migrations/PrenotazioniSvc.Migrations.csproj" />
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.Shared/PrenotazioniSvc.Shared.csproj" />
+    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc/PrenotazioniSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/ProdottiSvc/" Id="ee7895ca-36f9-72a3-f6e6-f29e326a1614">
+    <Project Path="src/ProdottiSvc/ProdottiSvc.BusinessLayer/ProdottiSvc.BusinessLayer.csproj" />
+    <Project Path="src/ProdottiSvc/ProdottiSvc.DataAccessLayer/ProdottiSvc.DataAccessLayer.csproj" />
+    <Project Path="src/ProdottiSvc/ProdottiSvc.LoadBalancer/ProdottiSvc.LoadBalancer.csproj" />
+    <Project Path="src/ProdottiSvc/ProdottiSvc.Migrations/ProdottiSvc.Migrations.csproj" />
+    <Project Path="src/ProdottiSvc/ProdottiSvc.Shared/ProdottiSvc.Shared.csproj" />
+    <Project Path="src/ProdottiSvc/ProdottiSvc/ProdottiSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/SchedulatoreSvc/" Id="a0d55eae-cd84-7521-8dda-074475dd8d1d">
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.BusinessLayer/SchedulatoreSvc.BusinessLayer.csproj" />
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.DataAccessLayer/SchedulatoreSvc.DataAccessLayer.csproj" />
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.LoadBalancer/SchedulatoreSvc.LoadBalancer.csproj" />
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.Migrations/SchedulatoreSvc.Migrations.csproj" />
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.Shared/SchedulatoreSvc.Shared.csproj" />
+    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc/SchedulatoreSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/ScontriniSvc/" Id="4d0a4591-e1c7-961a-814b-8a5c4542664a">
+    <Project Path="src/ScontriniSvc/ScontriniSvc.BusinessLayer/ScontriniSvc.BusinessLayer.csproj" />
+    <Project Path="src/ScontriniSvc/ScontriniSvc.DataAccessLayer/ScontriniSvc.DataAccessLayer.csproj" />
+    <Project Path="src/ScontriniSvc/ScontriniSvc.LoadBalancer/ScontriniSvc.LoadBalancer.csproj" />
+    <Project Path="src/ScontriniSvc/ScontriniSvc.Migrations/ScontriniSvc.Migrations.csproj" />
+    <Project Path="src/ScontriniSvc/ScontriniSvc.Shared/ScontriniSvc.Shared.csproj" />
+    <Project Path="src/ScontriniSvc/ScontriniSvc/ScontriniSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/StampeSvc/" Id="a9cfdfac-fbc2-9ca5-ebe2-9a18a80644e2">
+    <Project Path="src/StampeSvc/StampeSvc.BusinessLayer/StampeSvc.BusinessLayer.csproj" />
+    <Project Path="src/StampeSvc/StampeSvc.DataAccessLayer/StampeSvc.DataAccessLayer.csproj" />
+    <Project Path="src/StampeSvc/StampeSvc.LoadBalancer/StampeSvc.LoadBalancer.csproj" />
+    <Project Path="src/StampeSvc/StampeSvc.Migrations/StampeSvc.Migrations.csproj" />
+    <Project Path="src/StampeSvc/StampeSvc.Shared/StampeSvc.Shared.csproj" />
+    <Project Path="src/StampeSvc/StampeSvc/StampeSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/StatisticheSvc/" Id="ee3bf004-1fa4-81bf-d167-bf30c189c46f">
+    <Project Path="src/StatisticheSvc/StatisticheSvc.BusinessLayer/StatisticheSvc.BusinessLayer.csproj" />
+    <Project Path="src/StatisticheSvc/StatisticheSvc.DataAccessLayer/StatisticheSvc.DataAccessLayer.csproj" />
+    <Project Path="src/StatisticheSvc/StatisticheSvc.LoadBalancer/StatisticheSvc.LoadBalancer.csproj" />
+    <Project Path="src/StatisticheSvc/StatisticheSvc.Migrations/StatisticheSvc.Migrations.csproj" />
+    <Project Path="src/StatisticheSvc/StatisticheSvc.Shared/StatisticheSvc.Shared.csproj" />
+    <Project Path="src/StatisticheSvc/StatisticheSvc/StatisticheSvc.csproj" />
+  </Folder>
+  <Folder Name="/src/TraduzioniSvc/" Id="7b527a1c-4965-95c2-05c1-a8d3b7951bca">
+    <Project Path="src/TraduzioniSvc/TraduzioniSvc.BusinessLayer/TraduzioniSvc.BusinessLayer.csproj" />
+    <Project Path="src/TraduzioniSvc/TraduzioniSvc.Shared/TraduzioniSvc.Shared.csproj" />
+    <Project Path="src/TraduzioniSvc/TraduzioniSvc/TraduzioniSvc.csproj" />
+  </Folder>
+</Solution>

@@ -34,13 +34,13 @@ public class Program
         builder.Services.AddAntiforgery();
         builder.Services.AddTransient<IConfigurazioneService, ConfigurazioneService>();
 
-        builder.Services.ConfigureMediator<GetAllSettingSmtpHandler>();
+        builder.Services.AddMediator<GetAllSettingSmtpHandler>();
         builder.Services.ConfigureGenericServices();
 
         builder.Services.ConfigureProblemDetails();
         builder.Services.ConfigureFluentValidation<CreateSettingSenderValidator>();
 
-        builder.Services.ConfigureOptions(builder.Configuration);
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
