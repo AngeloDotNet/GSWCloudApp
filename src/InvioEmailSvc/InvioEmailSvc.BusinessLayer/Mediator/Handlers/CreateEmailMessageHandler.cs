@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using GSWCloudApp.Common.Mediator.Interfaces.Command;
+﻿using GSWCloudApp.Common.Mediator.Interfaces.Command;
+using InvioEmailSvc.BusinessLayer.Mapper;
 using InvioEmailSvc.BusinessLayer.Mediator.Command;
 using InvioEmailSvc.DataAccessLayer;
 using InvioEmailSvc.DataAccessLayer.Entities;
@@ -7,19 +7,21 @@ using Microsoft.Extensions.Logging;
 
 namespace InvioEmailSvc.BusinessLayer.Mediator.Handlers;
 
-public class CreateEmailMessageHandler(AppDbContext dbContext, IMapper mapper, ILogger<CreateEmailMessageHandler> logger)
+//TODO: Code cleanup
+//public class CreateEmailMessageHandler(AppDbContext dbContext, IMapper mapper, ILogger<CreateEmailMessageHandler> logger)
+//    : ICommandHandler<CreateEmailMessageCommand, bool>
+public class CreateEmailMessageHandler(AppDbContext dbContext, ILogger<CreateEmailMessageHandler> logger)
     : ICommandHandler<CreateEmailMessageCommand, bool>
 {
     public async Task<bool> Handle(CreateEmailMessageCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            //Creazione del messaggio email
-            var emailMessage = mapper.Map<EmailMessage>(request);
-
+            //TODO: Code cleanup
+            //var emailMessage = mapper.Map<EmailMessage>(request);
+            var emailMessage = ProfileMapper.CreateEmailMessageCommandToEntity(request);
             dbContext.EmailMessages.Add(emailMessage);
 
-            //Creazione del messaggio email nella coda di invio
             var emailOutboxMessage = new EmailOutboxMessage
             {
                 EmailMessageId = emailMessage.Id,
@@ -29,8 +31,6 @@ public class CreateEmailMessageHandler(AppDbContext dbContext, IMapper mapper, I
             };
 
             dbContext.EmailOutboxMessages.Add(emailOutboxMessage);
-
-            //Salvataggio delle modifiche
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return true;
