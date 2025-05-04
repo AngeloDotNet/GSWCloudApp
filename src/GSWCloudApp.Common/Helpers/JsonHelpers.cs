@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace GSWCloudApp.Common.Helpers;
 
@@ -13,11 +14,17 @@ public static class JsonHelpers
     /// <returns>A configured <see cref="JsonSerializerOptions"/> instance.</returns>
     public static JsonSerializerOptions JsonSerializer()
     {
-        return new JsonSerializerOptions
+        var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
         {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            IndentSize = 2,
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
+
+        jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+        return jsonSerializerOptions;
     }
 }
