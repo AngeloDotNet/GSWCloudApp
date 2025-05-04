@@ -3,6 +3,7 @@ using ConfigurazioniSvc.Shared;
 using GSWCloudApp.Common.Identity.Options;
 using GSWCloudApp.Common.Options;
 using Microsoft.Extensions.Configuration;
+using Helpers = GSWCloudApp.Common.Helpers.JsonHelpers;
 
 namespace ConfigurazioniSvc.BusinessLayer.Extensions;
 
@@ -65,13 +66,6 @@ public static class ConfigurationAppExtensions
             DefaultAdminPassword = configuration.GetSection("DefaultAdminPassword").Value ?? string.Empty
         };
 
-        File.WriteAllText(filePath, JsonSerializer.Serialize(configurationApp, jsonOptions));
+        File.WriteAllText(filePath, JsonSerializer.Serialize(configurationApp, Helpers.JsonSerializer()));
     }
-
-    private static readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true
-    };
 }

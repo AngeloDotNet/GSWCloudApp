@@ -19,33 +19,20 @@ public class Program
         ServiceExtensions.AddConfigurationSerilog<Program>(builder);
         ConfigurationAppExtensions.GenerateJSON(builder.Configuration, Path.Combine(Directory.GetCurrentDirectory(), BLConstants.JsonConfigurations));
 
-        builder.Services.ConfigureJsonOptions();
-        builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
-
-        builder.Services.ConfigureApiVersioning();
-        builder.Services.ConfigureSwagger();
-
-        builder.Services.AddAntiforgery();
+        builder.Services.AddDefaultServices(BLConstants.DefaultCorsPolicyName);
         builder.Services.AddTransient<IConfigurazioniService, ConfigurazioniService>();
 
-        builder.Services.ConfigureMediator<GetConfigurationsHandler>();
+        builder.Services.AddMediator<GetConfigurationsHandler>();
         builder.Services.ConfigureProblemDetails();
 
-        builder.Services.ConfigureOptions(builder.Configuration);
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
-        app.UseExceptionHandler();
-        app.UseStatusCodePages();
-
-        app.UseDevSwagger(applicationOptions);
-        app.UseForwardNetworking();
-
-        app.UseRouting();
-        app.UseCors(BLConstants.DefaultCorsPolicyName);
-
+        app.UseDefaultServices(applicationOptions, BLConstants.DefaultCorsPolicyName);
         app.UseAntiforgery();
+
         versionedApi.MapEndpoints();
 
         await app.RunAsync();

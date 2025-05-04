@@ -31,7 +31,7 @@ public class Program
         builder.Services.Configure<KestrelServerOptions>(builder.Configuration.GetSection("Kestrel"));
 
         builder.Services.ConfigureJWTSettings<SecurityDbContext>(jwtOptions);
-        builder.Services.ConfigureOptions(builder.Configuration);
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
 

@@ -2,7 +2,6 @@ using GSWCloudApp.Common;
 using GSWCloudApp.Common.Extensions;
 using GSWCloudApp.Common.Helpers;
 using GSWCloudApp.Common.Routing;
-using InvioEmailSvc.BusinessLayer.Mapper;
 using InvioEmailSvc.BusinessLayer.Mediator.Handlers;
 using InvioEmailSvc.BusinessLayer.Services;
 using InvioEmailSvc.BusinessLayer.Services.Interfaces;
@@ -30,37 +29,29 @@ public class Program
         builder.Services.ConfigureJsonOptions();
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(applicationOptions, databaseConnection);
 
-        builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
-        builder.Services.ConfigureApiVersioning();
-
-        builder.Services.ConfigureSwagger();
+        builder.Services.AddDefaultServices(BLConstants.DefaultCorsPolicyName);
         builder.Services.AddAntiforgery();
 
         builder.Services.AddTransient<IMailKitEmailSenderService, MailKitEmailSenderService>();
         builder.Services.AddTransient<ISendEmailService, SendEmailService>();
 
         builder.Services.AddHostedService<Worker>();
-        builder.Services.ConfigureMediator<CreateEmailMessageHandler>();
+        builder.Services.AddMediator<CreateEmailMessageHandler>();
 
         builder.Services.ConfigureProblemDetails();
-        builder.Services.ConfigureAutoMapper<MappingProfile>();
-
         builder.Services.ConfigureFluentValidation<CreateEmailMessageValidator>();
-        builder.Services.ConfigureOptions(builder.Configuration);
+
+        builder.Services.AddOptions(builder.Configuration);
 
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
         await app.ApplyMigrationsAsync<AppDbContext>();
+
         app.UseExceptionHandler();
-
         app.UseStatusCodePages();
-        app.UseDevSwagger(applicationOptions);
 
-        app.UseForwardNetworking();
-        app.UseRouting();
-
-        app.UseCors(BLConstants.DefaultCorsPolicyName);
+        app.UseDefaultServices(applicationOptions, BLConstants.DefaultCorsPolicyName);
         app.UseAntiforgery();
 
         versionedApi.MapEndpoints();
