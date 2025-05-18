@@ -1,10 +1,14 @@
-﻿using MediatR;
-
-namespace GSWCloudApp.Common.Mediator.Interfaces.Command;
+﻿namespace GSWCloudApp.Common.Mediator.Interfaces.Command;
 
 /// <summary>
-/// Represents a command with a response type that implements the MediatR IRequest interface.
+/// Represents a command with no return value.
 /// </summary>
-/// <typeparam name="TResponse">The type of the response.</typeparam>
-public interface ICommand<TResponse> : IRequest<TResponse>
+public interface ICommand
+{ }
+
+/// <summary>
+/// Represents a command that returns a response of the specified type.
+/// </summary>
+/// <typeparam name="TResponse">The type of the response returned by the command.</typeparam>
+public interface ICommand<TResponse>
 { }

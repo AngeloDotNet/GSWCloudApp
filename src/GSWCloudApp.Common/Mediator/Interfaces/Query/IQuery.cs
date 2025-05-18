@@ -1,10 +1,8 @@
-﻿using MediatR;
-
-namespace GSWCloudApp.Common.Mediator.Interfaces.Query;
+﻿namespace GSWCloudApp.Common.Mediator.Interfaces.Query;
 
 /// <summary>
-/// Represents a query with a response type that implements the MediatR IRequest interface.
+/// Represents a query that returns a response of the specified type.
 /// </summary>
-/// <typeparam name="TResponse">The type of the response.</typeparam>
-public interface IQuery<TResponse> : IRequest<TResponse>
+/// <typeparam name="TResponse">The type of the response returned by the query.</typeparam>
+public interface IQuery<TResponse>
 { }

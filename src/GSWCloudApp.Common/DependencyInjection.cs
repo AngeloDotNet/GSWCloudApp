@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using GSWCloudApp.Common.Mediator.Interfaces.Command;
+using GSWCloudApp.Common.Mediator.Interfaces.Query;
 using GSWCloudApp.Common.Options;
 using GSWCloudApp.Common.RedisCache.Services;
 using GSWCloudApp.Common.ServiceGenerics.Services;
@@ -13,13 +15,24 @@ namespace GSWCloudApp.Common;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Configures MediatR with the specified handler.
+    /// Configures MediatR by scanning for query and command handlers in the specified assembly.
     /// </summary>
-    /// <typeparam name="THandler">The type of the MediatR handler.</typeparam>
-    /// <param name="services">The service collection to add the MediatR configuration to.</param>
+    /// <typeparam name="TAssembly">The type from the assembly to scan for handlers.</typeparam>
+    /// <param name="services">The service collection to add the handlers to.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddMediator<THandler>(this IServiceCollection services) where THandler : class
-        => services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(THandler).Assembly));
+    public static IServiceCollection ConfigureMediatR<TAssembly>(this IServiceCollection services) where TAssembly : class
+    {
+        return services.Scan(scan => scan.FromAssembliesOf(typeof(DependencyInjection), typeof(TAssembly))
+                .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)), publicOnly: false)
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime()
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)), publicOnly: false)
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime()
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)), publicOnly: false)
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
+    }
 
     /// <summary>
     /// Gets a Polly retry policy with the specified options.
@@ -62,9 +75,7 @@ public static class DependencyInjection
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection ConfigureGenericServices(this IServiceCollection services)
         => services
-            .AddTransient<IGenericService, GenericService>()
-            //.AddTransient<ICachedGenericService, CachedGenericService>()
-            ;
+            .AddTransient<IGenericService, GenericService>();
 
     /// <summary>
     /// Configures FluentValidation with the specified validator.

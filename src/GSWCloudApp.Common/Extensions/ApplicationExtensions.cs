@@ -75,7 +75,6 @@ public static class ApplicationExtensions
         app.UseExceptionHandler();
         app.UseStatusCodePages();
 
-        //app.UseDevSwagger(applicationOptions);
         if (app.Environment.IsDevelopment() || applicationOptions.SwaggerEnable)
         {
             app.UseSwagger();
@@ -91,7 +90,6 @@ public static class ApplicationExtensions
             });
         }
 
-        //app.UseForwardNetworking();
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
