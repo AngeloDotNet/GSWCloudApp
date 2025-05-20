@@ -1,19 +1,20 @@
 ﻿using GSWCloudApp.Common.Exceptions;
-using MediatR;
+using GSWCloudApp.Common.Mediator.Interfaces.Query;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging;
 using TraduzioniSvc.BusinessLayer.Mediator.Query;
+using TraduzioniSvc.Shared;
 
 namespace TraduzioniSvc.BusinessLayer.Services;
 
-public class TranslateService(ISender sender, ILogger<TranslateService> logger) : ITranslateService
+public class TranslateService(ILogger<TranslateService> logger, IQueryHandler<GetTranslationsQuery, TraduzioniResult> handler) : ITranslateService
 {
     public async Task<Results<FileContentHttpResult, BadRequest<string>>> GetTranslationsAsync(string language, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await sender.Send(new GetTranslationsQuery(language), cancellationToken);
+            var result = await handler.Handle(new GetTranslationsQuery(language), cancellationToken);
 
             return TypedResults.File(result.FileContent, "application/json", result.FileName);
         }
