@@ -107,20 +107,7 @@ public static class ServiceExtensions
         return services;
     }
 
-    //TODO: Remove this method when obsolete
-    ///// <summary>
-    ///// Configures CORS with the specified policy name.
-    ///// </summary>
-    ///// <param name="services">The service collection to configure.</param>
-    ///// <param name="policyName">The name of the CORS policy.</param>
-    ///// <returns>The configured service collection.</returns>
-    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    //public static IServiceCollection ConfigureCors(this IServiceCollection services, string policyName)
-    //{
-    //    return services.AddCors(options
-    //        => options.AddPolicy(policyName, builder
-    //            => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-    //}
+// (Removed the commented-out ConfigureCors method and its associated comments)
 
     //TODO: Remove this method when obsolete
     /// <summary>
