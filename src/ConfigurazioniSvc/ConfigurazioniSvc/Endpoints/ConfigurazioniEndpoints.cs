@@ -9,8 +9,6 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
 {
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var apiService = endpoints.ServiceProvider.GetRequiredService<IConfigurazioniService>();
-
         var apiGroup = endpoints
             .MapGroup("/configurazioni")
             .MapToApiVersion(1)
@@ -21,15 +19,18 @@ public class ConfigurazioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalApi.PatternEmpty, apiService.GetConfigurationsAsync)
-            .Produces<string>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .WithOpenApi(opt =>
-            {
-                opt.Summary = "Get all configurations";
-                opt.Description = "Extracts all microservices configurations";
+        apiGroup.MapGet(MinimalApi.PatternEmpty, async (IConfigurazioniService service, CancellationToken cancellationToken) =>
+        {
+            return await service.GetConfigurationsAsync(cancellationToken);
+        })
+        .Produces<string>(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .WithOpenApi(opt =>
+        {
+            opt.Summary = "Get all configurations";
+            opt.Description = "Extracts all microservices configurations";
 
-                return opt;
-            });
+            return opt;
+        });
     }
 }

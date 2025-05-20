@@ -22,7 +22,7 @@ public class Program
         builder.Services.AddDefaultServices(BLConstants.DefaultCorsPolicyName);
         builder.Services.AddTransient<IConfigurazioniService, ConfigurazioniService>();
 
-        builder.Services.AddMediator<GetConfigurationsHandler>();
+        builder.Services.ConfigureMediatR<GetConfigurationsHandler>();
         builder.Services.ConfigureProblemDetails();
 
         builder.Services.AddOptions(builder.Configuration);

@@ -74,8 +74,7 @@ public static class DependencyInjection
     /// <param name="services">The service collection to add the generic services to.</param>
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection ConfigureGenericServices(this IServiceCollection services)
-        => services
-            .AddTransient<IGenericService, GenericService>();
+        => services.AddTransient<IGenericService, GenericService>();
 
     /// <summary>
     /// Configures FluentValidation with the specified validator.
