@@ -17,15 +17,12 @@ public class Program
         ServiceExtensions.AddConfigurationSerilog<Program>(builder);
 
         builder.Services.ConfigureJsonOptions();
-        builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
-
-        builder.Services.ConfigureApiVersioning();
-        builder.Services.ConfigureSwagger();
+        builder.Services.AddDefaultServices(BLConstants.DefaultCorsPolicyName);
 
         builder.Services.AddAntiforgery();
         builder.Services.AddTransient<ITranslateService, TranslateService>();
 
-        builder.Services.AddMediator<GetTranslationsHandler>();
+        builder.Services.ConfigureMediatR<GetTranslationsHandler>();
         builder.Services.ConfigureProblemDetails();
 
         builder.Services.AddOptions(builder.Configuration);
@@ -33,16 +30,9 @@ public class Program
         var app = builder.Build();
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
-        app.UseExceptionHandler();
-        app.UseStatusCodePages();
-
-        app.UseDevSwagger(applicationOptions);
-        app.UseForwardNetworking();
-
-        app.UseRouting();
-        app.UseCors(BLConstants.DefaultCorsPolicyName);
-
+        app.UseDefaultServices(applicationOptions, BLConstants.DefaultCorsPolicyName);
         app.UseAntiforgery();
+
         versionedApi.MapEndpoints();
 
         await app.RunAsync();
