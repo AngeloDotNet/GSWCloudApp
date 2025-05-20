@@ -9,8 +9,6 @@ public class TraduzioniEndpoints : IEndpointRouteHandlerBuilder
 {
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var apiService = endpoints.ServiceProvider.GetRequiredService<ITranslateService>();
-
         var apiGroup = endpoints
             .MapGroup("/traduzioni")
             .MapToApiVersion(1)
@@ -21,7 +19,10 @@ public class TraduzioniEndpoints : IEndpointRouteHandlerBuilder
                 return opt;
             });
 
-        apiGroup.MapGet(MinimalApi.PatternLanguage, apiService.GetTranslationsAsync)
+        apiGroup.MapGet(MinimalApi.PatternLanguage, async (string language, ITranslateService service, CancellationToken cancellationToken) =>
+        {
+            return await service.GetTranslationsAsync(language, cancellationToken);
+        })
         .Produces<string>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi(opt =>
