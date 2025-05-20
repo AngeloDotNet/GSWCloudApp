@@ -107,61 +107,64 @@ public static class ServiceExtensions
         return services;
     }
 
-    /// <summary>
-    /// Configures CORS with the specified policy name.
-    /// </summary>
-    /// <param name="services">The service collection to configure.</param>
-    /// <param name="policyName">The name of the CORS policy.</param>
-    /// <returns>The configured service collection.</returns>
-    [Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    public static IServiceCollection ConfigureCors(this IServiceCollection services, string policyName)
-    {
-        return services.AddCors(options
-            => options.AddPolicy(policyName, builder
-                => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-    }
+    //TODO: Remove this method when obsolete
+    ///// <summary>
+    ///// Configures CORS with the specified policy name.
+    ///// </summary>
+    ///// <param name="services">The service collection to configure.</param>
+    ///// <param name="policyName">The name of the CORS policy.</param>
+    ///// <returns>The configured service collection.</returns>
+    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
+    //public static IServiceCollection ConfigureCors(this IServiceCollection services, string policyName)
+    //{
+    //    return services.AddCors(options
+    //        => options.AddPolicy(policyName, builder
+    //            => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+    //}
 
+    //TODO: Remove this method when obsolete
     /// <summary>
     /// Configures API versioning for the application.
     /// </summary>
     /// <param name="services">The service collection to configure.</param>
     /// <returns>The configured service collection.</returns>
-    [Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
-    {
-        services.AddApiVersioning(options =>
-        {
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            options.DefaultApiVersion = new ApiVersion(1);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ReportApiVersions = true;
-        })
-            .AddApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
+    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
+    //public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
+    //{
+    //    services.AddApiVersioning(options =>
+    //    {
+    //        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    //        options.DefaultApiVersion = new ApiVersion(1);
+    //        options.AssumeDefaultVersionWhenUnspecified = true;
+    //        options.ReportApiVersions = true;
+    //    })
+    //        .AddApiExplorer(options =>
+    //        {
+    //            options.GroupNameFormat = "'v'VVV";
+    //            options.SubstituteApiVersionInUrl = true;
+    //        });
 
-        return services;
-    }
+    //    return services;
+    //}
 
-    /// <summary>
-    /// Configures Swagger for the application.
-    /// </summary>
-    /// <param name="services">The service collection to configure.</param>
-    /// <returns>The configured service collection.</returns>
-    [Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
-    {
-        return services
-            .AddEndpointsApiExplorer()
-            .AddSwaggerGen(options =>
-            {
-                options.EnableAnnotations();
-                options.OperationFilter<SwaggerDefaultValues>();
-            })
-            .ConfigureOptions<ConfigureSwaggerGenOptions>();
-    }
+    //TODO: Remove this method when obsolete
+    ///// <summary>
+    ///// Configures Swagger for the application.
+    ///// </summary>
+    ///// <param name="services">The service collection to configure.</param>
+    ///// <returns>The configured service collection.</returns>
+    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
+    //public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+    //{
+    //    return services
+    //        .AddEndpointsApiExplorer()
+    //        .AddSwaggerGen(options =>
+    //        {
+    //            options.EnableAnnotations();
+    //            options.OperationFilter<SwaggerDefaultValues>();
+    //        })
+    //        .ConfigureOptions<ConfigureSwaggerGenOptions>();
+    //}
 
     /// <summary>
     /// Configures Swagger with authentication for the application.
