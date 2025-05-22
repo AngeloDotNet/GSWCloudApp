@@ -26,15 +26,12 @@ public class Program
         builder.Services.ConfigureJsonOptions();
 
         builder.Services.ConfigureDbContextAsync<Program, AppDbContext>(applicationOptions, databaseConnection);
-        builder.Services.ConfigureCors(BLConstants.DefaultCorsPolicyName);
-
-        builder.Services.ConfigureApiVersioning();
-        builder.Services.ConfigureSwagger();
+        builder.Services.AddDefaultServices(BLConstants.DefaultCorsPolicyName);
 
         builder.Services.AddAntiforgery();
         builder.Services.AddTransient<IConfigurazioneService, ConfigurazioneService>();
 
-        builder.Services.AddMediator<GetAllSettingSmtpHandler>();
+        builder.Services.ConfigureMediatR<GetAllSettingSmtpHandler>();
         builder.Services.ConfigureGenericServices();
 
         builder.Services.ConfigureProblemDetails();
@@ -46,15 +43,8 @@ public class Program
         var versionedApi = ApplicationExtensions.UseVersioningApi(app);
 
         await app.ApplyMigrationsAsync<AppDbContext>();
-        app.UseExceptionHandler();
 
-        app.UseStatusCodePages();
-        app.UseDevSwagger(applicationOptions);
-
-        app.UseForwardNetworking();
-        app.UseRouting();
-
-        app.UseCors(BLConstants.DefaultCorsPolicyName);
+        app.UseDefaultServices(applicationOptions, BLConstants.DefaultCorsPolicyName);
         app.UseAntiforgery();
 
         versionedApi.MapEndpoints();
