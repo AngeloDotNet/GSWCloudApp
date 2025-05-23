@@ -7,9 +7,6 @@ using Microsoft.Extensions.Logging;
 
 namespace InvioEmailSvc.BusinessLayer.Mediator.Handlers;
 
-//TODO: Code cleanup
-//public class CreateEmailMessageHandler(AppDbContext dbContext, IMapper mapper, ILogger<CreateEmailMessageHandler> logger)
-//    : ICommandHandler<CreateEmailMessageCommand, bool>
 public class CreateEmailMessageHandler(AppDbContext dbContext, ILogger<CreateEmailMessageHandler> logger)
     : ICommandHandler<CreateEmailMessageCommand, bool>
 {
@@ -17,8 +14,6 @@ public class CreateEmailMessageHandler(AppDbContext dbContext, ILogger<CreateEma
     {
         try
         {
-            //TODO: Code cleanup
-            //var emailMessage = mapper.Map<EmailMessage>(request);
             var emailMessage = ProfileMapper.CreateEmailMessageCommandToEntity(request);
             dbContext.EmailMessages.Add(emailMessage);
 

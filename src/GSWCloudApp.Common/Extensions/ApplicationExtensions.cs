@@ -30,48 +30,13 @@ public static class ApplicationExtensions
         return versionedApi;
     }
 
-    //TODO: Remove this method when obsolete
-    ///// <summary>
-    ///// Configures Swagger for the application in development environment or if enabled in options.
-    ///// </summary>
-    ///// <param name="app">The web application.</param>
-    ///// <param name="options">The application options.</param>
-    //[Obsolete("UseDevSwagger is deprecated, please use UseDefaultServices instead.")]
-    //public static void UseDevSwagger(this WebApplication app, ApplicationOptions options)
-    //{
-    //    if (app.Environment.IsDevelopment() || options.SwaggerEnable)
-    //    {
-    //        app.UseSwagger();
-    //        app.UseSwaggerUI(options =>
-    //        {
-    //            var descriptions = app.DescribeApiVersions();
-
-    //            foreach (var description in descriptions)
-    //            {
-    //                var url = $"/swagger/{description.GroupName}/swagger.json";
-    //                options.SwaggerEndpoint(url, description.GroupName);
-    //            }
-    //        });
-    //    }
-    //}
-
-    //TODO: Remove this method when obsolete
-    ///// <summary>
-    ///// Configures the application to use forwarded headers.
-    ///// </summary>
-    ///// <param name="app">The web application.</param>
-    //[Obsolete("UseForwardNetworking is deprecated, please use UseDefaultServices instead.")]
-    //public static void UseForwardNetworking(this WebApplication app)
-    //{
-    //    app.UseForwardedHeaders(new ForwardedHeadersOptions
-    //    {
-    //        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-    //    });
-
-    //    // Non necessario se viene usato NGINX come proxy
-    //    // app.UseHttpsRedirection();
-    //}
-
+    /// <summary>
+    /// Configures the default middleware and services for the application, including exception handling,
+    /// status code pages, Swagger (if enabled), forwarded headers, routing, and CORS.
+    /// </summary>
+    /// <param name="app">The <see cref="WebApplication"/> instance to configure.</param>
+    /// <param name="applicationOptions">The application options containing configuration flags.</param>
+    /// <param name="policyName">The name of the CORS policy to use.</param>
     public static void UseDefaultServices(this WebApplication app, ApplicationOptions applicationOptions, string policyName)
     {
         app.UseExceptionHandler();

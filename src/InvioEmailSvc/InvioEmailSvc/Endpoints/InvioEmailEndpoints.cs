@@ -11,8 +11,6 @@ public class InvioEmailEndpoints : IEndpointRouteHandlerBuilder
 {
     public static void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var apiService = endpoints.ServiceProvider.GetRequiredService<ISendEmailService>();
-
         var apiGroup = endpoints
             .MapGroup("/invioemail")
             .MapToApiVersion(1)
@@ -24,17 +22,20 @@ public class InvioEmailEndpoints : IEndpointRouteHandlerBuilder
             })
             .DisableAntiforgery();
 
-        apiGroup.MapPost(MinimalApi.PatternEmpty, apiService.SendEmailAsync)
-            .Produces(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
-            .WithValidation<CreateEmailMessageDto>()
-            .WithOpenApi(opt =>
-            {
-                opt.Summary = "Send email";
-                opt.Description = "Send email process";
+        apiGroup.MapPost(MinimalApi.PatternEmpty, async (CreateEmailMessageDto request, ISendEmailService service, CancellationToken cancellationToken) =>
+        {
+            return await service.SendEmailAsync(request, cancellationToken);
+        })
+        .Produces(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+        .WithValidation<CreateEmailMessageDto>()
+        .WithOpenApi(opt =>
+        {
+            opt.Summary = "Send email";
+            opt.Description = "Send email process";
 
-                return opt;
-            });
+            return opt;
+        });
     }
 }

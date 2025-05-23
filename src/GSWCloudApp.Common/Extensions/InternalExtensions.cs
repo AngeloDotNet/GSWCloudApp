@@ -22,24 +22,21 @@ internal static class InternalExtensions
     /// <returns>The server API address based on the environment and application name.</returns>
     internal static string SetApplicationEnv(IConfiguration configuration, string application)
     {
-        var serverApi = string.Empty;
         var environment = GetEnvironment(configuration);
 
-        if (environment is "development" or "production")
+        if (environment is not ("development" or "production"))
+            return string.Empty;
+
+        return application switch
         {
-            serverApi = application switch
-            {
-                MicroservicesName.ConfigurazioneSmtpSvc
-                    => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioneSmtpSvc : ServiceAddress.Docker_ConfigurazioneSmtpSvc,
+            MicroservicesName.ConfigurazioneSmtpSvc
+                => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioneSmtpSvc : ServiceAddress.Docker_ConfigurazioneSmtpSvc,
 
-                MicroservicesName.ConfigurazioniSvc
-                    => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioniSvc : ServiceAddress.Docker_ConfigurazioniSvc,
+            MicroservicesName.ConfigurazioniSvc
+                => environment == "development" ? ServiceAddress.BaseAddress_ConfigurazioniSvc : ServiceAddress.Docker_ConfigurazioniSvc,
 
-                _ => string.Empty
-            };
-        }
-
-        return serverApi;
+            _ => string.Empty
+        };
     }
 
     /// <summary>
@@ -48,23 +45,18 @@ internal static class InternalExtensions
     /// <param name="configuration">The configuration object.</param>
     /// <returns>The current environment as a string.</returns>
     internal static string GetEnvironment(IConfiguration configuration)
-    {
-        return configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant() ?? string.Empty;
-    }
+        => configuration["ASPNETCORE_ENVIRONMENT"]?.ToLowerInvariant() ?? string.Empty;
 
     /// <summary>
     /// Gets the permission policies as a dictionary.
     /// </summary>
     /// <returns>A dictionary containing the permission policies and their corresponding role names.</returns>
-    internal static Dictionary<TipoPolicy, string> GetPermissionPolicies()
+    internal static Dictionary<TipoPolicy, string> GetPermissionPolicies() => new()
     {
-        return new Dictionary<TipoPolicy, string>
-        {
-            { TipoPolicy.Administrator, RoleNames.Administrator },
-            { TipoPolicy.PowerUser, RoleNames.PowerUser },
-            { TipoPolicy.User, RoleNames.User }
-        };
-    }
+        { TipoPolicy.Administrator, RoleNames.Administrator },
+        { TipoPolicy.PowerUser, RoleNames.PowerUser },
+        { TipoPolicy.User, RoleNames.User }
+    };
 
     /// <summary>
     /// Gets the configuration app JSON asynchronously.
@@ -95,31 +87,17 @@ internal static class InternalExtensions
     /// <returns>The connection string.</returns>
     internal static async Task<string> GetConnectionStringFromNamingAsync(IConfiguration configuration, string nameConnectionString)
     {
-        var result = string.Empty;
-        var (httpClient, deserializeResponse) = await GetConfigurationAppJsonAsync(configuration);
+        var (httpClient, deserializeResponse) = await GetConfigurationAppJsonAsync(configuration).ConfigureAwait(false);
 
-        switch (nameConnectionString)
+        return nameConnectionString switch
         {
-            case "SqlAutentica":
-                result = deserializeResponse.ConnectionStrings.SqlAutentica;
-                break;
-            case "SqlConfigSmtp":
-                result = deserializeResponse.ConnectionStrings.SqlConfigSmtp;
-                break;
-            case "SqlGestDocumenti":
-                result = deserializeResponse.ConnectionStrings.SqlGestDocumenti;
-                break;
-            case "SqlGestLoghi":
-                result = deserializeResponse.ConnectionStrings.SqlGestLoghi;
-                break;
-            case "SqlInvioEmail":
-                result = deserializeResponse.ConnectionStrings.SqlInvioEmail;
-                break;
-            default:
-                break;
-        }
-
-        return result!;
+            "SqlAutentica" => deserializeResponse.ConnectionStrings.SqlAutentica,
+            "SqlConfigSmtp" => deserializeResponse.ConnectionStrings.SqlConfigSmtp,
+            "SqlGestDocumenti" => deserializeResponse.ConnectionStrings.SqlGestDocumenti,
+            "SqlGestLoghi" => deserializeResponse.ConnectionStrings.SqlGestLoghi,
+            "SqlInvioEmail" => deserializeResponse.ConnectionStrings.SqlInvioEmail,
+            _ => string.Empty
+        } ?? string.Empty;
     }
 
     /// <summary>
@@ -131,31 +109,26 @@ internal static class InternalExtensions
     /// <exception cref="InvalidOperationException">Thrown when the specified type is not found or is null.</exception>
     internal static async Task<T> GetTAsync<T>(IConfiguration configuration) where T : class
     {
-        var (httpClient, deserializeResponse) = await GetConfigurationAppJsonAsync(configuration);
+        var (httpClient, deserializeResponse) = await GetConfigurationAppJsonAsync(configuration).ConfigureAwait(false);
 
-        if (typeof(T) == typeof(WorkerSettings))
+        return typeof(T) switch
         {
-            return deserializeResponse.WorkerSettings as T ?? throw new InvalidOperationException("WorkerSettings is null");
-        }
-        else if (typeof(T) == typeof(ConfigurationApp))
-        {
-            return deserializeResponse as T ?? throw new InvalidOperationException("ConfigurationApp is null");
-        }
-        else if (typeof(T) == typeof(ApplicationOptions))
-        {
-            return deserializeResponse.ApplicationOptions as T ?? throw new InvalidOperationException("ApplicationOptions is null");
-        }
-        else if (typeof(T) == typeof(JwtOptions))
-        {
-            return deserializeResponse.JwtOptions as T ?? throw new InvalidOperationException("JwtOptions is null");
-        }
-        else if (typeof(T) == typeof(PollyPolicyOptions))
-        {
-            return deserializeResponse.PollyPolicyOptions as T ?? throw new InvalidOperationException("PollyPolicyOptions is null");
-        }
-        else
-        {
-            return deserializeResponse.ApplicationOptions as T ?? throw new InvalidOperationException("ApplicationOptions is null");
-        }
+            var t when t == typeof(WorkerSettings) => deserializeResponse.WorkerSettings as T
+                ?? throw new InvalidOperationException("WorkerSettings is null"),
+
+            var t when t == typeof(ConfigurationApp) => deserializeResponse as T
+                ?? throw new InvalidOperationException("ConfigurationApp is null"),
+
+            var t when t == typeof(ApplicationOptions) => deserializeResponse.ApplicationOptions as T
+                ?? throw new InvalidOperationException("ApplicationOptions is null"),
+
+            var t when t == typeof(JwtOptions) => deserializeResponse.JwtOptions as T
+                ?? throw new InvalidOperationException("JwtOptions is null"),
+
+            var t when t == typeof(PollyPolicyOptions) => deserializeResponse.PollyPolicyOptions as T
+                ?? throw new InvalidOperationException("PollyPolicyOptions is null"),
+
+            _ => deserializeResponse.ApplicationOptions as T ?? throw new InvalidOperationException("ApplicationOptions is null")
+        };
     }
 }
