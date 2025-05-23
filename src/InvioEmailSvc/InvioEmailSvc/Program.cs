@@ -36,7 +36,7 @@ public class Program
         builder.Services.AddTransient<ISendEmailService, SendEmailService>();
 
         builder.Services.AddHostedService<Worker>();
-        builder.Services.AddMediator<CreateEmailMessageHandler>();
+        builder.Services.ConfigureMediatR<CreateEmailMessageHandler>();
 
         builder.Services.ConfigureProblemDetails();
         builder.Services.ConfigureFluentValidation<CreateEmailMessageValidator>();
