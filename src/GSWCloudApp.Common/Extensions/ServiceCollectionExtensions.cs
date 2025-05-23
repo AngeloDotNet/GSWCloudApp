@@ -60,7 +60,7 @@ public static class ServiceExtensions
     {
         var assemblyMigrations = $"{typeof(T).Assembly.GetName().Name}.Migrations";
 
-        services.AddScoped<DbContext, TDbContext>();
+        //services.AddScoped<DbContext, TDbContext>();
         services.AddDbContext<TDbContext>(optionsBuilder =>
         {
             optionsBuilder.UseNpgsql(databaseConnection, options =>
@@ -106,52 +106,6 @@ public static class ServiceExtensions
 
         return services;
     }
-
-// (Removed the commented-out ConfigureCors method and its associated comments)
-
-    //TODO: Remove this method when obsolete
-    /// <summary>
-    /// Configures API versioning for the application.
-    /// </summary>
-    /// <param name="services">The service collection to configure.</param>
-    /// <returns>The configured service collection.</returns>
-    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    //public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
-    //{
-    //    services.AddApiVersioning(options =>
-    //    {
-    //        options.ApiVersionReader = new UrlSegmentApiVersionReader();
-    //        options.DefaultApiVersion = new ApiVersion(1);
-    //        options.AssumeDefaultVersionWhenUnspecified = true;
-    //        options.ReportApiVersions = true;
-    //    })
-    //        .AddApiExplorer(options =>
-    //        {
-    //            options.GroupNameFormat = "'v'VVV";
-    //            options.SubstituteApiVersionInUrl = true;
-    //        });
-
-    //    return services;
-    //}
-
-    //TODO: Remove this method when obsolete
-    ///// <summary>
-    ///// Configures Swagger for the application.
-    ///// </summary>
-    ///// <param name="services">The service collection to configure.</param>
-    ///// <returns>The configured service collection.</returns>
-    //[Obsolete("This method is obsolete. Use AddDefaultServices instead.")]
-    //public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
-    //{
-    //    return services
-    //        .AddEndpointsApiExplorer()
-    //        .AddSwaggerGen(options =>
-    //        {
-    //            options.EnableAnnotations();
-    //            options.OperationFilter<SwaggerDefaultValues>();
-    //        })
-    //        .ConfigureOptions<ConfigureSwaggerGenOptions>();
-    //}
 
     /// <summary>
     /// Configures Swagger with authentication for the application.
