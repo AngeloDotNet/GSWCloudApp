@@ -82,7 +82,7 @@ public class UploadService : IUploadService
                 Descrizione = documentoDto.Descrizione
             };
 
-            var newDocumento = ProfileMapper.CreateDocumentoDtoToEntity(nuovoDocumento);
+            var newDocumento = nuovoDocumento.CreateDocumentoDtoToEntity();
 
             dbContext.Documenti.Add(newDocumento);
             await dbContext.SaveChangesAsync();
