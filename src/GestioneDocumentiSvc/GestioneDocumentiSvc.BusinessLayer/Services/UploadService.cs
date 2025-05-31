@@ -1,6 +1,5 @@
-﻿using AutoMapper;
+﻿using GestioneDocumentiSvc.BusinessLayer.Mapper;
 using GestioneDocumentiSvc.DataAccessLayer;
-using GestioneDocumentiSvc.DataAccessLayer.Entities;
 using GestioneDocumentiSvc.Shared.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,7 +11,7 @@ namespace GestioneDocumentiSvc.BusinessLayer.Services;
 
 public class UploadService : IUploadService
 {
-    public async Task<Results<FileContentHttpResult, NotFound<string>>> DownloadFileAsync(string fileName, IMapper mapper, AppDbContext dbContext)
+    public async Task<Results<FileContentHttpResult, NotFound<string>>> DownloadFileAsync(string fileName, AppDbContext dbContext)
     {
         var findDocumento = await dbContext.Documenti.AsNoTracking()
             .Where(x => x.NomeDocumento == fileName.Trim())
@@ -35,7 +34,7 @@ public class UploadService : IUploadService
         return TypedResults.File(fileBytes, "application/octet-stream", fileName);
     }
 
-    public async Task<Results<Ok, BadRequest<string>, Conflict<string>>> UploadFileAsync([FromForm] UploadDocumentoDto documentoDto, IMapper mapper, AppDbContext dbContext)
+    public async Task<Results<Ok, BadRequest<string>, Conflict<string>>> UploadFileAsync([FromForm] UploadDocumentoDto documentoDto, AppDbContext dbContext)
     {
         try
         {
@@ -83,7 +82,7 @@ public class UploadService : IUploadService
                 Descrizione = documentoDto.Descrizione
             };
 
-            var newDocumento = mapper.Map<Documento>(nuovoDocumento);
+            var newDocumento = nuovoDocumento.CreateDocumentoDtoToEntity();
 
             dbContext.Documenti.Add(newDocumento);
             await dbContext.SaveChangesAsync();

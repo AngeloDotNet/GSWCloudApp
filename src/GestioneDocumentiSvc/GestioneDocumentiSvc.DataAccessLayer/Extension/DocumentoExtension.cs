@@ -1,5 +1,5 @@
 ﻿using GestioneDocumentiSvc.DataAccessLayer.Entities;
-using GSWCloudApp.Common.Entities;
+using GSWCloudApp.Common.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

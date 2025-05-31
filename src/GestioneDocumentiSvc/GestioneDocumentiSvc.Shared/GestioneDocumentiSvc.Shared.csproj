@@ -7,8 +7,7 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GSWCloudApp.Common" Version="1.0.81" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.12" />
+      <ProjectReference Include="..\..\GSWCloudApp.Common\GSWCloudApp.Common.csproj" />
     </ItemGroup>
 
 </Project>
