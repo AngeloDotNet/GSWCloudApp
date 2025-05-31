@@ -1,4 +1,4 @@
-﻿using GSWCloudApp.Common.Entities;
+﻿using GSWCloudApp.Common.Identity.Entities;
 
 namespace GestioneDocumentiSvc.DataAccessLayer.Entities;
 
