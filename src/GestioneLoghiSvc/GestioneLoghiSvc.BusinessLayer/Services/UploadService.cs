@@ -1,45 +1,22 @@
-﻿using GestioneDocumentiSvc.BusinessLayer.Mapper;
-using GestioneDocumentiSvc.DataAccessLayer;
-using GestioneDocumentiSvc.Shared.DTO;
+﻿using GestioneLoghiSvc.BusinessLayer.Mapper;
+using GestioneLoghiSvc.DataAccessLayer;
+using GestioneLoghiSvc.Shared.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Constants = GSWCloudApp.Common.Constants.BusinessLayer;
 
-namespace GestioneDocumentiSvc.BusinessLayer.Services;
+namespace GestioneLoghiSvc.BusinessLayer.Services;
 
 public class UploadService : IUploadService
 {
-    public async Task<Results<FileContentHttpResult, NotFound<string>>> DownloadFileAsync(string fileName, AppDbContext dbContext)
-    {
-        var findDocumento = await dbContext.Documenti.AsNoTracking()
-            .Where(x => x.NomeDocumento == fileName.Trim())
-            .FirstOrDefaultAsync();
-
-        if (findDocumento == null)
-        {
-            return TypedResults.NotFound("File not found.");
-        }
-
-        var pathUpload = findDocumento.Path;
-        var filePath = Path.Combine(pathUpload, fileName);
-
-        if (!File.Exists(filePath))
-        {
-            return TypedResults.NotFound("File not found.");
-        }
-
-        var fileBytes = await File.ReadAllBytesAsync(filePath);
-        return TypedResults.File(fileBytes, "application/octet-stream", fileName);
-    }
-
-    public async Task<Results<Ok, BadRequest<string>, Conflict<string>>> UploadFileAsync([FromForm] UploadDocumentoDto documentoDto, AppDbContext dbContext)
+    public async Task<Results<Ok, BadRequest<string>, Conflict<string>>> UploadFileAsync([FromForm] UploadImmagineDto documentoDto, AppDbContext dbContext)
     {
         try
         {
             var documentPath = Path.Combine(Constants.DocumentUploadFolder, Constants.CurrentYear, Constants.CurrentMonth);
-            var documento = documentoDto.Documento;
+            var documento = documentoDto.Immagine;
 
             var extension = Path.GetExtension(documento.FileName);
             var contentType = documento.ContentType;
@@ -71,21 +48,20 @@ public class UploadService : IUploadService
             using var stream = new FileStream(filePath, FileMode.Create);
             await documento.CopyToAsync(stream);
 
-            var nuovoDocumento = new CreateDocumentoDto
+            var nuovoDocumento = new CreateImmagineDto
             {
                 FestaId = documentoDto.FestaId,
                 Path = documentPath,
                 ContentType = contentType,
                 Extension = extension,
                 Length = length,
-                NomeDocumento = nameFile,
+                NomeImmagine = nameFile,
                 Descrizione = documentoDto.Descrizione
             };
 
-            //var newDocumento = ProfileMapper.CreateDocumentoDtoToEntity(nuovoDocumento);
-            var newDocumento = nuovoDocumento.CreateDocumentoDtoToEntity();
+            var newImmagine = ProfileMapper.CreateImmagineDtoToEntity(nuovoDocumento);
 
-            dbContext.Documenti.Add(newDocumento);
+            dbContext.Immagini.Add(newImmagine);
             await dbContext.SaveChangesAsync();
 
             return TypedResults.Ok();
@@ -96,10 +72,43 @@ public class UploadService : IUploadService
         }
     }
 
-    public async Task<Results<NoContent, NotFound<string>>> DeleteFileAsync(string fileName, AppDbContext dbContext)
+    public async Task<Results<FileContentHttpResult, NotFound<string>, BadRequest<string>>> DownloadFileAsync(string fileName, AppDbContext dbContext)
     {
-        var documento = await dbContext.Documenti.AsNoTracking()
-            .Where(x => x.NomeDocumento == fileName.Trim())
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return TypedResults.BadRequest("'FileName' must have a value.");
+        }
+
+        var findDocumento = await dbContext.Immagini.AsNoTracking()
+            .Where(x => x.NomeImmagine == fileName.Trim())
+            .FirstOrDefaultAsync();
+
+        if (findDocumento == null)
+        {
+            return TypedResults.NotFound("File not found.");
+        }
+
+        var pathUpload = findDocumento.Path;
+        var filePath = Path.Combine(pathUpload, fileName);
+
+        if (!File.Exists(filePath))
+        {
+            return TypedResults.NotFound("File not found.");
+        }
+
+        var fileBytes = await File.ReadAllBytesAsync(filePath);
+        return TypedResults.File(fileBytes, "application/octet-stream", fileName);
+    }
+
+    public async Task<Results<NoContent, NotFound<string>, BadRequest<string>>> DeleteFileAsync(string fileName, AppDbContext dbContext)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return TypedResults.BadRequest("'FileName' must have a value.");
+        }
+
+        var documento = await dbContext.Immagini.AsNoTracking()
+            .Where(x => x.NomeImmagine == fileName.Trim())
             .FirstOrDefaultAsync();
 
         if (documento == null)
@@ -107,7 +116,7 @@ public class UploadService : IUploadService
             return TypedResults.NotFound("File not found.");
         }
 
-        dbContext.Documenti.Remove(documento);
+        dbContext.Immagini.Remove(documento);
         await dbContext.SaveChangesAsync();
 
         return TypedResults.NoContent();
