@@ -11,6 +11,6 @@ public class ImmagineExtension : BaseEntityConfiguration<Immagine>
     {
         builder.ToTable("Immagini");
 
-        builder.HasQueryFilter(builder => builder.DeletedDateTime == null);
+        builder.HasQueryFilter(img => img.DeletedDateTime == null);
     }
 }
