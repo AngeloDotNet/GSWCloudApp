@@ -97,7 +97,8 @@ public class UploadService : IUploadService
         }
 
         var fileBytes = await File.ReadAllBytesAsync(filePath);
-        return TypedResults.File(fileBytes, "application/octet-stream", fileName);
+        //return TypedResults.File(fileBytes, "application/octet-stream", fileName);
+        return TypedResults.File(fileBytes, findDocumento.ContentType, fileName);
     }
 
     public async Task<Results<NoContent, NotFound<string>, BadRequest<string>>> DeleteFileAsync(string fileName, AppDbContext dbContext)
