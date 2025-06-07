@@ -31,7 +31,8 @@ public class UploadService : IUploadService
         }
 
         var fileBytes = await File.ReadAllBytesAsync(filePath);
-        return TypedResults.File(fileBytes, "application/octet-stream", fileName);
+        //return TypedResults.File(fileBytes, "application/octet-stream", fileName);
+        return TypedResults.File(fileBytes, findDocumento.ContentType, fileName);
     }
 
     public async Task<Results<Ok, BadRequest<string>, Conflict<string>>> UploadFileAsync([FromForm] UploadDocumentoDto documentoDto, AppDbContext dbContext)
