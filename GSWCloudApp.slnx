@@ -26,9 +26,6 @@
     <Project Path="src/GSWCloudApp.UI/GSWCloudApp.UI.csproj" />
     <Project Path="src/GSWCloudApp/GSWCloudApp.csproj" />
   </Folder>
-  <Folder Name="/src/Aspire/">
-    <File Path=".gitkeep" />
-  </Folder>
   <Folder Name="/src/AutenticazioneSvc/">
     <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer/AutenticazioneSvc.BusinessLayer.csproj" />
     <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.DataAccessLayer/AutenticazioneSvc.DataAccessLayer.csproj" />
