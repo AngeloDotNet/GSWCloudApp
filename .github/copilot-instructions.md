@@ -63,7 +63,7 @@
 
 ## Documentation
 
-- Include XML documentation for all public APIs. Mention the purpose, intent, and 'the why' of the code, so developers unfamiliar with the project can better understand it. If comments already exist, update them to meet the before mentioned criteria if needed. Use the full syntax of XML Doc Comments to make them as awesome as possible including references to types. Don't add any documentation that is obvious for even novice developers by reading the code.
+- Include XML documentation for all public APIs. Mention the purpose, intent, and 'the why' of the code, so developers unfamiliar with the project can better understand it. If comments already exist, update them to meet the aforementioned criteria if needed. Use the full syntax of XML Doc Comments to make them as awesome as possible including references to types. Don't add any documentation that is obvious for even novice developers by reading the code.
 - Add proper `<remarks>` tags with links to relevant documentation where helpful.
 - For keywords like `null`, `true` or `false` use `<see langword="*" />` tags.
 - Include code examples in documentation where appropriate.
