@@ -403,3 +403,5 @@ FodyWeavers.xsd
 
 # Files json
 configurations.json
+
+.sonarqube/
