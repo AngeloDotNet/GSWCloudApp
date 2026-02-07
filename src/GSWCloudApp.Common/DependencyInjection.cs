@@ -43,10 +43,9 @@ public static class DependencyInjection
     public static AsyncRetryPolicy GetRetryPolicy(ILogger logger, PollyPolicyOptions options)
     {
         return Policy.Handle<Exception>()
-            .WaitAndRetryAsync(retryCount: options.RetryCount, sleepDurationProvider: attempt
-                => TimeSpan.FromSeconds(Math.Pow(options.SleepDuration, attempt)),
+            .WaitAndRetryAsync(retryCount: options.RetryCount, sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(options.SleepDuration, attempt)),
                 onRetry: (exc, timespan, attempt, context)
-                    => logger.LogWarning(exc, "Tentativo {Attempt} fallito. Riprovo tra {TimespanSeconds} secondi.", attempt, timespan.TotalSeconds));
+                => logger.LogWarning(exc, "Tentativo {Attempt} fallito. Riprovo tra {TimespanSeconds} secondi.", attempt, timespan.TotalSeconds));
     }
 
     /// <summary>

@@ -20,11 +20,11 @@
     <File Path=".config/dotnet-tools.json" />
   </Folder>
   <Folder Name="/src/">
+    <File Path="src/GSWCloudApp.Service.zip" />
+    <File Path="src/GSWCloudApp.Shared.zip" />
+    <File Path="src/GSWCloudApp.UI.zip" />
+    <File Path="src/GSWCloudApp.zip" />
     <Project Path="src/GSWCloudApp.Common/GSWCloudApp.Common.csproj" />
-    <Project Path="src/GSWCloudApp.Service/GSWCloudApp.Service.csproj" />
-    <Project Path="src/GSWCloudApp.Shared/GSWCloudApp.Shared.csproj" />
-    <Project Path="src/GSWCloudApp.UI/GSWCloudApp.UI.csproj" />
-    <Project Path="src/GSWCloudApp/GSWCloudApp.csproj" />
   </Folder>
   <Folder Name="/src/AutenticazioneSvc/">
     <Project Path="src/AutenticazioneSvc/AutenticazioneSvc.BusinessLayer/AutenticazioneSvc.BusinessLayer.csproj" />
@@ -35,12 +35,7 @@
     <Project Path="src/AutenticazioneSvc/AutenticazioneSvc/AutenticazioneSvc.csproj" />
   </Folder>
   <Folder Name="/src/CategorieSvc/">
-    <Project Path="src/CategorieSvc/CategorieSvc.BusinessLayer/CategorieSvc.BusinessLayer.csproj" />
-    <Project Path="src/CategorieSvc/CategorieSvc.DataAccessLayer/CategorieSvc.DataAccessLayer.csproj" />
-    <Project Path="src/CategorieSvc/CategorieSvc.LoadBalancer/CategorieSvc.LoadBalancer.csproj" />
-    <Project Path="src/CategorieSvc/CategorieSvc.Migrations/CategorieSvc.Migrations.csproj" />
-    <Project Path="src/CategorieSvc/CategorieSvc.Shared/CategorieSvc.Shared.csproj" />
-    <Project Path="src/CategorieSvc/CategorieSvc/CategorieSvc.csproj" />
+    <File Path="src/CategorieSvc.zip" />
   </Folder>
   <Folder Name="/src/ConfigurazioneSmtpSvc/">
     <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.BusinessLayer/ConfigurazioneSmtpSvc.BusinessLayer.csproj" />
@@ -83,84 +78,34 @@
     <Project Path="src/InvioEmailSvc/InvioEmailSvc/InvioEmailSvc.csproj" />
   </Folder>
   <Folder Name="/src/MenuSvc/">
-    <Project Path="src/MenuSvc/MenuSvc.BusinessLayer/MenuSvc.BusinessLayer.csproj" />
-    <Project Path="src/MenuSvc/MenuSvc.DataAccessLayer/MenuSvc.DataAccessLayer.csproj" />
-    <Project Path="src/MenuSvc/MenuSvc.LoadBalancer/MenuSvc.LoadBalancer.csproj" />
-    <Project Path="src/MenuSvc/MenuSvc.Migrations/MenuSvc.Migrations.csproj" />
-    <Project Path="src/MenuSvc/MenuSvc.Shared/MenuSvc.Shared.csproj" />
-    <Project Path="src/MenuSvc/MenuSvc/MenuSvc.csproj" />
+    <File Path="src/MenuSvc.zip" />
   </Folder>
   <Folder Name="/src/MovimentiCassaSvc/">
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.BusinessLayer/MovimentiCassaSvc.BusinessLayer.csproj" />
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.DataAccessLayer/MovimentiCassaSvc.DataAccessLayer.csproj" />
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.LoadBalancer/MovimentiCassaSvc.LoadBalancer.csproj" />
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.Migrations/MovimentiCassaSvc.Migrations.csproj" />
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc.Shared/MovimentiCassaSvc.Shared.csproj" />
-    <Project Path="src/MovimentiCassaSvc/MovimentiCassaSvc/MovimentiCassaSvc.csproj" />
+    <File Path="src/MovimentiCassaSvc.zip" />
   </Folder>
   <Folder Name="/src/NotificheSvc/">
-    <Project Path="src/NotificheSvc/NotificheSvc.BusinessLayer/NotificheSvc.BusinessLayer.csproj" />
-    <Project Path="src/NotificheSvc/NotificheSvc.DataAccessLayer/NotificheSvc.DataAccessLayer.csproj" />
-    <Project Path="src/NotificheSvc/NotificheSvc.LoadBalancer/NotificheSvc.LoadBalancer.csproj" />
-    <Project Path="src/NotificheSvc/NotificheSvc.Migrations/NotificheSvc.Migrations.csproj" />
-    <Project Path="src/NotificheSvc/NotificheSvc.Shared/NotificheSvc.Shared.csproj" />
-    <Project Path="src/NotificheSvc/NotificheSvc/NotificheSvc.csproj" />
+    <File Path="src/NotificheSvc.zip" />
   </Folder>
   <Folder Name="/src/OperazioniAvvioSvc/">
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.BusinessLayer/OperazioniAvvioSvc.BusinessLayer.csproj" />
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.DataAccessLayer/OperazioniAvvioSvc.DataAccessLayer.csproj" />
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.LoadBalancer/OperazioniAvvioSvc.LoadBalancer.csproj" />
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.Migrations/OperazioniAvvioSvc.Migrations.csproj" />
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc.Shared/OperazioniAvvioSvc.Shared.csproj" />
-    <Project Path="src/OperazioniAvvioSvc/OperazioniAvvioSvc/OperazioniAvvioSvc.csproj" />
+    <File Path="src/OperazioniAvvioSvc.zip" />
   </Folder>
   <Folder Name="/src/PrenotazioniSvc/">
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.BusinessLayer/PrenotazioniSvc.BusinessLayer.csproj" />
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.DataAccessLayer/PrenotazioniSvc.DataAccessLayer.csproj" />
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.LoadBalancer/PrenotazioniSvc.LoadBalancer.csproj" />
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.Migrations/PrenotazioniSvc.Migrations.csproj" />
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc.Shared/PrenotazioniSvc.Shared.csproj" />
-    <Project Path="src/PrenotazioniSvc/PrenotazioniSvc/PrenotazioniSvc.csproj" />
+    <File Path="src/PrenotazioniSvc.zip" />
   </Folder>
   <Folder Name="/src/ProdottiSvc/">
-    <Project Path="src/ProdottiSvc/ProdottiSvc.BusinessLayer/ProdottiSvc.BusinessLayer.csproj" />
-    <Project Path="src/ProdottiSvc/ProdottiSvc.DataAccessLayer/ProdottiSvc.DataAccessLayer.csproj" />
-    <Project Path="src/ProdottiSvc/ProdottiSvc.LoadBalancer/ProdottiSvc.LoadBalancer.csproj" />
-    <Project Path="src/ProdottiSvc/ProdottiSvc.Migrations/ProdottiSvc.Migrations.csproj" />
-    <Project Path="src/ProdottiSvc/ProdottiSvc.Shared/ProdottiSvc.Shared.csproj" />
-    <Project Path="src/ProdottiSvc/ProdottiSvc/ProdottiSvc.csproj" />
+    <File Path="src/ProdottiSvc.zip" />
   </Folder>
   <Folder Name="/src/SchedulatoreSvc/">
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.BusinessLayer/SchedulatoreSvc.BusinessLayer.csproj" />
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.DataAccessLayer/SchedulatoreSvc.DataAccessLayer.csproj" />
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.LoadBalancer/SchedulatoreSvc.LoadBalancer.csproj" />
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.Migrations/SchedulatoreSvc.Migrations.csproj" />
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc.Shared/SchedulatoreSvc.Shared.csproj" />
-    <Project Path="src/SchedulatoreSvc/SchedulatoreSvc/SchedulatoreSvc.csproj" />
+    <File Path="src/SchedulatoreSvc.zip" />
   </Folder>
   <Folder Name="/src/ScontriniSvc/">
-    <Project Path="src/ScontriniSvc/ScontriniSvc.BusinessLayer/ScontriniSvc.BusinessLayer.csproj" />
-    <Project Path="src/ScontriniSvc/ScontriniSvc.DataAccessLayer/ScontriniSvc.DataAccessLayer.csproj" />
-    <Project Path="src/ScontriniSvc/ScontriniSvc.LoadBalancer/ScontriniSvc.LoadBalancer.csproj" />
-    <Project Path="src/ScontriniSvc/ScontriniSvc.Migrations/ScontriniSvc.Migrations.csproj" />
-    <Project Path="src/ScontriniSvc/ScontriniSvc.Shared/ScontriniSvc.Shared.csproj" />
-    <Project Path="src/ScontriniSvc/ScontriniSvc/ScontriniSvc.csproj" />
+    <File Path="src/ScontriniSvc.zip" />
   </Folder>
   <Folder Name="/src/StampeSvc/">
-    <Project Path="src/StampeSvc/StampeSvc.BusinessLayer/StampeSvc.BusinessLayer.csproj" />
-    <Project Path="src/StampeSvc/StampeSvc.DataAccessLayer/StampeSvc.DataAccessLayer.csproj" />
-    <Project Path="src/StampeSvc/StampeSvc.LoadBalancer/StampeSvc.LoadBalancer.csproj" />
-    <Project Path="src/StampeSvc/StampeSvc.Migrations/StampeSvc.Migrations.csproj" />
-    <Project Path="src/StampeSvc/StampeSvc.Shared/StampeSvc.Shared.csproj" />
-    <Project Path="src/StampeSvc/StampeSvc/StampeSvc.csproj" />
+    <File Path="src/StampeSvc.zip" />
   </Folder>
   <Folder Name="/src/StatisticheSvc/">
-    <Project Path="src/StatisticheSvc/StatisticheSvc.BusinessLayer/StatisticheSvc.BusinessLayer.csproj" />
-    <Project Path="src/StatisticheSvc/StatisticheSvc.DataAccessLayer/StatisticheSvc.DataAccessLayer.csproj" />
-    <Project Path="src/StatisticheSvc/StatisticheSvc.LoadBalancer/StatisticheSvc.LoadBalancer.csproj" />
-    <Project Path="src/StatisticheSvc/StatisticheSvc.Migrations/StatisticheSvc.Migrations.csproj" />
-    <Project Path="src/StatisticheSvc/StatisticheSvc.Shared/StatisticheSvc.Shared.csproj" />
-    <Project Path="src/StatisticheSvc/StatisticheSvc/StatisticheSvc.csproj" />
+    <File Path="src/StatisticheSvc.zip" />
   </Folder>
   <Folder Name="/src/TraduzioniSvc/">
     <Project Path="src/TraduzioniSvc/TraduzioniSvc.BusinessLayer/TraduzioniSvc.BusinessLayer.csproj" />
