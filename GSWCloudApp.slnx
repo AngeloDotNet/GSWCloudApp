@@ -20,10 +20,6 @@
     <File Path=".config/dotnet-tools.json" />
   </Folder>
   <Folder Name="/src/">
-    <File Path="src/GSWCloudApp.Service.zip" />
-    <File Path="src/GSWCloudApp.Shared.zip" />
-    <File Path="src/GSWCloudApp.UI.zip" />
-    <File Path="src/GSWCloudApp.zip" />
     <Project Path="src/GSWCloudApp.Common/GSWCloudApp.Common.csproj" />
   </Folder>
   <Folder Name="/src/AutenticazioneSvc/">
@@ -35,7 +31,7 @@
     <Project Path="src/AutenticazioneSvc/AutenticazioneSvc/AutenticazioneSvc.csproj" />
   </Folder>
   <Folder Name="/src/CategorieSvc/">
-    <File Path="src/CategorieSvc.zip" />
+    <File Path="src/CategorieSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/ConfigurazioneSmtpSvc/">
     <Project Path="src/ConfigurazioneSmtpSvc/ConfigurazioneSmtpSvc.BusinessLayer/ConfigurazioneSmtpSvc.BusinessLayer.csproj" />
@@ -78,34 +74,34 @@
     <Project Path="src/InvioEmailSvc/InvioEmailSvc/InvioEmailSvc.csproj" />
   </Folder>
   <Folder Name="/src/MenuSvc/">
-    <File Path="src/MenuSvc.zip" />
+    <File Path="src/MenuSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/MovimentiCassaSvc/">
-    <File Path="src/MovimentiCassaSvc.zip" />
+    <File Path="src/MovimentiCassaSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/NotificheSvc/">
-    <File Path="src/NotificheSvc.zip" />
+    <File Path="src/NotificheSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/OperazioniAvvioSvc/">
-    <File Path="src/OperazioniAvvioSvc.zip" />
+    <File Path="src/OperazioniAvvioSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/PrenotazioniSvc/">
-    <File Path="src/PrenotazioniSvc.zip" />
+    <File Path="src/PrenotazioniSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/ProdottiSvc/">
-    <File Path="src/ProdottiSvc.zip" />
+    <File Path="src/ProdottiSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/SchedulatoreSvc/">
-    <File Path="src/SchedulatoreSvc.zip" />
+    <File Path="src/SchedulatoreSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/ScontriniSvc/">
-    <File Path="src/ScontriniSvc.zip" />
+    <File Path="src/ScontriniSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/StampeSvc/">
-    <File Path="src/StampeSvc.zip" />
+    <File Path="src/StampeSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/StatisticheSvc/">
-    <File Path="src/StatisticheSvc.zip" />
+    <File Path="src/StatisticheSvc/.gitkeep" />
   </Folder>
   <Folder Name="/src/TraduzioniSvc/">
     <Project Path="src/TraduzioniSvc/TraduzioniSvc.BusinessLayer/TraduzioniSvc.BusinessLayer.csproj" />
